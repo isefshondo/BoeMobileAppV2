@@ -26,7 +26,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParams>();
 
 function AuthScreensStack(): React.JSX.Element {
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator initialRouteName="SignIn">
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen name="SignUp" component={SignUpScreen} />
     </AuthStack.Navigator>
@@ -35,17 +35,17 @@ function AuthScreensStack(): React.JSX.Element {
 
 function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
   if (!isLoggedIn) {
-    return <RootStack.Screen name="AuthStack" component={AuthScreensStack} />;
+    return <AuthScreensStack />;
   }
   return (
-    <>
+    <RootStack.Navigator screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CowAnalysisList"
         component={CowAnalysisListScreen}
       />
       <RootStack.Screen name="CowAnalysis" component={CowAnalysisScreen} />
-    </>
+    </RootStack.Navigator>
   );
 }
 
@@ -53,12 +53,7 @@ function App(): React.JSX.Element {
   const isLoggedIn = false;
   return (
     <NavigationContainer>
-      <RootStack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        {renderRoutesByLoginStatus(isLoggedIn)}
-      </RootStack.Navigator>
+      {renderRoutesByLoginStatus(isLoggedIn)}
     </NavigationContainer>
   );
 }
