@@ -8,9 +8,12 @@ import {CowAnalysisListScreen} from './src/screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from './src/screens/CowAnalysisScreen';
 
 export type RootStackParams = {
-  CowAnalysisScreen: {
+  Home: undefined;
+  CowAnalysisList: undefined;
+  CowAnalysis: {
     id: string;
   };
+  AuthStack: undefined;
 };
 
 export type AuthStackParams = {
@@ -18,8 +21,8 @@ export type AuthStackParams = {
   SignUp: undefined;
 };
 
-const RootStack = createNativeStackNavigator();
-const AuthStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParams>();
+const AuthStack = createNativeStackNavigator<AuthStackParams>();
 
 function AuthScreensStack(): React.JSX.Element {
   return (
