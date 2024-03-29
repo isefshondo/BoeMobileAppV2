@@ -6,6 +6,7 @@ import {SignUpScreen} from './src/screens/SignUpScreen';
 import {HomeScreen} from './src/screens/HomeScreen';
 import {CowAnalysisListScreen} from './src/screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from './src/screens/CowAnalysisScreen';
+import {storageInstance} from './src/utils/storage/index.utils';
 
 export type RootStackParams = {
   Home: undefined;
@@ -50,7 +51,7 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-  const isLoggedIn = false;
+  const isLoggedIn = storageInstance.getBoolean('isLoggedIn') ?? false;
   return (
     <NavigationContainer>
       {renderRoutesByLoginStatus(isLoggedIn)}
