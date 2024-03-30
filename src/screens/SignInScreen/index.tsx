@@ -1,6 +1,7 @@
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
+import {storageInstance} from '../../utils/storage/index.utils';
 
 export type SignInInputsState = {
   emailInput?: string | null;
@@ -41,10 +42,15 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      await fetch('https://api.example.com/signin', {
+      const res = await fetch('https://api.example.com/signin', {
         method: 'POST',
         body: JSON.stringify(signinInputs),
       });
+      const data = await res.json();
+      storageInstance.set(
+        'loggedInData',
+        JSON.stringify({...data, isLoggedIn: true}),
+      );
     } catch (error) {
       console.log(error);
     }
