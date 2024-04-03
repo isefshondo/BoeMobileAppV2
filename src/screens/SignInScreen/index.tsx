@@ -8,17 +8,20 @@ export type SignInInputsState = {
   passwordInput?: string | null;
 };
 
+export type SignInInputsErrorMessages = {
+  emailErrorMessage: string | null;
+  passwordErrorMessage: string | null;
+};
+
 export const SignInScreen: React.FC = () => {
   const [signinInputs, setSigninInputs] = React.useState<SignInInputsState>({
     emailInput: null,
     passwordInput: null,
   });
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState<
-    string | null
-  >(null);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState<
-    string | null
-  >(null);
+  const [signinInputsErrorMessage, setSigninInputsErrorMessage] = React.useState<SignInInputsErrorMessages>({
+    emailErrorMessage: null,
+    passwordErrorMessage: null,
+  });
 
   const {emailInputValidator, passwordInputValidator} =
     useDefaultInputsValidators({signinInputsState: signinInputs});
@@ -31,18 +34,18 @@ export const SignInScreen: React.FC = () => {
   };
 
   const handleSignInButtonPress = async () => {
-    const newEmailErrorMessage = emailInputValidator();
-    const newPasswordErrorMessage = passwordInputValidator();
+    const emailErrorMessage = emailInputValidator();
+    const passwordErrorMessage = passwordInputValidator();
 
-    setEmailErrorMessage(newEmailErrorMessage);
-    setPasswordErrorMessage(newPasswordErrorMessage);
+    setSigninInputsErrorMessage({emailErrorMessage, passwordErrorMessage});
 
-    if (newEmailErrorMessage || newPasswordErrorMessage) {
+    if (emailErrorMessage || passwordErrorMessage) {
       return;
     }
 
     try {
-      const res = await fetch('https://api.example.com/signin', {
+      // TODO: Introduce the real HTTP URL
+      const res = await fetch('', {
         method: 'POST',
         body: JSON.stringify(signinInputs),
       });

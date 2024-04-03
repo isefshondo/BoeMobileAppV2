@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 import { storageInstance } from '../../utils/storage/index.utils';
 
-interface AnalyticsDataInfo {
+export type AnalyticsDataInfo = {
   animalsCount: number | null;
   currentPositiveCasesPercentage: number | null;
   sickAnimalsCount: number | null;

@@ -1,13 +1,26 @@
 import {SignInInputsState} from '../../screens/SignInScreen';
 
 interface DefaultInputsValidators {
-  signinInputsState: SignInInputsState;
+  nameInput?: string | null;
+  emailInput: string | null;
+  passwordInput: string | null;
+  confirmPasswordInput?: string | null;
 }
 
 export function useDefaultInputsValidators({
-  signinInputsState,
+  nameInput,
+  emailInput,
+  passwordInput,
+  confirmPasswordInput,
 }: DefaultInputsValidators) {
-  const {emailInput, passwordInput} = signinInputsState;
+  const nameInputValidator = () => {
+    if (!nameInput || nameInput.trim().length === 0) {
+      return 'O campo nome não pode ser vazio';
+    } else if (nameInput.trim().length < 3) {
+      return 'Seu nome deve ter no mínimo três letras';
+    }
+    return null;
+  };
 
   const emailInputValidator = () => {
     if (!emailInput || emailInput.trim().length === 0) {
@@ -28,6 +41,7 @@ export function useDefaultInputsValidators({
   };
 
   return {
+    nameInputValidator,
     emailInputValidator,
     passwordInputValidator,
   };
