@@ -4,8 +4,8 @@ import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators
 import {storageInstance} from '../../utils/storage/index.utils';
 
 export type SignInInputsState = {
-  emailInput?: string | null;
-  passwordInput?: string | null;
+  emailInput: string | null;
+  passwordInput: string | null;
 };
 
 export type SignInInputsErrorMessages = {
@@ -24,7 +24,7 @@ export const SignInScreen: React.FC = () => {
   });
 
   const {emailInputValidator, passwordInputValidator} =
-    useDefaultInputsValidators({signinInputsState: signinInputs});
+    useDefaultInputsValidators({emailInput: signinInputs.emailInput, passwordInput: signinInputs.passwordInput});
 
   const handleInputChange = (
     inputName: keyof SignInInputsState,

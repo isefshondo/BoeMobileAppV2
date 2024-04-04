@@ -1,5 +1,3 @@
-import {SignInInputsState} from '../../screens/SignInScreen';
-
 interface DefaultInputsValidators {
   nameInput?: string | null;
   emailInput: string | null;
@@ -40,9 +38,16 @@ export function useDefaultInputsValidators({
     return null;
   };
 
+  const confirmPasswordInputValidator = () => {
+    const arePasswordsInputsEqual = (passwordInput?.length === confirmPasswordInput?.length) && (passwordInput === confirmPasswordInput);
+    if (!arePasswordsInputsEqual) return 'As senhas não conferem';
+    return null; 
+  };
+
   return {
     nameInputValidator,
     emailInputValidator,
     passwordInputValidator,
+    confirmPasswordInputValidator,
   };
 }
