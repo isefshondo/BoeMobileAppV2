@@ -7,6 +7,7 @@ import {HomeScreen} from './src/screens/HomeScreen';
 import {CowAnalysisListScreen} from './src/screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from './src/screens/CowAnalysisScreen';
 import {storageInstance} from './src/utils/storage/index.utils';
+import { EditProfileScreen } from './src/screens/EditProfileScreen';
 
 export type RootStackParams = {
   Home: undefined;
@@ -14,6 +15,7 @@ export type RootStackParams = {
   CowAnalysis: {
     id: string;
   };
+  EditProfile: undefined;
   AuthStack: undefined;
 };
 
@@ -46,6 +48,7 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
         component={CowAnalysisListScreen}
       />
       <RootStack.Screen name="CowAnalysis" component={CowAnalysisScreen} />
+      <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     </RootStack.Navigator>
   );
 }
