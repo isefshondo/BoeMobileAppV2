@@ -18,13 +18,17 @@ export const SignInScreen: React.FC = () => {
     emailInput: null,
     passwordInput: null,
   });
-  const [signinInputsErrorMessage, setSigninInputsErrorMessage] = React.useState<SignInInputsErrorMessages>({
-    emailErrorMessage: null,
-    passwordErrorMessage: null,
-  });
+  const [signinInputsErrorMessage, setSigninInputsErrorMessage] =
+    React.useState<SignInInputsErrorMessages>({
+      emailErrorMessage: null,
+      passwordErrorMessage: null,
+    });
 
   const {emailInputValidator, passwordInputValidator} =
-    useDefaultInputsValidators({emailInput: signinInputs.emailInput, passwordInput: signinInputs.passwordInput});
+    useDefaultInputsValidators({
+      emailInput: signinInputs.emailInput,
+      passwordInput: signinInputs.passwordInput,
+    });
 
   const handleInputChange = (
     inputName: keyof SignInInputsState,
