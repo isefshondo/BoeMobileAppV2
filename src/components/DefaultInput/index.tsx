@@ -4,6 +4,8 @@ import EmailIcon from '../../assets/email_icon.svg';
 import PasswordIcon from '../../assets/key_icon.svg';
 import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
+import {Spacer} from '../Spacer';
+import {horizontalScale} from '../../utils/metrics/index.utils';
 
 interface DefaultInputProps {
   inputLabel: string;
@@ -28,6 +30,10 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
     <View style={styles.container}>
       <View style={styles.label}>
         <Text>{inputLabel}</Text>
+        <Spacer
+          spaceOrientation="column"
+          spaceSize={{primarySpaceSize: horizontalScale(12)}}
+        />
         {inputIcon && renderInputIcon[inputIcon]}
       </View>
       <TextInput
