@@ -2,6 +2,9 @@ import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
 import {storageInstance} from '../../utils/storage/index.utils';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../../App';
 
 export type SignInInputsState = {
   emailInput: string | null;
@@ -14,6 +17,8 @@ export type SignInInputsErrorMessages = {
 };
 
 export const SignInScreen: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [signinInputs, setSigninInputs] = React.useState<SignInInputsState>({
     emailInput: null,
     passwordInput: null,
@@ -58,6 +63,9 @@ export const SignInScreen: React.FC = () => {
         'loggedInData',
         JSON.stringify({...data, isLoggedIn: true}),
       );
+      if (res.ok) {
+        navigation.navigate('Home');
+      }
     } catch (error) {
       console.log(error);
     }
