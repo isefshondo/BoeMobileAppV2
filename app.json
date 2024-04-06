@@ -1,4 +1,8 @@
 {
   "name": "BoeMobileAppV2",
-  "displayName": "BoeMobileAppV2"
+  "displayName": "BoeMobileAppV2",
+  "packagerOpts": {
+    "config": "metro.config.js",
+    "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+  }
 }
