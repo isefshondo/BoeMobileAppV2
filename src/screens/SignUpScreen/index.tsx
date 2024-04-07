@@ -1,9 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../../../App';
+import {styles} from './styles';
+import {PublicAreaHeader} from '../../components/PublicAreaHeader';
+import {DefaultInput} from '../../components/DefaultInput';
+import {DefaultButton} from '../../components/DefaultButton';
+import {Link} from '../../components/Link';
 
 export type SignupInputsState = {
   nameInput: string | null;
@@ -90,8 +95,58 @@ export const SignUpScreen: React.FC = () => {
     }
   };
   return (
-    <SafeAreaView>
-      <Text>Sign Up Screen</Text>
+    <SafeAreaView style={styles.container}>
+      <PublicAreaHeader hasBackButton />
+      <View>
+        <DefaultInput
+          inputLabel="Nome"
+          inputIcon="name"
+          inputCurrentValue={signupInputs.nameInput ?? ''}
+          onInputChange={value => handleInputChange('nameInput', value)}
+        />
+        {signupInputsErrorMessage.nameErrorMessage && (
+          <Text>{signupInputsErrorMessage.nameErrorMessage}</Text>
+        )}
+        <DefaultInput
+          inputLabel="Email"
+          inputIcon="email"
+          inputCurrentValue={signupInputs.emailInput ?? ''}
+          onInputChange={value => handleInputChange('emailInput', value)}
+        />
+        {signupInputsErrorMessage.emailErrorMessage && (
+          <Text>{signupInputsErrorMessage.emailErrorMessage}</Text>
+        )}
+        <DefaultInput
+          inputLabel="Senha"
+          inputIcon="password"
+          inputCurrentValue={signupInputs.passwordInput ?? ''}
+          onInputChange={value => handleInputChange('passwordInput', value)}
+        />
+        {signupInputsErrorMessage.passwordErrorMessage && (
+          <Text>{signupInputsErrorMessage.passwordErrorMessage}</Text>
+        )}
+        <DefaultInput
+          inputLabel="Confirmar Senha"
+          inputIcon="password"
+          inputCurrentValue={signupInputs.confirmPassword ?? ''}
+          onInputChange={value => handleInputChange('confirmPassword', value)}
+        />
+        {signupInputsErrorMessage.confirmPasswordErrorMessage && (
+          <Text>{signupInputsErrorMessage.confirmPasswordErrorMessage}</Text>
+        )}
+      </View>
+      <DefaultButton
+        buttonText="Registrar-se"
+        onButtonPress={handleSignUpButtonPress}
+      />
+      <View style={styles.formFooter}>
+        <Text style={styles.footerMessage}>Já possuo uma conta,</Text>
+        <Link
+          hasUnderline
+          handleLinkClick={() => navigation.navigate('SignIn')}>
+          Log in
+        </Link>
+      </View>
     </SafeAreaView>
   );
 };
