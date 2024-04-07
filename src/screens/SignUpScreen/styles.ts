@@ -4,10 +4,18 @@ import {colors} from '../../themes/colors/index.themes';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    justifyContent: 'center',
+    flex: 1,
     paddingHorizontal: horizontalScale(53.5),
     paddingTop: verticalScale(85),
+    backgroundColor: '#FFF',
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+  },
+  inputsContainer: {
+    height: verticalScale(403),
+    justifyContent: 'space-evenly',
   },
   flexEndLink: {
     flexDirection: 'row',
