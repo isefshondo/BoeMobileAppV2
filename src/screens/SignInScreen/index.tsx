@@ -91,7 +91,7 @@ export const SignInScreen: React.FC = () => {
           <Text>{signinInputsErrorMessage.emailErrorMessage}</Text>
         )}
         <DefaultInput
-          inputLabel="Password"
+          inputLabel="Senha"
           inputCurrentValue={signinInputs.passwordInput ?? ''}
           onInputChange={value => handleInputChange('passwordInput', value)}
         />

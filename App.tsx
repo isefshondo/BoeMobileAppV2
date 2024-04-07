@@ -7,7 +7,7 @@ import {HomeScreen} from './src/screens/HomeScreen';
 import {CowAnalysisListScreen} from './src/screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from './src/screens/CowAnalysisScreen';
 import {storageInstance} from './src/utils/storage/index.utils';
-import { EditProfileScreen } from './src/screens/EditProfileScreen';
+import {EditProfileScreen} from './src/screens/EditProfileScreen';
 
 export type RootStackParams = {
   Home: undefined;
@@ -29,7 +29,9 @@ const AuthStack = createNativeStackNavigator<AuthStackParams>();
 
 function AuthScreensStack(): React.JSX.Element {
   return (
-    <AuthStack.Navigator initialRouteName="SignIn">
+    <AuthStack.Navigator
+      initialRouteName="SignIn"
+      screenOptions={{headerShown: false}}>
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen name="SignUp" component={SignUpScreen} />
     </AuthStack.Navigator>
