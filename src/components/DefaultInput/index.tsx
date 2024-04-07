@@ -12,6 +12,7 @@ interface DefaultInputProps {
   inputIcon?: 'name' | 'email' | 'password';
   inputCurrentValue: string;
   onInputChange: (text: string) => void;
+  inputErrorMessage: string | null;
 }
 
 export const DefaultInput: React.FC<DefaultInputProps> = ({
@@ -19,6 +20,7 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
   inputIcon,
   inputCurrentValue,
   onInputChange,
+  inputErrorMessage,
 }: DefaultInputProps) => {
   const renderInputIcon = {
     name: <UsernameIcon width={20} height={20} />,
@@ -27,20 +29,23 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.label}>
-        <Text>{inputLabel}</Text>
-        <Spacer
-          spaceOrientation="column"
-          spaceSize={{primarySpaceSize: horizontalScale(12)}}
+    <>
+      <View style={styles.container}>
+        <View style={styles.label}>
+          <Text>{inputLabel}</Text>
+          <Spacer
+            spaceOrientation="column"
+            spaceSize={{primarySpaceSize: horizontalScale(12)}}
+          />
+          {inputIcon && renderInputIcon[inputIcon]}
+        </View>
+        <TextInput
+          style={styles.input}
+          value={inputCurrentValue}
+          onChangeText={onInputChange}
         />
-        {inputIcon && renderInputIcon[inputIcon]}
       </View>
-      <TextInput
-        style={styles.input}
-        value={inputCurrentValue}
-        onChangeText={onInputChange}
-      />
-    </View>
+      {inputErrorMessage && <Text>{inputErrorMessage}</Text>}
+    </>
   );
 };

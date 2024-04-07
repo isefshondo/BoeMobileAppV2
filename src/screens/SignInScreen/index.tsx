@@ -10,6 +10,8 @@ import {PublicAreaHeader} from '../../components/PublicAreaHeader';
 import {DefaultInput} from '../../components/DefaultInput';
 import {Link} from '../../components/Link';
 import {DefaultButton} from '../../components/DefaultButton';
+import {MixedWeightTitle} from '../../components/MixedWeightTitle';
+import {verticalScale} from '../../utils/metrics/index.utils';
 
 export type SignInInputsState = {
   emailInput: string | null;
@@ -81,30 +83,39 @@ export const SignInScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <PublicAreaHeader />
+      <View style={{paddingVertical: verticalScale(126 / 2)}} />
+      <MixedWeightTitle
+        titleBold="Bem-vindo"
+        regularTitle="de volta"
+        fontSize={{boldFontSize: 42}}
+        isBoldFirst
+        shouldBreakLineOnBold
+      />
+      <View style={{paddingVertical: verticalScale(84 / 2)}} />
       <View>
         <DefaultInput
           inputLabel="E-mail"
           inputCurrentValue={signinInputs.emailInput ?? ''}
           onInputChange={value => handleInputChange('emailInput', value)}
+          inputErrorMessage={signinInputsErrorMessage.emailErrorMessage}
         />
-        {signinInputsErrorMessage.emailErrorMessage && (
-          <Text>{signinInputsErrorMessage.emailErrorMessage}</Text>
-        )}
+        <View style={{paddingVertical: verticalScale(63 / 2)}} />
         <DefaultInput
           inputLabel="Senha"
           inputCurrentValue={signinInputs.passwordInput ?? ''}
           onInputChange={value => handleInputChange('passwordInput', value)}
+          inputErrorMessage={signinInputsErrorMessage.passwordErrorMessage}
         />
-        {signinInputsErrorMessage.passwordErrorMessage && (
-          <Text>{signinInputsErrorMessage.passwordErrorMessage}</Text>
-        )}
+        <View style={{paddingVertical: verticalScale(14 / 2)}} />
         <View style={styles.flexEndLink}>
           <Link handleLinkClick={() => {}}>Esqueci minha senha</Link>
         </View>
+        <View style={{paddingVertical: verticalScale(52 / 2)}} />
         <DefaultButton
           buttonText="Log in"
           onButtonPress={handleSignInButtonPress}
         />
+        <View style={{paddingVertical: verticalScale(22 / 2)}} />
         <View style={styles.formFooter}>
           <Text style={styles.footerMessage}>Não possui uma conta ainda?</Text>
           <Link
