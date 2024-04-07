@@ -1,10 +1,15 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
 import {storageInstance} from '../../utils/storage/index.utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../../App';
+import {AuthStackParams, RootStackParams} from '../../../App';
+import {styles} from './styles';
+import {PublicAreaHeader} from '../../components/PublicAreaHeader';
+import {DefaultInput} from '../../components/DefaultInput';
+import {Link} from '../../components/Link';
+import {DefaultButton} from '../../components/DefaultButton';
 
 export type SignInInputsState = {
   emailInput: string | null;
@@ -18,7 +23,9 @@ export type SignInInputsErrorMessages = {
 
 export const SignInScreen: React.FC = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+    useNavigation<
+      NativeStackNavigationProp<RootStackParams & AuthStackParams>
+    >();
   const [signinInputs, setSigninInputs] = React.useState<SignInInputsState>({
     emailInput: null,
     passwordInput: null,
@@ -72,8 +79,41 @@ export const SignInScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView>
-      <Text>Sign In Screen</Text>
+    <SafeAreaView style={styles.container}>
+      <PublicAreaHeader />
+      <View>
+        <DefaultInput
+          inputLabel="E-mail"
+          inputCurrentValue={signinInputs.emailInput ?? ''}
+          onInputChange={value => handleInputChange('emailInput', value)}
+        />
+        {signinInputsErrorMessage.emailErrorMessage && (
+          <Text>{signinInputsErrorMessage.emailErrorMessage}</Text>
+        )}
+        <DefaultInput
+          inputLabel="Password"
+          inputCurrentValue={signinInputs.passwordInput ?? ''}
+          onInputChange={value => handleInputChange('passwordInput', value)}
+        />
+        {signinInputsErrorMessage.passwordErrorMessage && (
+          <Text>{signinInputsErrorMessage.passwordErrorMessage}</Text>
+        )}
+        <View style={styles.flexEndLink}>
+          <Link handleLinkClick={() => {}}>Esqueci minha senha</Link>
+        </View>
+        <DefaultButton
+          buttonText="Log in"
+          onButtonPress={handleSignInButtonPress}
+        />
+        <View style={styles.formFooter}>
+          <Text style={styles.footerMessage}>Não possui uma conta ainda?</Text>
+          <Link
+            hasUnderline
+            handleLinkClick={() => navigation.navigate('SignUp')}>
+            Registre-se
+          </Link>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

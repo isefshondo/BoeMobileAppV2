@@ -4,15 +4,17 @@ import {styles} from './styles';
 
 interface LinkProps {
   children: string;
+  handleLinkClick: () => void;
   hasUnderline?: boolean;
 }
 
 export const Link: React.FC<LinkProps> = ({
   children,
+  handleLinkClick,
   hasUnderline,
 }: LinkProps) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={handleLinkClick}>
       <Text style={[styles.link, hasUnderline && styles.underline]}>
         {children}
       </Text>
