@@ -20,7 +20,7 @@ export const EditProfileScreen: React.FC = () => {
     email: false,
     password: false,
   });
-  const iseFirstRender = React.useRef<boolean>(true);
+  const isFirstRender = React.useRef<boolean>(true);
 
   React.useEffect(() => {
     setEditProfileInputValues({
@@ -43,8 +43,8 @@ export const EditProfileScreen: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (iseFirstRender.current) {
-      iseFirstRender.current = false;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
       return;
     }
     const requestTimer = setTimeout(async () => {
