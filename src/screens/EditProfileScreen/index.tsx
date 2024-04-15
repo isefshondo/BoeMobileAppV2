@@ -1,7 +1,10 @@
 import React from 'react';
-import {Alert, Text} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {storageInstance} from '../../utils/storage/index.utils';
+import {styles} from './styles';
+import {DefaultInput} from '../../components/DefaultInput';
+import {ChangePasswordInput} from '../../components/ChangePasswordInput';
 
 export type EditProfileInputValues = {
   name: string | null;
@@ -65,6 +68,32 @@ export const EditProfileScreen: React.FC = () => {
 
   return (
     <SafeAreaView>
+      <View style={[styles.bodyContainer, styles.bodyJustifiedContainer]}>
+        <View style={styles.titleAndFormSection}>
+          <View>
+            <Text>Editar Perfil</Text>
+            <Text>Edite as informações pessoais da sua conta</Text>
+          </View>
+          <View style={styles.formSection}>
+            <DefaultInput
+              inputIcon="name"
+              inputLabel="Nome"
+              inputCurrentValue={editProfileInputValues.name ?? ''}
+              onInputChange={() => handleInputState}
+            />
+            <DefaultInput
+              inputIcon="email"
+              inputLabel="E-mail"
+              inputCurrentValue={editProfileInputValues.email ?? ''}
+              onInputChange={() => handleInputState}
+            />
+            <ChangePasswordInput
+              onInputChange={() => handleInputState}
+              inputCurrentValue="D3F4U1T_P4SSW0RD"
+            />
+          </View>
+        </View>
+      </View>
       <Text>Edit Profile Screen</Text>
       <Text>{editProfileInputValues.name}</Text>
       <Text>{editProfileInputValues.email}</Text>
