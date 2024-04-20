@@ -85,11 +85,11 @@ export const SignUpScreen: React.FC = () => {
     }
 
     try {
-      // TODO: Introduce the real HTTP URL
-      const res = await fetch('', {
+      const res = await fetch('../../utils/mocks/SignUp.json', {
         method: 'POST',
         body: JSON.stringify(signupInputs),
       });
+      console.log(res);
       if (res.ok) {
         navigation.navigate('SignIn');
       }

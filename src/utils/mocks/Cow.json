@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "message": "Request accepted successfully",
+  "cows": [
+    {
+      "cow_n_identification": "AU0278",
+      "cow_name": "Chica",
+      "treatment_status": "Sem tratamento",
+      "cow_illness": "Lumpy Skin",
+      "percentage_chance_illness": "50%"
+    },
+    {
+      "cow_n_identification": "AI0243",
+      "cow_name": "Mino",
+      "treatment_status": "Em tratamento",
+      "cow_illness": "Dermatofitose bovina",
+      "percentage_chance_illness": "20%"
+    },
+    {
+      "cow_n_identification": "AU0239",
+      "cow_name": "Mimosa",
+      "treatment_status": "Em tratamento",
+      "cow_illness": "Dermatofilose bovina",
+      "percentage_chance_illness": "90%"
+    }
+  ]
+}

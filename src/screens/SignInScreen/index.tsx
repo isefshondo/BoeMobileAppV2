@@ -61,12 +61,12 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      // TODO: Introduce the real HTTP URL
-      const res = await fetch('', {
+      const res = await fetch('../../utils/mocks/SignIn.json', {
         method: 'POST',
         body: JSON.stringify(signinInputs),
       });
       const data = await res.json();
+      console.log(data);
       storageInstance.set(
         'loggedInData',
         JSON.stringify({...data, isLoggedIn: true}),

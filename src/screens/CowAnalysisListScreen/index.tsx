@@ -14,8 +14,9 @@ export const CowAnalysisListScreen: React.FC = () => {
     React.useState<CowAnalysisListDataTypes>();
 
   const fetchCowAnalysisList = async () => {
-    const res = await fetch('');
+    const res = await fetch('../../utils/mocks/Cow.json');
     const data = await res.json();
+    console.log(data);
     setCowAnalysisListData(data);
   };
 

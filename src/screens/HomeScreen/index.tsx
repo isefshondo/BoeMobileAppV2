@@ -28,14 +28,14 @@ export const HomeScreen: React.FC = () => {
   React.useEffect(() => {
     async function fetchHomeData() {
       try {
-        // TODO: Introduce the real HTTPS URL
-        const res = await fetch('');
+        const res = await fetch('../../utils/mocks/Analytics.json');
         if (!res.ok) {
           throw new Error(
             `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
           );
         }
         const data = await res.json();
+        console.log(data);
 
         setAnalyticsDataInfo({
           animalsCount: data.animals_count,
