@@ -4,7 +4,10 @@ import {styles} from './styles';
 import BackLeftIcon from '../../assets/back_left_icon.svg';
 import BoeSymbol from '../../assets/boe_symbol.svg';
 import {useNavigation} from '@react-navigation/native';
-import {horizontalScale, verticalScale} from '../../utils/metrics/index.utils';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '../../utils/metrics/index.utils';
 
 interface PublicAreaHeaderProps {
   hasBackButton?: boolean;
@@ -19,12 +22,15 @@ export const PublicAreaHeader: React.FC<PublicAreaHeaderProps> = ({
       {hasBackButton && (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackLeftIcon
-            width={horizontalScale(33)}
-            height={verticalScale(33)}
+            width={responsiveHorizontalScale(33)}
+            height={responsiveVerticalScale(33)}
           />
         </TouchableOpacity>
       )}
-      <BoeSymbol width={horizontalScale(25)} height={verticalScale(33)} />
+      <BoeSymbol
+        width={responsiveHorizontalScale(25)}
+        height={responsiveVerticalScale(33)}
+      />
     </View>
   );
 };

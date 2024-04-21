@@ -10,7 +10,7 @@ import {DefaultInput} from '../../components/DefaultInput';
 import {DefaultButton} from '../../components/DefaultButton';
 import {Link} from '../../components/Link';
 import {MixedWeightTitle} from '../../components/MixedWeightTitle';
-import {verticalScale} from '../../utils/metrics/index.utils';
+import {responsiveVerticalScale} from '../../utils/metrics/index.utils';
 import {Spacer} from '../../components/Spacer';
 
 export type SignupInputsState = {
@@ -84,19 +84,15 @@ export const SignUpScreen: React.FC = () => {
       return;
     }
 
+    console.log(signupInputs);
+
     try {
-      const res = await fetch('../../utils/mocks/SignUp.json', {
-        method: 'POST',
-        body: JSON.stringify(signupInputs),
-      });
-      console.log(res);
-      if (res.ok) {
-        navigation.navigate('SignIn');
-      }
+      navigation.navigate('SignIn');
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <PublicAreaHeader hasBackButton />
@@ -147,7 +143,7 @@ export const SignUpScreen: React.FC = () => {
           />
           <Spacer
             spaceOrientation="row"
-            spaceSize={{primarySpaceSize: verticalScale(22)}}
+            spaceSize={{primarySpaceSize: responsiveVerticalScale(22)}}
           />
           <View style={styles.formFooter}>
             <Text style={styles.footerMessage}>Já possuo uma conta,</Text>

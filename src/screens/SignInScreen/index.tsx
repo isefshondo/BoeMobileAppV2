@@ -11,6 +11,7 @@ import {DefaultInput} from '../../components/DefaultInput';
 import {Link} from '../../components/Link';
 import {DefaultButton} from '../../components/DefaultButton';
 import {MixedWeightTitle} from '../../components/MixedWeightTitle';
+import data from '../../utils/mocks/SignIn.json';
 
 export type SignInInputsState = {
   emailInput: string | null;
@@ -61,19 +62,11 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch('../../utils/mocks/SignIn.json', {
-        method: 'POST',
-        body: JSON.stringify(signinInputs),
-      });
-      const data = await res.json();
-      console.log(data);
       storageInstance.set(
         'loggedInData',
         JSON.stringify({...data, isLoggedIn: true}),
       );
-      if (res.ok) {
-        navigation.navigate('Home');
-      }
+      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }

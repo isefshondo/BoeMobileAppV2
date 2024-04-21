@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '../../themes/colors/index.themes';
-import {verticalScale} from '../../utils/metrics/index.utils';
+import {responsiveVerticalScale} from '../../utils/metrics/index.utils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   input: {
     width: '100%',
     paddingHorizontal: 0,
-    paddingVertical: verticalScale(4),
+    paddingVertical: responsiveVerticalScale(4),
     fontSize: 18,
     color: colors.GRAY,
     borderBottomWidth: 1.3,

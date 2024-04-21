@@ -1,12 +1,15 @@
 import {StyleSheet} from 'react-native';
-import {horizontalScale, verticalScale} from '../../utils/metrics/index.utils';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '../../utils/metrics/index.utils';
 import {colors} from '../../themes/colors/index.themes';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: horizontalScale(53.5),
-    paddingTop: verticalScale(85),
+    paddingHorizontal: responsiveHorizontalScale(53.5),
+    paddingTop: responsiveVerticalScale(85),
     backgroundColor: '#FFF',
   },
   mainContentContainer: {
@@ -14,11 +17,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   formContainer: {
-    height: verticalScale(379),
+    height: responsiveVerticalScale(379),
     justifyContent: 'space-between',
   },
   inputsContainer: {
-    height: verticalScale(193),
+    height: responsiveVerticalScale(193),
     justifyContent: 'space-between',
   },
   flexEndLink: {
@@ -26,7 +29,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   formFooterContainer: {
-    height: verticalScale(134),
+    height: responsiveVerticalScale(134),
     justifyContent: 'space-between',
   },
   formFooter: {

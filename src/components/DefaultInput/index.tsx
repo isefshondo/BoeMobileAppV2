@@ -5,7 +5,7 @@ import PasswordIcon from '../../assets/key_icon.svg';
 import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
 import {Spacer} from '../Spacer';
-import {horizontalScale} from '../../utils/metrics/index.utils';
+import {responsiveHorizontalScale} from '../../utils/metrics/index.utils';
 
 interface DefaultInputProps {
   inputLabel: string;
@@ -35,7 +35,7 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
           <Text>{inputLabel}</Text>
           <Spacer
             spaceOrientation="column"
-            spaceSize={{primarySpaceSize: horizontalScale(12)}}
+            spaceSize={{primarySpaceSize: responsiveHorizontalScale(12)}}
           />
           {inputIcon && renderInputIcon[inputIcon]}
         </View>

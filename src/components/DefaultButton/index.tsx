@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import {verticalScale} from '../../utils/metrics/index.utils';
+import {responsiveVerticalScale} from '../../utils/metrics/index.utils';
 import {styles} from './styles';
 
 interface DefaultButtonProps {
@@ -17,7 +17,11 @@ export const DefaultButton: React.FC<DefaultButtonProps> = ({
   return (
     <TouchableOpacity
       style={[
-        {paddingVertical: verticalScale(buttonPreferredPaddingVertical)},
+        {
+          paddingVertical: responsiveVerticalScale(
+            buttonPreferredPaddingVertical,
+          ),
+        },
         styles.button,
       ]}
       onPress={onButtonPress}>
