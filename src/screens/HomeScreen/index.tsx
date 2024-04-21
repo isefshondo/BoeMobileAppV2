@@ -19,7 +19,8 @@ export type AnalyticsDataInfo = {
 };
 
 export const HomeScreen: React.FC = () => {
-  const name = storageInstance.getString('name')?.split(' ')[0];
+  const storagedName = storageInstance.getString('loggedInData');
+  const name = storagedName ? JSON.parse(storagedName).name.split(' ')[0] : '';
   const [analyticsDataInfo, setAnalyticsDataInfo] =
     React.useState<AnalyticsDataInfo>({
       animalsCount: null,

@@ -43,7 +43,9 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
     return <AuthScreensStack />;
   }
   return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
+    <RootStack.Navigator
+      initialRouteName="Home"
+      screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CowAnalysisList"
@@ -57,9 +59,16 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const loggedInData = storageInstance.getString('loggedInData');
-  const loggedInDataJSON = loggedInData ? JSON.parse(loggedInData) : false;
-  const isLoggedIn = loggedInDataJSON ? loggedInDataJSON.isLoggedIn : false;
-  console.log('isLoggedIn', isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    const loggedInDataJSON = loggedInData ? JSON.parse(loggedInData) : false;
+    setIsLoggedIn(() =>
+      loggedInDataJSON ? loggedInDataJSON.isLoggedIn : false,
+    );
+  }, [loggedInData]);
+
+  console.log({isLoggedIn});
   return (
     <NavigationContainer>
       {renderRoutesByLoginStatus(isLoggedIn)}

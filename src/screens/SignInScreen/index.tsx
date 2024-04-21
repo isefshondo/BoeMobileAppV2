@@ -64,9 +64,8 @@ export const SignInScreen: React.FC = () => {
     try {
       storageInstance.set(
         'loggedInData',
-        JSON.stringify({...data, isLoggedIn: true}),
+        JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
       );
-      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }
