@@ -58,17 +58,6 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-  const loggedInData = storageInstance.getString('loggedInData');
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    const loggedInDataJSON = loggedInData ? JSON.parse(loggedInData) : false;
-    setIsLoggedIn(() =>
-      loggedInDataJSON ? loggedInDataJSON.isLoggedIn : false,
-    );
-  }, [loggedInData]);
-
-  console.log({isLoggedIn});
   return (
     <NavigationContainer>
       {renderRoutesByLoginStatus(isLoggedIn)}
