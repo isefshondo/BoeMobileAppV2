@@ -4,7 +4,8 @@ import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators
 import {storageInstance} from '../../utils/storage/index.utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AuthStackParams, RootStackParams} from '../../../App';
+import {RootStackParams} from '../../navigation/RootStack';
+import {AuthStackParams} from '../../navigation/AuthStack';
 import {styles} from './styles';
 import {PublicAreaHeader} from '../../components/PublicAreaHeader';
 import {DefaultInput} from '../../components/DefaultInput';
