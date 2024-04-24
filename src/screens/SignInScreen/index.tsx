@@ -13,6 +13,7 @@ import {Link} from '../../components/Link';
 import {DefaultButton} from '../../components/DefaultButton';
 import {MixedWeightTitle} from '../../components/MixedWeightTitle';
 import data from '../../utils/mocks/SignIn.json';
+import {AuthContext} from '../../context/Auth';
 
 export type SignInInputsState = {
   emailInput: string | null;
@@ -29,6 +30,7 @@ export const SignInScreen: React.FC = () => {
     useNavigation<
       NativeStackNavigationProp<RootStackParams & AuthStackParams>
     >();
+  const {signIn} = React.useContext(AuthContext);
   const [signinInputs, setSigninInputs] = React.useState<SignInInputsState>({
     emailInput: null,
     passwordInput: null,
@@ -67,6 +69,7 @@ export const SignInScreen: React.FC = () => {
         'loggedInData',
         JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
       );
+      signIn({jwt: data.jwt, data: data.data, isLoggedIn: true});
     } catch (error) {
       console.log(error);
     }
