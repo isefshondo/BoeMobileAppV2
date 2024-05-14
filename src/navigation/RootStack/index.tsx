@@ -5,26 +5,41 @@ import {EditProfileScreen} from '../../screens/EditProfileScreen';
 import {CowAnalysisListScreen} from '../../screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from '../../screens/CowAnalysisScreen';
 
-export type RootStackParams = {
-  Home: undefined;
-  EditProfile: undefined;
-  CowAnalysisList: undefined;
-  CowAnalysis: {
-    id: string;
-  };
-  ProcessAnalysisCamera: {
-    id?: string;
-  };
-  ProcessAnalysisResults: {
-    id?: string;
-  };
-  ProcessAnalysisRegistration: {
-    id?: string;
-  };
-  AuthStack: undefined;
+export type HomeStackParams = {
+  Home: null;
+  CowAnalysisList: null;
+  CowAnalysisDetails: {id: string};
 };
 
+export type RootStackParams = {
+  Home: null;
+  EditProfile: null;
+  ProcessAnalysisCamera: {id?: string};
+  ProcessAnalysisResults: {id?: string};
+  ProcessAnalysisRegister: {id?: string};
+  AuthStack: null;
+};
+
+const BottomTab = createNativeStackNavigator<HomeStackParams>();
 const RootStack = createNativeStackNavigator<RootStackParams>();
+
+export function HomeScreensStack(): React.JSX.Element {
+  return (
+    <BottomTab.Navigator
+      initialRouteName="Home"
+      screenOptions={{headerShown: false}}>
+      <BottomTab.Screen name="Home" component={HomeScreen} />
+      <BottomTab.Screen
+        name="CowAnalysisList"
+        component={CowAnalysisListScreen}
+      />
+      <BottomTab.Screen
+        name="CowAnalysisDetails"
+        component={CowAnalysisScreen}
+      />
+    </BottomTab.Navigator>
+  );
+}
 
 export function RootScreensStack(): React.JSX.Element {
   return (
@@ -33,11 +48,6 @@ export function RootScreensStack(): React.JSX.Element {
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
-      <RootStack.Screen
-        name="CowAnalysisList"
-        component={CowAnalysisListScreen}
-      />
-      <RootStack.Screen name="CowAnalysis" component={CowAnalysisScreen} />
     </RootStack.Navigator>
   );
 }

@@ -1,8 +1,13 @@
 {
-  "name": "BoeMobileAppV2",
-  "displayName": "BoeMobileAppV2",
-  "packagerOpts": {
-    "config": "metro.config.js",
-    "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+  "expo": {
+    "name": "BoeMobileAppV2",
+    "slug": "BoeMobileAppV2",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "json", "wasm", "svg"]
+    }
   }
 }

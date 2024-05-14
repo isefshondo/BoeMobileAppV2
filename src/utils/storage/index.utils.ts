@@ -1,3 +1,3 @@
-import {MMKV} from 'react-native-mmkv';
+// import {MMKV} from 'react-native-mmkv';
 
-export const storageInstance = new MMKV();
+// export const storageInstance = new MMKV();
