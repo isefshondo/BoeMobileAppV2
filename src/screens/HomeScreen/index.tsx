@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
-import {storageInstance} from '../../utils/storage/index.utils';
+import * as StorageInstance from '../../utils/storage/index.utils';
 import {
   responsiveHorizontalScale,
   responsiveVerticalScale,
@@ -18,8 +18,8 @@ export type AnalyticsDataInfo = {
   graphics: number[] | null;
 };
 
-export const HomeScreen: React.FC = () => {
-  const storagedName = storageInstance.getString('loggedInData');
+export const HomeScreen = async () => {
+  const storagedName = await StorageInstance.getFromStorage('loggedInData');
   const name = storagedName
     ? JSON.parse(storagedName).data.name.split(' ')[0]
     : '';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
-import {storageInstance} from '../../utils/storage/index.utils';
+import * as StorageInstance from '../../utils/storage/index.utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigation/RootStack';
@@ -65,10 +65,11 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      // storageInstance.set(
-      //   'loggedInData',
-      //   JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
-      // );
+      console.log(data);
+      StorageInstance.setInStorage(
+        'loggedInData',
+        JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
+      );
       signIn({jwt: data.jwt, data: data.data, isLoggedIn: true});
     } catch (error) {
       console.log(error);
