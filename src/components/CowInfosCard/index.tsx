@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {ImageBackground, Pressable, Text, View} from 'react-native';
 import {styles} from './styles';
 import {
   responsiveHorizontalScale,
@@ -112,6 +112,7 @@ export const CowInfosCard: React.FC<ICowInfosCard> = ({
         },
       ]}>
       <View style={styles.displayInformation}>
+        <ImageBackground style={styles.displayCowImage} />
         <View style={styles.displayCowData}>
           <View
             style={[

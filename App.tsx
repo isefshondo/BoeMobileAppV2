@@ -23,37 +23,28 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-  // const [state, dispatch] = React.useReducer(contextReducer, {
-  //   jwt: null,
-  //   data: {
-  //     name: null,
-  //     email: null,
-  //   },
-  //   isLoggedIn: false,
-  // });
-  // const contextAuth = React.useMemo(
-  //   () => ({
-  //     signIn: async data => {
-  //       dispatch({type: 'SIGN_IN'});
-  //     },
-  //   }),
-  //   [],
-  // );
-  // return (
-  //   <AuthContext.Provider value={contextAuth}>
-  //     <NavigationContainer>
-  //       {renderRoutesByLoginStatus(state.isLoggedIn)}
-  //     </NavigationContainer>
-  //   </AuthContext.Provider>
-  // );
+  const [state, dispatch] = React.useReducer(contextReducer, {
+    jwt: null,
+    data: {
+      name: null,
+      email: null,
+    },
+    isLoggedIn: false,
+  });
+  const contextAuth = React.useMemo(
+    () => ({
+      signIn: async data => {
+        dispatch({type: 'SIGN_IN'});
+      },
+    }),
+    [],
+  );
   return (
-    <CowInfosCard
-      illness="Dermatofilose bovina"
-      chancePercentage={90}
-      name="Mimosa"
-      numberIdentification="AU0278"
-      treatmentStatus="Em tratamento"
-    />
+    <AuthContext.Provider value={contextAuth}>
+      <NavigationContainer>
+        {renderRoutesByLoginStatus(state.isLoggedIn)}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 

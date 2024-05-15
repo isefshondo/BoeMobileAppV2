@@ -65,10 +65,10 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      storageInstance.set(
-        'loggedInData',
-        JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
-      );
+      // storageInstance.set(
+      //   'loggedInData',
+      //   JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
+      // );
       signIn({jwt: data.jwt, data: data.data, isLoggedIn: true});
     } catch (error) {
       console.log(error);

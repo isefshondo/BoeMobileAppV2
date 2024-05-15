@@ -1,4 +1,3 @@
-import { colors } from '@/themes/colors/index.themes';
 import {
   responsiveHorizontalScale,
   responsiveVerticalScale,
@@ -11,13 +10,17 @@ export const styles = StyleSheet.create({
     height: responsiveVerticalScale(119),
     borderRadius: 10,
     borderBottomWidth: responsiveVerticalScale(11),
-    backgroundColor: '#ff0000',
+    backgroundColor: '#fff',
     paddingLeft: responsiveHorizontalScale(21),
     paddingRight: responsiveHorizontalScale(56),
     paddingBottom: responsiveVerticalScale(24),
   },
   displayInformation: {
     width: '100%',
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   displayCowData: {
     width: responsiveHorizontalScale(194),
@@ -49,6 +52,5 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(72),
     height: responsiveVerticalScale(71),
     borderRadius: 10,
-    backgroundColor: colors.LIGHT_GRAY,
-  }
+  },
 });
