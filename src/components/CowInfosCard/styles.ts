@@ -1,3 +1,4 @@
+import { colors } from '@/themes/colors/index.themes';
 import {
   responsiveHorizontalScale,
   responsiveVerticalScale,
@@ -44,4 +45,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  displayCowImage: {
+    width: responsiveHorizontalScale(72),
+    height: responsiveVerticalScale(71),
+    borderRadius: 10,
+    backgroundColor: colors.LIGHT_GRAY,
+  }
 });
