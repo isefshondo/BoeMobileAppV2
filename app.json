@@ -7,7 +7,18 @@
     "userInterfaceStyle": "light",
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "ts", "tsx", "json", "wasm", "svg"]
-    }
+      "sourceExts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }
