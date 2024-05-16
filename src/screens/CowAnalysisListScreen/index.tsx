@@ -1,85 +1,48 @@
-import React from 'react';
-import {TreatmentStatus} from '../../components/CowInfosCard/enums/status.enum';
-import {Illness} from '../../components/CowInfosCard/enums/illness.enum';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-interface ICowAnalysisListData {
-  id: string;
-  numberIdentification: string;
-  name: string;
-  treatmentStatus: TreatmentStatus;
-  illness: Illness;
-  chancePercentage: number;
-}
-
-export type CowAnalysisListDataTypes = ReadonlyArray<ICowAnalysisListData>;
+import { HomeStackParams } from "@/navigation/RootStack";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
+import { CowAnalysisListDataTypes } from "./types";
+import { SafeAreaView, Text, View } from "react-native";
+import { SearchBar } from "@/components/SearchBar";
+import { styles } from "./styles";
 
 export const CowAnalysisListScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [cowAnalysisListData, setCowAnalysisListData] =
-    React.useState<CowAnalysisListDataTypes>();
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParams>>();
 
-  const fetchCowAnalysisList = async () => {
-    const res = await fetch('../../utils/mocks/Cow.json');
+  const [searchInputValue, setSearchInputValue] = React.useState<string>();
+  const [cowAnalysisListData, setCowAnalysisListData] = React.useState<CowAnalysisListDataTypes>();
+  const [filteredCowAnalysisData, setFilteredCowAnalysisData] = React.useState<CowAnalysisListDataTypes>();
+
+  const handleSearchInputChange = () => {
+    if (searchInputValue.length !== 0 && cowAnalysisListData) {
+    }
+  };
+
+  const fetchCowAnalysisListData = async () => {
+    const res = await fetch('');
     const data = await res.json();
-    console.log(data);
     setCowAnalysisListData(data);
   };
 
   React.useEffect(() => {
-    fetchCowAnalysisList();
+    fetchCowAnalysisListData()
   }, []);
 
-  const handleCardPress = (id: string) => {
-    navigation.navigate('CowAnalysis', {
-      id,
-    });
-  };
+  React.useEffect(() => {
+
+  }, [searchInputValue, cowAnalysisListData]);
 
   return (
     <SafeAreaView>
-      <Text>Cow Analysis List Screen</Text>
+      {/* <View>
+        <View style={styles.mixedTitleContainer}>
+          <Text>Registro de</Text>
+          <Text style={{fontWeight: '700'}}>análises</Text>
+        </View>
+        <Text style={{fontWeight: '700'}}>de imagem</Text>
+      </View> */}
+      <SearchBar setSearchInputValue={setSearchInputValue} />
     </SafeAreaView>
   );
 };
-
-// import {useNavigation} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-// import React from 'react';
-// import {SafeAreaView, Text} from 'react-native';
-// import {RootStackParams} from '../../../App';
-
-// // TODO: Define the correct type
-// export type CowAnalysisListDataTypes = ReadonlyArray<any>;
-
-// export const CowAnalysisListScreen: React.FC = () => {
-//   const navigation =
-//     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-//   const [cowAnalysisListData, setCowAnalysisListData] =
-//     React.useState<CowAnalysisListDataTypes>();
-
-//   const fetchCowAnalysisList = async () => {
-//     const res = await fetch('../../utils/mocks/Cow.json');
-//     const data = await res.json();
-//     console.log(data);
-//     setCowAnalysisListData(data);
-//   };
-
-//   React.useEffect(() => {
-//     fetchCowAnalysisList();
-//   }, []);
-
-//   const handleCardPress = (id: string) => {
-//     navigation.navigate('CowAnalysis', {
-//       id,
-//     });
-//   };
-
-//   return (
-//     <SafeAreaView>
-//       <Text>Cow Analysis List Screen</Text>
-//     </SafeAreaView>
-//   );
-// };
