@@ -4,6 +4,10 @@ import {AuthScreenStack} from './src/navigation/AuthStack';
 import {RootScreensStack} from './src/navigation/RootStack';
 import {AuthContext} from './src/context/Auth';
 import {CowInfosCard} from '@/components/CowInfosCard';
+import { createStackNavigator } from '@react-navigation/stack';
+import DiagnosticScreen from 'src/screens/AnaliseProcessScreen';
+
+const Stack = createStackNavigator();
 
 function contextReducer(state, action) {
   switch (action.type) {
@@ -40,11 +44,11 @@ function App(): React.JSX.Element {
     [],
   );
   return (
-    <AuthContext.Provider value={contextAuth}>
-      <NavigationContainer>
-        {renderRoutesByLoginStatus(state.isLoggedIn)}
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Diagnostic" component={DiagnosticScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
