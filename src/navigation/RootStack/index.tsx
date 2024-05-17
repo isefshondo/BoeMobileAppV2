@@ -4,9 +4,11 @@ import {HomeScreen} from '../../screens/HomeScreen';
 import {EditProfileScreen} from '../../screens/EditProfileScreen';
 import {CowAnalysisListScreen} from '../../screens/CowAnalysisListScreen';
 import {CowAnalysisScreen} from '../../screens/CowAnalysisScreen';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {DefaultBottomTab} from '@/components/DefaultBottomTab';
 
 export type HomeStackParams = {
-  Home: null;
+  MainHome: null;
   CowAnalysisList: null;
   CowAnalysisDetails: {id: string};
 };
@@ -20,15 +22,18 @@ export type RootStackParams = {
   AuthStack: null;
 };
 
-const BottomTab = createNativeStackNavigator<HomeStackParams>();
+const BottomTab = createBottomTabNavigator<HomeStackParams>();
 const RootStack = createNativeStackNavigator<RootStackParams>();
+
+const DefaultBottomTabBar = props => <DefaultBottomTab {...props} />;
 
 export function HomeScreensStack(): React.JSX.Element {
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
-      screenOptions={{headerShown: false}}>
-      <BottomTab.Screen name="Home" component={HomeScreen} />
+      initialRouteName="MainHome"
+      screenOptions={{headerShown: false}}
+      tabBar={DefaultBottomTabBar}>
+      <BottomTab.Screen name="MainHome" component={HomeScreen} />
       <BottomTab.Screen
         name="CowAnalysisList"
         component={CowAnalysisListScreen}
@@ -46,7 +51,7 @@ export function RootScreensStack(): React.JSX.Element {
     <RootStack.Navigator
       initialRouteName="Home"
       screenOptions={{headerShown: false}}>
-      <RootStack.Screen name="Home" component={HomeScreen} />
+      <RootStack.Screen name="Home" component={HomeScreensStack} />
       <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     </RootStack.Navigator>
   );

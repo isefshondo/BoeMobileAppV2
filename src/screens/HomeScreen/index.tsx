@@ -10,7 +10,6 @@ import NotificationIcon from '../../assets/bell_icon.svg';
 import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
 import {styles} from './styles';
-import {DefaultBottomTab} from '@/components/DefaultBottomTab';
 
 export type AnalyticsDataInfo = {
   animalsCount: number | null;
@@ -169,7 +168,6 @@ export const HomeScreen = () => {
           </View>
         </View>
       </View>
-      <DefaultBottomTab />
     </SafeAreaView>
   );
 };

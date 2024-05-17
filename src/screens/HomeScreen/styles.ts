@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: responsiveHorizontalScale(31.5),
     paddingTop: responsiveVerticalScale(55),
+    justifyContent: 'space-around',
   },
   header: {
     width: '100%',
