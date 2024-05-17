@@ -9,6 +9,8 @@ import BoeSymbol from '../../assets/boe_symbol.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
+import {styles} from './styles';
+import {DefaultBottomTab} from '@/components/DefaultBottomTab';
 
 export type AnalyticsDataInfo = {
   animalsCount: number | null;
@@ -18,11 +20,8 @@ export type AnalyticsDataInfo = {
   graphics: number[] | null;
 };
 
-export const HomeScreen = async () => {
-  const storagedName = await StorageInstance.getFromStorage('loggedInData');
-  const name = storagedName
-    ? JSON.parse(storagedName).data.name.split(' ')[0]
-    : '';
+export const HomeScreen = () => {
+  const [getName, setName] = React.useState<string>('');
   const [analyticsDataInfo, setAnalyticsDataInfo] =
     React.useState<AnalyticsDataInfo>({
       animalsCount: null,
@@ -31,54 +30,47 @@ export const HomeScreen = async () => {
       curedAnimalsCount: null,
       graphics: null,
     });
-  // TODO: Change the initial value of the filter to the default selected value of the design
-  const [graphicsFilter, setGraphicsFilter] = React.useState<string | null>(
-    null,
-  );
+
+  async function fetchHomeData() {
+    try {
+      const res = await fetch('../../utils/mocks/Analytics.json');
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+      const data = await res.json();
+      setAnalyticsDataInfo({
+        animalsCount: data.animals_count,
+        currentPositiveCasesPercentage: data.current_positive_cases_percentage,
+        sickAnimalsCount: data.sick_animals_count,
+        curedAnimalsCount: data.cured_animals_count,
+        graphics: data.graphics,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   React.useEffect(() => {
-    async function fetchHomeData() {
-      try {
-        const res = await fetch('../../utils/mocks/Analytics.json');
-        if (!res.ok) {
-          throw new Error(
-            `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-          );
-        }
-        const data = await res.json();
-        console.log(data);
+    const getNameFromStorage = async () => {
+      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+      const storagedName = loggedInData
+        ? JSON.parse(loggedInData).data.name.split(' ')[0]
+        : '';
+      setName(storagedName);
+    };
 
-        setAnalyticsDataInfo({
-          animalsCount: data.animals_count,
-          currentPositiveCasesPercentage:
-            data.current_positive_cases_percentage,
-          sickAnimalsCount: data.sick_animals_count,
-          curedAnimalsCount: data.cured_animals_count,
-          graphics: data.graphics,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    getNameFromStorage();
+  }, []);
+
+  React.useEffect(() => {
     fetchHomeData();
-  }, [graphicsFilter]);
+  }, []);
 
   return (
-    <SafeAreaView
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#ff0000',
-        paddingHorizontal: responsiveHorizontalScale(31.5),
-        paddingTop: responsiveVerticalScale(55),
-      }}>
-      <View
-        style={{
-          width: '100%',
-          height: responsiveVerticalScale(36),
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
         <BoeSymbol
           width={responsiveHorizontalScale(25)}
           height={responsiveVerticalScale(33)}
@@ -88,29 +80,13 @@ export const HomeScreen = async () => {
           height={responsiveVerticalScale(36)}
         />
       </View>
-      <View
-        style={{
-          width: '100%',
-          height: responsiveVerticalScale(609),
-          backgroundColor: '#00ff00',
-        }}>
-        <View
-          style={{
-            width: '100%',
-            height: responsiveVerticalScale(219),
-            backgroundColor: '#0000ff',
-            justifyContent: 'space-between',
-          }}>
+      <View style={styles.dataMainContainer}>
+        <View style={styles.greetingsContainer}>
           <View style={{flexDirection: 'row'}}>
             <Text style={{fontSize: 32, fontWeight: 'bold'}}>Olá, </Text>
-            <Text style={{fontSize: 32}}>{name}</Text>
+            <Text style={{fontSize: 32}}>{getName}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              backgroundColor: '#ff0ff0',
-            }}>
+          <View style={styles.statisticsNumbersContainer}>
             <View
               style={{
                 borderRadius: 10,
@@ -193,6 +169,7 @@ export const HomeScreen = async () => {
           </View>
         </View>
       </View>
+      <DefaultBottomTab />
     </SafeAreaView>
   );
 };
