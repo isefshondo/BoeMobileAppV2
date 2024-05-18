@@ -10,7 +10,6 @@ import {DefaultBottomTab} from '@/components/DefaultBottomTab';
 export type HomeStackParams = {
   MainHome: null;
   CowAnalysisList: null;
-  CowAnalysisDetails: {id: string};
 };
 
 export type RootStackParams = {
@@ -37,10 +36,6 @@ export function HomeScreensStack(): React.JSX.Element {
       <BottomTab.Screen
         name="CowAnalysisList"
         component={CowAnalysisListScreen}
-      />
-      <BottomTab.Screen
-        name="CowAnalysisDetails"
-        component={CowAnalysisScreen}
       />
     </BottomTab.Navigator>
   );

@@ -20,12 +20,33 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
+  const handlePress = (routeName: string) => {
+    const event = navigation.emit({
+      type: 'tabPress',
+      target: routeName,
+      canPreventDefault: true,
+    });
+
+    if (!event.defaultPrevented) {
+      navigation.navigate(routeName);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.routesButtonsContainer}>
-        <HomeIcon />
-        <CameraButton />
-        <CowIcon />
+        <View style={[styles.routesContainer, styles.routesIconsContainer]}>
+          <TouchableOpacity onPress={() => handlePress('MainHome')}>
+            <HomeIcon />
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.routesContainer, styles.routesButtonContainer]}>
+          <CameraButton />
+        </View>
+        <View style={[styles.routesContainer, styles.routesIconsContainer]}>
+          <TouchableOpacity onPress={() => handlePress('CowAnalysisList')}>
+            <CowIcon />
+          </TouchableOpacity>
+        </View>
       </View>
       <BottomTabBackground style={styles.bottomTabBackground} />
     </View>

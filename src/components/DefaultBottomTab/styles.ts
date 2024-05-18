@@ -17,8 +17,6 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
   },
   bottomTabBackground: {
     width: '100%',
@@ -36,5 +34,15 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     backgroundColor: colors.BLUE,
+  },
+  routesContainer: {
+    flex: 1,
+  },
+  routesIconsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  routesButtonContainer: {
+    alignItems: 'center',
   },
 });
