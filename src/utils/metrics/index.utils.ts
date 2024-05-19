@@ -13,8 +13,12 @@ const responsiveVerticalScale = (size: number) =>
 const responsiveModerateScale = (size: number, factor = 0.5) =>
   size + (responsiveHorizontalScale(size) - size) * factor;
 
+const responsiveFontSize = (fontSize: number) =>
+  fontSize * (windowWidth / guidelineBaseWidth);
+
 export {
   responsiveHorizontalScale,
   responsiveVerticalScale,
   responsiveModerateScale,
+  responsiveFontSize,
 };
