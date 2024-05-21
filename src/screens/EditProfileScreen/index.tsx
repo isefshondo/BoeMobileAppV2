@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {storageInstance} from '../../utils/storage/index.utils';
+import * as StorageInstance from '../../utils/storage/index.utils';
 import {styles} from './styles';
 import {DefaultInput} from '../../components/DefaultInput';
 import {ChangePasswordInput} from '../../components/ChangePasswordInput';
@@ -13,6 +13,7 @@ export type EditProfileInputValues = {
 };
 
 export const EditProfileScreen: React.FC = () => {
+  const [isLoading, setIsLoading] = React.useState<boolean | null>(null);
   const [editProfileInputValues, setEditProfileInputValues] =
     React.useState<EditProfileInputValues>({
       name: null,
@@ -23,14 +24,46 @@ export const EditProfileScreen: React.FC = () => {
     email: false,
     password: false,
   });
-  const isFirstRender = React.useRef<boolean>(true);
+
+  async function getUserDataFromStorage() {
+    try {
+      setIsLoading(true);
+      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+      const storagedName = loggedInData ? JSON.parse(loggedInData).data.name : '';
+      const storagedEmail = loggedInData ? JSON.parse(loggedInData).data.email : '';
+      setEditProfileInputValues({
+        name: storagedName,
+        email: storagedEmail,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   React.useEffect(() => {
-    setEditProfileInputValues({
-      name: storageInstance.getString('name') ?? null,
-      email: storageInstance.getString('email') ?? null,
-    });
+    getUserDataFromStorage();
   }, []);
+
+  const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
+    if (isInputFocused[inputName]) {
+      setEditProfileInputValues(prevState => ({
+        ...prevState,
+        [inputName]: value,
+      }));
+      
+    }
+  };
+
+  // const isFirstRender = React.useRef<boolean>(true);
+
+  // React.useEffect(() => {
+  //   setEditProfileInputValues({
+  //     name: storageInstance.getString('name') ?? null,
+  //     email: storageInstance.getString('email') ?? null,
+  //   });
+  // }, []);
 
   const handleInputState = (
     inputName: keyof EditProfileInputValues,
