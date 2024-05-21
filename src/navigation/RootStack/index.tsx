@@ -18,7 +18,7 @@ export type DrawerTabsParams = {
 };
 export type RootStackParams = {
   Home: null;
-  CowDetails: null;
+  CowDetails: {id: string};
   ProcessAnalysisCamera: {id?: string};
   ProcessAnalysisResults: {id?: string};
   ProcessAnalysisRegister: {id?: string};
