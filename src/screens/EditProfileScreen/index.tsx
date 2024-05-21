@@ -29,8 +29,12 @@ export const EditProfileScreen: React.FC = () => {
     try {
       setIsLoading(true);
       const loggedInData = await StorageInstance.getFromStorage('loggedInData');
-      const storagedName = loggedInData ? JSON.parse(loggedInData).data.name : '';
-      const storagedEmail = loggedInData ? JSON.parse(loggedInData).data.email : '';
+      const storagedName = loggedInData
+        ? JSON.parse(loggedInData).data.name
+        : '';
+      const storagedEmail = loggedInData
+        ? JSON.parse(loggedInData).data.email
+        : '';
       setEditProfileInputValues({
         name: storagedName,
         email: storagedEmail,
@@ -46,15 +50,15 @@ export const EditProfileScreen: React.FC = () => {
     getUserDataFromStorage();
   }, []);
 
-  const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
-    if (isInputFocused[inputName]) {
-      setEditProfileInputValues(prevState => ({
-        ...prevState,
-        [inputName]: value,
-      }));
-      
-    }
-  };
+  // const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
+  //   if (isInputFocused[inputName]) {
+  //     setEditProfileInputValues(prevState => ({
+  //       ...prevState,
+  //       [inputName]: value,
+  //     }));
+
+  //   }
+  // };
 
   // const isFirstRender = React.useRef<boolean>(true);
 
@@ -65,39 +69,39 @@ export const EditProfileScreen: React.FC = () => {
   //   });
   // }, []);
 
-  const handleInputState = (
-    inputName: keyof EditProfileInputValues,
-    value: string,
-  ) => {
-    if (isInputFocused[inputName]) {
-      setEditProfileInputValues(prevState => ({
-        ...prevState,
-        [inputName]: value,
-      }));
-      storageInstance.set(inputName, value);
-    }
-  };
+  // const handleInputState = (
+  //   inputName: keyof EditProfileInputValues,
+  //   value: string,
+  // ) => {
+  //   if (isInputFocused[inputName]) {
+  //     setEditProfileInputValues(prevState => ({
+  //       ...prevState,
+  //       [inputName]: value,
+  //     }));
+  //     storageInstance.set(inputName, value);
+  //   }
+  // };
 
-  React.useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    const requestTimer = setTimeout(async () => {
-      try {
-        // TODO: Introduce the real HTTPS URL
-        const res = await fetch('');
-        const data = await res.json();
+  // React.useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     isFirstRender.current = false;
+  //     return;
+  //   }
+  //   const requestTimer = setTimeout(async () => {
+  //     try {
+  //       // TODO: Introduce the real HTTPS URL
+  //       const res = await fetch('');
+  //       const data = await res.json();
 
-        if (res.ok) {
-          Alert.alert('Deu certo!', data.message);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }, 1500);
-    return () => clearTimeout(requestTimer);
-  }, [editProfileInputValues]);
+  //       if (res.ok) {
+  //         Alert.alert('Deu certo!', data.message);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }, 1500);
+  //   return () => clearTimeout(requestTimer);
+  // }, [editProfileInputValues]);
 
   return (
     <SafeAreaView>

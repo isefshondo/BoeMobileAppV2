@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {CowAnalysisListDataTypes} from './types';
 import {
@@ -61,7 +61,7 @@ export const CowAnalysisListScreen: React.FC = () => {
     React.useState<CowAnalysisListDataTypes>(DUMMY_COW_ANALYSIS_LIST_DATA);
 
   const handlePressCowInfosCard = (id: string) => {
-    navigation.navigate('CowAnalysisDetailsScreen', {id});
+    navigation.navigate('CowDetailsListing', {id});
   };
 
   const fetchCowAnalysisListData = async () => {
@@ -95,7 +95,10 @@ export const CowAnalysisListScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <SideMenuIcon style={styles.sideMenuIcon} />
+          <SideMenuIcon
+            style={styles.sideMenuIcon}
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+          />
         </TouchableOpacity>
         <TouchableOpacity>
           <NotificationIcon style={styles.notificationBellIcon} />
