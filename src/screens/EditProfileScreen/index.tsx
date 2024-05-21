@@ -50,24 +50,30 @@ export const EditProfileScreen: React.FC = () => {
     getUserDataFromStorage();
   }, []);
 
-  // const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
-  //   if (isInputFocused[inputName]) {
-  //     setEditProfileInputValues(prevState => ({
-  //       ...prevState,
-  //       [inputName]: value,
-  //     }));
+  async function updateUserDataInStorage(inputName: keyof EditProfileInputValues, value: string) {
+    try {
+      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+      if (loggedInData) {
+        const parsedData = JSON.parse(loggedInData);
+        parsedData.data[inputName] = value;
+        await StorageInstance.setInStorage('loggedInData', JSON.stringify(parsedData));
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  //   }
-  // };
+  const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
+    if (isInputFocused[inputName]) {
+      setEditProfileInputValues(prevState => ({
+        ...prevState,
+        [inputName]: value,
+      }));
+      updateUserDataInStorage(inputName, value);
+    }
+  };
 
   // const isFirstRender = React.useRef<boolean>(true);
-
-  // React.useEffect(() => {
-  //   setEditProfileInputValues({
-  //     name: storageInstance.getString('name') ?? null,
-  //     email: storageInstance.getString('email') ?? null,
-  //   });
-  // }, []);
 
   // const handleInputState = (
   //   inputName: keyof EditProfileInputValues,
@@ -116,13 +122,13 @@ export const EditProfileScreen: React.FC = () => {
               inputIcon="name"
               inputLabel="Nome"
               inputCurrentValue={editProfileInputValues.name ?? ''}
-              onInputChange={() => handleInputState}
+              onInputChange={(value) => handleInputState('name', value)}
             />
             <DefaultInput
               inputIcon="email"
               inputLabel="E-mail"
               inputCurrentValue={editProfileInputValues.email ?? ''}
-              onInputChange={() => handleInputState}
+              onInputChange={(value) => handleInputState('email', value)}
             />
             <ChangePasswordInput
               onInputChange={() => handleInputState}
@@ -131,9 +137,6 @@ export const EditProfileScreen: React.FC = () => {
           </View>
         </View>
       </View>
-      <Text>Edit Profile Screen</Text>
-      <Text>{editProfileInputValues.name}</Text>
-      <Text>{editProfileInputValues.email}</Text>
     </SafeAreaView>
   );
 };

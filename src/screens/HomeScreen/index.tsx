@@ -5,7 +5,7 @@ import {
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '../../utils/metrics/index.utils';
-import BoeSymbol from '../../assets/boe_symbol.svg';
+import SideMenuIcon from '../../assets/menu.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
@@ -70,9 +70,9 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <BoeSymbol
-          width={responsiveHorizontalScale(25)}
-          height={responsiveVerticalScale(33)}
+        <SideMenuIcon
+          width={responsiveHorizontalScale(34)}
+          height={responsiveVerticalScale(34)}
         />
         <NotificationIcon
           width={responsiveHorizontalScale(34)}
