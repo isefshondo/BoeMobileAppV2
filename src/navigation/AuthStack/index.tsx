@@ -4,8 +4,8 @@ import {SignInScreen} from '../../screens/SignInScreen';
 import {SignUpScreen} from '../../screens/SignUpScreen';
 
 export type AuthStackParams = {
-  SignIn: null;
-  SignUp: null;
+  SignIn: undefined;
+  SignUp: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParams>();

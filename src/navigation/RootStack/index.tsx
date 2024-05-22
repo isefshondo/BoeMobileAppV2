@@ -9,15 +9,15 @@ import {EditProfileScreen} from '@/screens/EditProfileScreen';
 import {CowAnalysisScreen} from '@/screens/CowAnalysisScreen';
 
 export type BottomTabsParams = {
-  InitialRoute: null;
-  CowDataListing: null;
+  InitialRoute: undefined;
+  CowDataListing: undefined;
 };
 export type DrawerTabsParams = {
-  MainRoutes: null;
-  EditProfile: null;
+  MainRoutes: undefined;
+  EditProfile: undefined;
 };
 export type RootStackParams = {
-  Home: null;
+  Home: undefined;
   CowDetails: {id: string};
   ProcessAnalysisCamera: {id?: string};
   ProcessAnalysisResults: {id?: string};
