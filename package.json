@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "^51.0.5",
     "expo-secure-store": "~13.0.1",
+    "expo-template-bare-minimum": "^51.0.27",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-gesture-handler": "~2.16.1",
