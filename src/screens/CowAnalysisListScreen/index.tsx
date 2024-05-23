@@ -15,6 +15,7 @@ import SideMenuIcon from '../../assets/menu.svg';
 import FiltersIcon from '../../assets/filters_icon.svg';
 import {TreatmentStatus} from '@/components/CowInfosCard/enums/status.enum';
 import {Illness} from '@/components/CowInfosCard/enums/illness.enum';
+import { CowInfosCard } from '@/components/CowInfosCard';
 
 const DUMMY_COW_ANALYSIS_LIST_DATA = [
   {
@@ -45,6 +46,14 @@ const DUMMY_COW_ANALYSIS_LIST_DATA = [
     id: 4,
     numberIdentification: 'AU0281',
     name: 'Pérola',
+    treatmentStatus: TreatmentStatus.NO_TREATMENT,
+    illness: Illness.BOVINE_DERMATOPHILOSIS,
+    chancePercentage: 10,
+  },
+  {
+    id: 4,
+    numberIdentification: 'AU0281',
+    name: 'Piranha',
     treatmentStatus: TreatmentStatus.NO_TREATMENT,
     illness: Illness.BOVINE_DERMATOPHILOSIS,
     chancePercentage: 10,
@@ -131,10 +140,7 @@ export const CowAnalysisListScreen: React.FC = () => {
           <FlatList
             data={cowAnalysisListData}
             renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPress={() => handlePressCowInfosCard(item.id.toString())}>
-                <Text>{item.name}</Text>
-              </TouchableOpacity>
+              <CowInfosCard name={item.name} numberIdentification={item.numberIdentification} treatmentStatus={item.treatmentStatus} illness={item.illness} chancePercentage={item.chancePercentage} />
             )}
             keyExtractor={item => item.id.toString()}
           />

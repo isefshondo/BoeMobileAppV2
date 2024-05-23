@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Text, View} from 'react-native';
+import {Alert, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {styles} from './styles';
@@ -63,51 +63,19 @@ export const EditProfileScreen: React.FC = () => {
     }
   }
 
-  const handleInputState = (inputName: keyof EditProfileInputValues, value: string) => {
-    if (isInputFocused[inputName]) {
-      setEditProfileInputValues(prevState => ({
-        ...prevState,
-        [inputName]: value,
-      }));
+  const handleInputChange = (inputName: keyof EditProfileInputValues, value: string) => {
+    setEditProfileInputValues(prevState => ({
+      ...prevState,
+      [inputName]: value,
+    }));
+  };
+
+  const handleInputBlur = (inputName: keyof EditProfileInputValues) => {
+    const value = editProfileInputValues[inputName];
+    if (value !== null) {
       updateUserDataInStorage(inputName, value);
     }
   };
-
-  // const isFirstRender = React.useRef<boolean>(true);
-
-  // const handleInputState = (
-  //   inputName: keyof EditProfileInputValues,
-  //   value: string,
-  // ) => {
-  //   if (isInputFocused[inputName]) {
-  //     setEditProfileInputValues(prevState => ({
-  //       ...prevState,
-  //       [inputName]: value,
-  //     }));
-  //     storageInstance.set(inputName, value);
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   if (isFirstRender.current) {
-  //     isFirstRender.current = false;
-  //     return;
-  //   }
-  //   const requestTimer = setTimeout(async () => {
-  //     try {
-  //       // TODO: Introduce the real HTTPS URL
-  //       const res = await fetch('');
-  //       const data = await res.json();
-
-  //       if (res.ok) {
-  //         Alert.alert('Deu certo!', data.message);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }, 1500);
-  //   return () => clearTimeout(requestTimer);
-  // }, [editProfileInputValues]);
 
   return (
     <SafeAreaView>
@@ -118,21 +86,17 @@ export const EditProfileScreen: React.FC = () => {
             <Text>Edite as informações pessoais da sua conta</Text>
           </View>
           <View style={styles.formSection}>
-            <DefaultInput
-              inputIcon="name"
-              inputLabel="Nome"
-              inputCurrentValue={editProfileInputValues.name ?? ''}
-              onInputChange={(value) => handleInputState('name', value)}
+            <TextInput
+              style={styles.input}
+              value={editProfileInputValues.email || ''}
+              onChangeText={(text) => handleInputChange('email', text)}
+              onBlur={() => handleInputBlur('email')}
             />
-            <DefaultInput
-              inputIcon="email"
-              inputLabel="E-mail"
-              inputCurrentValue={editProfileInputValues.email ?? ''}
-              onInputChange={(value) => handleInputState('email', value)}
-            />
-            <ChangePasswordInput
-              onInputChange={() => handleInputState}
-              inputCurrentValue="D3F4U1T_P4SSW0RD"
+            <TextInput
+              style={styles.input}
+              value={editProfileInputValues.name || ''}
+              onChangeText={(text) => handleInputChange('name', text)}
+              onBlur={() => handleInputBlur('name')}
             />
           </View>
         </View>

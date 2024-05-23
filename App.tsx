@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {AuthScreenStack} from './src/navigation/AuthStack';
 import {RootScreensStack} from './src/navigation/RootStack';
 import {AuthContext} from './src/context/Auth';
-import {CowInfosCard} from '@/components/CowInfosCard';
 
 function contextReducer(state, action) {
   switch (action.type) {
