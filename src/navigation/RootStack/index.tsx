@@ -7,6 +7,7 @@ import {HomeScreen} from '@/screens/HomeScreen';
 import {CowAnalysisListScreen} from '@/screens/CowAnalysisListScreen';
 import {EditProfileScreen} from '@/screens/EditProfileScreen';
 import {CowAnalysisScreen} from '@/screens/CowAnalysisScreen';
+import { ProcessAnalysisCameraScreen } from '@/screens/ProcessAnalysisCameraScreen';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;
@@ -61,6 +62,7 @@ export function RootScreensStack(): React.JSX.Element {
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Home" component={DrawerTabsScreenStack} />
       <RootStack.Screen name="CowDetails" component={CowAnalysisScreen} />
+      <RootStack.Screen name="ProcessAnalysisCamera" component={ProcessAnalysisCameraScreen} />
     </RootStack.Navigator>
   );
 }

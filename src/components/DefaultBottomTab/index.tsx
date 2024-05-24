@@ -7,9 +7,9 @@ import PlusIcon from '../../assets/plus_icon.svg';
 import HomeIcon from '../../assets/home_icon.svg';
 import CowIcon from '../../assets/cow_icon.svg';
 
-const CameraButton: React.FC = () => {
+const CameraButton: React.FC<{onPress: () => void}> = ({onPress}) => {
   return (
-    <TouchableOpacity style={styles.cameraButton}>
+    <TouchableOpacity style={styles.cameraButton} onPress={onPress}>
       <PlusIcon />
     </TouchableOpacity>
   );
@@ -40,7 +40,7 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
           </TouchableOpacity>
         </View>
         <View style={[styles.routesContainer, styles.routesButtonContainer]}>
-          <CameraButton />
+          <CameraButton onPress={() => handlePress('ProcessAnalysisCamera')} />
         </View>
         <View style={[styles.routesContainer, styles.routesIconsContainer]}>
           <TouchableOpacity onPress={() => handlePress('CowDataListing')}>
