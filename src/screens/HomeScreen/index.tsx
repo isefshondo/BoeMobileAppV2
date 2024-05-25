@@ -30,17 +30,13 @@ export const HomeScreen = () => {
     });
   const [graphics, setGraphics] = React.useState<any[]>([]);
 
-  async function getUserNameFromStorage() {
+  async function getDataFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
     const storagedName = loggedInData
       ? JSON.parse(loggedInData).data.name.split(' ')[0]
       : '';
-    setName(storagedName);
-  }
-
-  async function getJWTFromStorage() {
-    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
     const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    setName(storagedName);
     setJwt(userJWT);
   }
 
@@ -79,12 +75,14 @@ export const HomeScreen = () => {
   }
 
   React.useEffect(() => {
-    getUserNameFromStorage();
-    getJWTFromStorage();
+    getDataFromStorage();
   }, []);
 
   React.useEffect(() => {
-    fetchAnalyticsAndGraphics();
+    if (jwt) {
+      fetchAnalyticsAndGraphics();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwt]);
 
   return (
