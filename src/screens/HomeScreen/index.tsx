@@ -11,61 +11,81 @@ import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
 import {styles} from './styles';
 
-export type AnalyticsDataInfo = {
+export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
   currentPositiveCasesPercentage: number | null;
   sickAnimalsCount: number | null;
   curedAnimalsCount: number | null;
-  graphics: number[] | null;
 };
 
 export const HomeScreen = () => {
-  const [getName, setName] = React.useState<string>('');
-  const [analyticsDataInfo, setAnalyticsDataInfo] =
-    React.useState<AnalyticsDataInfo>({
+  const [name, setName] = React.useState<string>('');
+  const [jwt, setJwt] = React.useState<string>('');
+  const [cowHerdAnalytics, setCowHerdAnalytics] =
+    React.useState<CowHerdAnalyticsTypes>({
       animalsCount: null,
       currentPositiveCasesPercentage: null,
       sickAnimalsCount: null,
       curedAnimalsCount: null,
-      graphics: null,
     });
+  const [graphics, setGraphics] = React.useState<any[]>([]);
 
-  async function fetchHomeData() {
+  async function getUserNameFromStorage() {
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const storagedName = loggedInData
+      ? JSON.parse(loggedInData).data.name.split(' ')[0]
+      : '';
+    setName(storagedName);
+  }
+
+  async function getJWTFromStorage() {
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    setJwt(userJWT);
+  }
+
+  async function genericFetch(url: string) {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error(
+        `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      );
+    }
+    return res.json();
+  }
+
+  async function fetchAnalyticsAndGraphics() {
     try {
-      const res = await fetch('../../utils/mocks/Analytics.json');
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
-      const data = await res.json();
-      setAnalyticsDataInfo({
-        animalsCount: data.animals_count,
-        currentPositiveCasesPercentage: data.current_positive_cases_percentage,
-        sickAnimalsCount: data.sick_animals_count,
-        curedAnimalsCount: data.cured_animals_count,
-        graphics: data.graphics,
+      const [cowHerdAnalyticsRes, graphicsRes] = await Promise.all([
+        genericFetch(''),
+        genericFetch(''),
+      ]);
+      setCowHerdAnalytics({
+        animalsCount: cowHerdAnalyticsRes.animals_count,
+        currentPositiveCasesPercentage:
+          cowHerdAnalyticsRes.current_positive_cases_percentage,
+        sickAnimalsCount: cowHerdAnalyticsRes.sick_animals_count,
+        curedAnimalsCount: cowHerdAnalyticsRes.cured_animals_count,
       });
+      setGraphics(graphicsRes);
     } catch (error) {
       console.log(error);
     }
   }
 
   React.useEffect(() => {
-    const getNameFromStorage = async () => {
-      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
-      const storagedName = loggedInData
-        ? JSON.parse(loggedInData).data.name.split(' ')[0]
-        : '';
-      setName(storagedName);
-    };
-
-    getNameFromStorage();
+    getUserNameFromStorage();
+    getJWTFromStorage();
   }, []);
 
   React.useEffect(() => {
-    fetchHomeData();
-  }, []);
+    fetchAnalyticsAndGraphics();
+  }, [jwt]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,7 +103,7 @@ export const HomeScreen = () => {
         <View style={styles.greetingsContainer}>
           <View style={{flexDirection: 'row'}}>
             <Text style={{fontSize: 32, fontWeight: 'bold'}}>Olá, </Text>
-            <Text style={{fontSize: 32}}>{getName}</Text>
+            <Text style={{fontSize: 32}}>{name}</Text>
           </View>
           <View style={styles.statisticsNumbersContainer}>
             <View
@@ -96,7 +116,9 @@ export const HomeScreen = () => {
                 alignItems: 'center',
               }}>
               <View>
-                <Text style={{fontSize: 43, fontWeight: '500'}}>70</Text>
+                <Text style={{fontSize: 43, fontWeight: '500'}}>
+                  {cowHerdAnalytics.animalsCount}
+                </Text>
                 <Text style={{fontSize: 18, fontWeight: '500'}}>
                   Registrados
                 </Text>
@@ -118,7 +140,11 @@ export const HomeScreen = () => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                  <Text style={{fontSize: 43, fontWeight: '500'}}>30%</Text>
+                  <Text
+                    style={{
+                      fontSize: 43,
+                      fontWeight: '500',
+                    }}>{`${cowHerdAnalytics.currentPositiveCasesPercentage}%`}</Text>
                   <View style={{justifyContent: 'space-evenly'}}>
                     <View
                       style={{
