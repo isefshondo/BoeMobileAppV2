@@ -2,17 +2,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthScreenStack} from './src/navigation/AuthStack';
 import {RootScreensStack} from './src/navigation/RootStack';
-import {AuthContext} from './src/context/Auth';
-
-function contextReducer(state, action) {
-  switch (action.type) {
-    case 'SIGN_IN':
-      return {
-        ...state,
-        isLoggedIn: true,
-      };
-  }
-}
+import {AuthContext, AuthProvider} from './src/context/Auth';
+import {AnalysisResultsProvider} from '@/context/AnalysisResults';
 
 function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
   if (!isLoggedIn) {
@@ -22,28 +13,16 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
-  const [state, dispatch] = React.useReducer(contextReducer, {
-    jwt: null,
-    data: {
-      name: null,
-      email: null,
-    },
-    isLoggedIn: false,
-  });
-  const contextAuth = React.useMemo(
-    () => ({
-      signIn: async data => {
-        dispatch({type: 'SIGN_IN'});
-      },
-    }),
-    [],
-  );
   return (
-    <AuthContext.Provider value={contextAuth}>
-      <NavigationContainer>
-        {renderRoutesByLoginStatus(state.isLoggedIn)}
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <AuthProvider>
+      <AnalysisResultsProvider>
+        <NavigationContainer>
+          <AuthContext.Consumer>
+            {({isLoggedIn}) => renderRoutesByLoginStatus(isLoggedIn)}
+          </AuthContext.Consumer>
+        </NavigationContainer>
+      </AnalysisResultsProvider>
+    </AuthProvider>
   );
 }
 
