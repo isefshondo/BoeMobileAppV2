@@ -15,7 +15,8 @@ import SideMenuIcon from '../../assets/menu.svg';
 import FiltersIcon from '../../assets/filters_icon.svg';
 import {TreatmentStatus} from '@/components/CowInfosCard/enums/status.enum';
 import {Illness} from '@/components/CowInfosCard/enums/illness.enum';
-import { CowInfosCard } from '@/components/CowInfosCard';
+import {CowInfosCard} from '@/components/CowInfosCard';
+import * as StorageInstance from '../../utils/storage/index.utils';
 
 const DUMMY_COW_ANALYSIS_LIST_DATA = [
   {
@@ -68,20 +69,48 @@ export const CowAnalysisListScreen: React.FC = () => {
     React.useState<CowAnalysisListDataTypes>(DUMMY_COW_ANALYSIS_LIST_DATA);
   const [cowAnalysisListData, setCowAnalysisListData] =
     React.useState<CowAnalysisListDataTypes>(DUMMY_COW_ANALYSIS_LIST_DATA);
+  const [jwt, setJwt] = React.useState<string>('');
 
-  const handlePressCowInfosCard = (id: string) => {
+  async function getJWTFromStorage() {
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    setJwt(userJWT);
+  }
+
+  async function fetchCowAnalysisListData() {
+    try {
+      const res = await fetch('', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+
+      const resData = await res.json();
+      setFetchedCowListData(resData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handlePressCowInfosCard(id: string) {
     navigation.navigate('CowDetailsListing', {id});
-  };
+  }
 
-  const fetchCowAnalysisListData = async () => {
-    const res = await fetch('');
-    const data = await res.json();
-    setFetchedCowListData(data);
-  };
+  React.useEffect(() => {
+    getJWTFromStorage();
+  }, []);
 
-  // React.useEffect(() => {
-  //   fetchCowAnalysisListData();
-  // }, []);
+  React.useEffect(() => {
+    fetchCowAnalysisListData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jwt]);
 
   React.useEffect(() => {
     if (fetchedCowListData.length !== 0) {
@@ -140,7 +169,13 @@ export const CowAnalysisListScreen: React.FC = () => {
           <FlatList
             data={cowAnalysisListData}
             renderItem={({item, index}) => (
-              <CowInfosCard name={item.name} numberIdentification={item.numberIdentification} treatmentStatus={item.treatmentStatus} illness={item.illness} chancePercentage={item.chancePercentage} />
+              <CowInfosCard
+                name={item.name}
+                numberIdentification={item.numberIdentification}
+                treatmentStatus={item.treatmentStatus}
+                illness={item.illness}
+                chancePercentage={item.chancePercentage}
+              />
             )}
             keyExtractor={item => item.id.toString()}
           />
