@@ -1,33 +1,50 @@
-import { RootStackParams } from '@/navigation/RootStack';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import {Camera, useCameraDevice, useCameraPermission} from 'react-native-vision-camera';
+import * as StorageInstance from '../../utils/storage/index.utils';
+import {AnalysisResultsContext} from '@/context/AnalysisResults';
 
-type Props = NativeStackScreenProps<RootStackParams, 'ProcessAnalysisCamera'>;
+// type NavigationProps = NativeStackScreenProps<>;
 
-export const ProcessAnalysisCameraScreen = ({route}: Props) => {
-  const cowID = route.params.id ?? null;
-  const device = useCameraDevice("back");
-  const {hasPermission, requestPermission} = useCameraPermission();
-  const [permission, setPermission] = React.useState<boolean | null>(null);
-  const cameraRef = React.useRef(null);
+export const ProcessAnalysisCameraScreen: React.FC<> = ({route}) => {
+  // Como guardar a foto que eu tirei pelo aplicativo e mandar para a minha API?
+  const storeCowId = route.params.id ?? null;
+  const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
+  const [jwt, setJwt] = React.useState<string>('');
+
+  async function getJWTFromStorage() {
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    setJwt(userJWT);
+  }
 
   React.useEffect(() => {
-    (async () => {
-      const status = await requestPermission();
-
-      setPermission(true);
-    })()
+    getJWTFromStorage();
   }, []);
 
-  if (!permission) return <SafeAreaView/>;
+  // Será chamada por outra função que será chamada quando o usuário clicar no botão da câmera - Nela vai ter o navigate para a tela de Resultados - Vou precisar o Loading
+  async function handleSendPhotoRequest() {
+    try {
+      const res = await fetch('', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          cowId: storeCowId,
+          photo: 'base64',
+        }),
+      });
 
-  if (!device || device === null) return <SafeAreaView />
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
 
-  return (
-    <SafeAreaView>
-      <Camera style={{flex: 1}} ref={cameraRef} device={device} isActive={true} orientation='portrait' resizeMode='cover' />
-    </SafeAreaView>
-  );
+      const data = await res.json();
+
+      setAnalysisResults(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };
