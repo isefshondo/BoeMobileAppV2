@@ -89,7 +89,7 @@ export const EditProfileScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <GoBackIcon style={styles.goBackIcon} />
-      <View>
+      <View style={styles.actionsContainer}>
         <View style={styles.formContainer}>
           <View>
             <Text style={styles.screenTitle}>Editar perfil</Text>
@@ -120,6 +120,7 @@ export const EditProfileScreen: React.FC = () => {
             onInputChange={value => handleInputChange('password', value)}
           />
         </View>
+        <View style={styles.divider} />
         <TouchableOpacity style={styles.deleteAccountButton}>
           <View style={styles.labelIconBtnContainer}>
             <Text style={styles.deleteAccountButtonLabel}>Excluir conta</Text>

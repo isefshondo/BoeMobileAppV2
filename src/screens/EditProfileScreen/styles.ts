@@ -10,12 +10,17 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#fff',
+    justifyContent: 'space-around',
+  },
+  actionsContainer: {
+    height: responsiveVerticalScale(638),
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   formContainer: {
     width: responsiveHorizontalScale(326),
     height: responsiveVerticalScale(466),
     justifyContent: 'space-between',
-    backgroundColor: '#ff0000',
   },
   screenTitle: {
     fontSize: responsiveFontSize(37),
@@ -28,6 +33,7 @@ export const styles = StyleSheet.create({
   goBackIcon: {
     width: responsiveHorizontalScale(33),
     height: responsiveVerticalScale(33),
+    marginLeft: responsiveHorizontalScale(34),
   },
   inputsContainer: {
     width: '100%',
@@ -56,5 +62,10 @@ export const styles = StyleSheet.create({
   trashIcon: {
     width: responsiveHorizontalScale(24),
     height: responsiveVerticalScale(24),
+  },
+  divider: {
+    width: responsiveHorizontalScale(304.01),
+    borderWidth: 1,
+    borderColor: 'rgba(113, 113, 113, 0.27)',
   },
 });
