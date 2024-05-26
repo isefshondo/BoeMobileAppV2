@@ -30,12 +30,13 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
   decreasedCasesValue,
 }) => {
   const hasStatisticsInfo = type === 'CURRENT_POSITIVE_CASES';
+  const hasAnalyticsData = value && value !== 0;
 
   return (
     <View style={styles.container}>
       <View style={hasStatisticsInfo ? styles.statisticsContainer : null}>
-        <Text style={styles.textValue}>{value}</Text>
-        {hasStatisticsInfo && (
+        <Text style={styles.textValue}>{hasAnalyticsData ? value : '--'}</Text>
+        {hasAnalyticsData && hasStatisticsInfo && (
           <View style={{justifyContent: 'space-evenly'}}>
             <StatisticsInfo
               elementIcon={<UpGreenIcon />}

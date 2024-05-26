@@ -9,6 +9,7 @@ import SideMenuIcon from '../../assets/menu.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import {styles} from './styles';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -18,6 +19,8 @@ export type CowHerdAnalyticsTypes = {
 };
 
 export const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const [name, setName] = React.useState<string>('');
   const [jwt, setJwt] = React.useState<string>('');
   const [cowHerdAnalytics, setCowHerdAnalytics] =
@@ -90,6 +93,7 @@ export const HomeScreen = () => {
         <SideMenuIcon
           width={responsiveHorizontalScale(34)}
           height={responsiveVerticalScale(34)}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         />
         <NotificationIcon
           width={responsiveHorizontalScale(34)}

@@ -7,6 +7,7 @@ import {DefaultInput} from '../../components/DefaultInput';
 import GoBackIcon from '../../assets/back_left_icon.svg';
 import TrashIcon from '../../assets/trash_icon.svg';
 import {ChangePasswordInput} from '@/components/ChangePasswordInput';
+import {useNavigation} from '@react-navigation/native';
 
 export type EditProfileInputValues = {
   name: string | null;
@@ -15,6 +16,8 @@ export type EditProfileInputValues = {
 };
 
 export const EditProfileScreen: React.FC = () => {
+  const navigation = useNavigation();
+
   const [isLoading, setIsLoading] = React.useState<boolean | null>(null);
   const [editProfileInputValues, setEditProfileInputValues] =
     React.useState<EditProfileInputValues>({
@@ -88,7 +91,10 @@ export const EditProfileScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <GoBackIcon style={styles.goBackIcon} />
+      <GoBackIcon
+        style={styles.goBackIcon}
+        onPress={() => navigation.goBack()}
+      />
       <View style={styles.actionsContainer}>
         <View style={styles.formContainer}>
           <View>

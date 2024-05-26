@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: responsiveVerticalScale(103.5),
-    backgroundColor: '#ff0000',
+    // backgroundColor: '#FFF',
   },
   routesButtonsContainer: {
     width: '100%',
