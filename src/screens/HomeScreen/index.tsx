@@ -7,9 +7,8 @@ import {
 } from '../../utils/metrics/index.utils';
 import SideMenuIcon from '../../assets/menu.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
-import UpGreenIcon from '../../assets/up_green.svg';
-import DownRedIcon from '../../assets/down_red.svg';
 import {styles} from './styles';
+import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -104,91 +103,16 @@ export const HomeScreen = () => {
             <Text style={{fontSize: 32}}>{name}</Text>
           </View>
           <View style={styles.statisticsNumbersContainer}>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: '#fff',
-                width: responsiveHorizontalScale(164),
-                height: responsiveVerticalScale(152),
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View>
-                <Text style={{fontSize: 43, fontWeight: '500'}}>
-                  {cowHerdAnalytics.animalsCount}
-                </Text>
-                <Text style={{fontSize: 18, fontWeight: '500'}}>
-                  Registrados
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: '#fff',
-                width: responsiveHorizontalScale(164),
-                height: responsiveVerticalScale(152),
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View>
-                <View
-                  style={{
-                    width: responsiveHorizontalScale(140),
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 43,
-                      fontWeight: '500',
-                    }}>{`${cowHerdAnalytics.currentPositiveCasesPercentage}%`}</Text>
-                  <View style={{justifyContent: 'space-evenly'}}>
-                    <View
-                      style={{
-                        width: responsiveHorizontalScale(39),
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <UpGreenIcon
-                        width={responsiveHorizontalScale(17)}
-                        height={responsiveVerticalScale(17)}
-                      />
-                      <Text
-                        style={{
-                          fontSize: 11,
-                          fontWeight: '500',
-                          color: '#73ff00',
-                        }}>
-                        10
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        width: responsiveHorizontalScale(39),
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <DownRedIcon
-                        width={responsiveHorizontalScale(17)}
-                        height={responsiveVerticalScale(17)}
-                      />
-                      <Text
-                        style={{
-                          fontSize: 11,
-                          fontWeight: '500',
-                          color: '#ff0000',
-                        }}>
-                        17
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <Text style={{fontSize: 18, fontWeight: '500'}}>
-                  Casos positivos
-                </Text>
-              </View>
-            </View>
+            <CowAnalyticsCard
+              type="CURRENT_REGISTERED_COWS"
+              value={cowHerdAnalytics.animalsCount}
+            />
+            <CowAnalyticsCard
+              type="CURRENT_POSITIVE_CASES"
+              value={cowHerdAnalytics.currentPositiveCasesPercentage}
+              increasedCasesValue={cowHerdAnalytics.sickAnimalsCount}
+              decreasedCasesValue={cowHerdAnalytics.curedAnimalsCount}
+            />
           </View>
         </View>
       </View>
