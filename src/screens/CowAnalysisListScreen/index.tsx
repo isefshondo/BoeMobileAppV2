@@ -52,7 +52,7 @@ const DUMMY_COW_ANALYSIS_LIST_DATA = [
     chancePercentage: 10,
   },
   {
-    id: 4,
+    id: 5,
     numberIdentification: 'AU0281',
     name: 'Piranha',
     treatmentStatus: TreatmentStatus.NO_TREATMENT,

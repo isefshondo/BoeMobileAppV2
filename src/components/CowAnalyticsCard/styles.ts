@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     },
     shadowRadius: 21,
     shadowOpacity: 0.1,
+    elevation: 4,
   },
   statisticsContainer: {
     width: responsiveHorizontalScale(140),

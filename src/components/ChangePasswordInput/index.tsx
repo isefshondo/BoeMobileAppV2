@@ -2,8 +2,6 @@ import React from 'react';
 import {Text, TextInput, View} from 'react-native';
 import PasswordBlackIcon from '../../assets/key_black_icon.svg';
 import {styles} from './styles';
-import {Spacer} from '../Spacer';
-import {responsiveHorizontalScale} from '../../utils/metrics/index.utils';
 
 interface ChangePasswordInputProps {
   inputCurrentValue: string;
@@ -16,13 +14,9 @@ export const ChangePasswordInput: React.FC<ChangePasswordInputProps> = ({
 }: ChangePasswordInputProps) => {
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Alterar a senha</Text>
-        <Spacer
-          spaceOrientation="column"
-          spaceSize={{primarySpaceSize: responsiveHorizontalScale(15)}}
-        />
-        <PasswordBlackIcon width={22} height={22} />
+      <View style={styles.inputLabelContainer}>
+        <Text style={styles.inputLabel}>Alterar a senha</Text>
+        <PasswordBlackIcon style={styles.iconPassword} />
       </View>
       <TextInput
         secureTextEntry={true}

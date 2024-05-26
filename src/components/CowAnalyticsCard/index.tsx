@@ -15,13 +15,11 @@ const StatisticsInfo: React.FC<StatisticsInfoProps> = ({
   statisticsValue,
   color,
 }) => (
-  <View style={{justifyContent: 'space-evenly'}}>
-    <View style={styles.visualRepresentationContainer}>
-      {elementIcon}
-      <Text style={[styles.textVisualRepresentation, {color}]}>
-        {statisticsValue}
-      </Text>
-    </View>
+  <View style={styles.visualRepresentationContainer}>
+    {elementIcon}
+    <Text style={[styles.textVisualRepresentation, {color}]}>
+      {statisticsValue}
+    </Text>
   </View>
 );
 
@@ -38,7 +36,7 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
       <View style={hasStatisticsInfo ? styles.statisticsContainer : null}>
         <Text style={styles.textValue}>{value}</Text>
         {hasStatisticsInfo && (
-          <>
+          <View style={{justifyContent: 'space-evenly'}}>
             <StatisticsInfo
               elementIcon={<UpGreenIcon />}
               statisticsValue={increasedCasesValue}
@@ -49,7 +47,7 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
               statisticsValue={decreasedCasesValue}
               color="#C30000"
             />
-          </>
+          </View>
         )}
       </View>
       <Text style={styles.textLabel}>{displayCardsLabel[type]}</Text>
