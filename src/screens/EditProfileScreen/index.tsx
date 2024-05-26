@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {styles} from './styles';
@@ -18,34 +18,30 @@ export type EditProfileInputValues = {
 export const EditProfileScreen: React.FC = () => {
   const navigation = useNavigation();
 
-  const [isLoading, setIsLoading] = React.useState<boolean | null>(null);
   const [editProfileInputValues, setEditProfileInputValues] =
     React.useState<EditProfileInputValues>({
       name: null,
       email: null,
     });
-  const [isInputFocused, setIsInputFocused] = React.useState({
-    name: false,
-    email: false,
-    password: false,
-  });
+  const [jwt, setJwt] = React.useState<string>('');
+  const [isTyping, setIsTyping] = React.useState<boolean>(false);
+  const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
 
   async function getUserDataFromStorage() {
     try {
-      setIsLoading(true);
       const loggedInData = await StorageInstance.getFromStorage('loggedInData');
       const storedName = loggedInData ? JSON.parse(loggedInData).data.name : '';
       const storedEmail = loggedInData
         ? JSON.parse(loggedInData).data.email
         : '';
+      const userJWT = loggedInData ? JSON.parse(loggedInData).data.name : '';
       setEditProfileInputValues({
         name: storedName,
         email: storedEmail,
       });
+      setJwt(userJWT);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -72,22 +68,95 @@ export const EditProfileScreen: React.FC = () => {
     }
   }
 
+  async function updateUserDataInDB(
+    inputName: keyof EditProfileInputValues,
+    value: string,
+  ) {
+    try {
+      const res = await fetch('', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...editProfileInputValues,
+          [inputName]: value,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+
+      await updateUserDataInStorage(inputName, value);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const handleInputChange = (
     inputName: keyof EditProfileInputValues,
     value: string,
   ) => {
+    setIsTyping(true);
     setEditProfileInputValues(prevState => ({
       ...prevState,
       [inputName]: value,
     }));
   };
 
-  const handleInputBlur = (inputName: keyof EditProfileInputValues) => {
-    const value = editProfileInputValues[inputName];
-    if (value !== null) {
-      updateUserDataInStorage(inputName, value);
+  const showAlert = (field: keyof EditProfileInputValues) => {
+    if (editProfileInputValues[field]) {
+      Alert.alert(
+        'Confirmação',
+        `Deseja realmente alterar o campo ${field} para ${editProfileInputValues[field]}?`,
+        [
+          {
+            text: 'Cancelar',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () =>
+              updateUserDataInDB(field, editProfileInputValues[field]),
+          },
+        ],
+        {cancelable: false},
+      );
     }
   };
+
+  const handleTimeout = () => {
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+    timeoutIdRef.current = setTimeout(() => {
+      setIsTyping(false);
+      Object.entries(editProfileInputValues).forEach(([key, value]) => {
+        if (value) {
+          showAlert(key as keyof EditProfileInputValues);
+        }
+      });
+    }, 1000);
+  };
+
+  React.useEffect(() => {
+    if (isTyping) {
+      handleTimeout();
+    }
+
+    return () => {
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTyping, editProfileInputValues]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -122,7 +191,9 @@ export const EditProfileScreen: React.FC = () => {
             />
           </View>
           <ChangePasswordInput
-            inputCurrentValue={'D3F4ULT_P4SSWORD'}
+            inputCurrentValue={
+              editProfileInputValues.password || 'D3F4U1T_P4SSW0RD'
+            }
             onInputChange={value => handleInputChange('password', value)}
           />
         </View>
