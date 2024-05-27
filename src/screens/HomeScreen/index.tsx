@@ -9,7 +9,7 @@ import SideMenuIcon from '../../assets/menu.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import {styles} from './styles';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {DrawerActions, useFocusEffect, useNavigation} from '@react-navigation/native';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -76,9 +76,11 @@ export const HomeScreen = () => {
     }
   }
 
-  React.useEffect(() => {
-    getDataFromStorage();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getDataFromStorage();
+    }, [])
+  )
 
   React.useEffect(() => {
     if (jwt) {
