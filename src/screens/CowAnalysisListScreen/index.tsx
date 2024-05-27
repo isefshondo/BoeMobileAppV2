@@ -1,85 +1,57 @@
 import React from 'react';
-import {TreatmentStatus} from '../../components/CowInfosCard/enums/status.enum';
-import {Illness} from '../../components/CowInfosCard/enums/illness.enum';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { styles } from './styles';
 
-interface ICowAnalysisListData {
-  id: string;
-  numberIdentification: string;
-  name: string;
-  treatmentStatus: TreatmentStatus;
-  illness: Illness;
-  chancePercentage: number;
-}
-
-export type CowAnalysisListDataTypes = ReadonlyArray<ICowAnalysisListData>;
-
-export const CowAnalysisListScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [cowAnalysisListData, setCowAnalysisListData] =
-    React.useState<CowAnalysisListDataTypes>();
-
-  const fetchCowAnalysisList = async () => {
-    const res = await fetch('../../utils/mocks/Cow.json');
-    const data = await res.json();
-    console.log(data);
-    setCowAnalysisListData(data);
-  };
-
-  React.useEffect(() => {
-    fetchCowAnalysisList();
-  }, []);
-
-  const handleCardPress = (id: string) => {
-    navigation.navigate('CowAnalysis', {
-      id,
-    });
-  };
-
+const CowAnalysisListScreen = () => {
   return (
-    <SafeAreaView>
-      <Text>Cow Analysis List Screen</Text>
-    </SafeAreaView>
+    <View style={styles.container}>
+      {/* Foto do Animal e Informações Básicas */}
+      <View style={styles.headerContainer}>
+        <Image source={require('./boi.jpg')} style={styles.animalImage} />
+        <View style={styles.animalInfo}>
+          <Text style={styles.animalId}>ID: 12345</Text>
+          <Text style={styles.animalName}>Nome do Animal</Text>
+        </View>
+      </View>
+
+      {/* Status do Tratamento */}
+      <View style={styles.statusContainer}>
+        <Text style={styles.statusText}>Status do Tratamento:</Text>
+        <View style={styles.statusIndicatorContainer}>
+          <View style={styles.statusIndicator} />
+          <Text style={styles.statusDescription}>Sem Tratamento</Text>
+        </View>
+      </View>
+
+      {/* Últimas Análises */}
+      <View style={styles.analysisContainer}>
+        <Text style={styles.analysisTitle}>Últimas Análises</Text>
+        <Text style={styles.analysisDate}>Data: 20/05/2024</Text>
+        <View style={styles.analysisResults}>
+          <Text style={styles.percentage}>80%</Text>
+          <Text style={styles.resultText}>Resultados</Text>
+        </View>
+        <Text style={styles.infectionChance}>Chance de Infecção</Text>
+        <View style={styles.descriptionContainer}>
+          <Image source={require('./boi.jpg')} style={styles.descriptionImage} />
+          <View style={styles.descriptionTextContainer}>
+            <Text style={styles.descriptionTitle}>Descrição da Análise</Text>
+            <Text style={styles.descriptionText}>
+              Esta é uma descrição breve da análise. Inclui algumas informações importantes.
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Histórico */}
+      <Text style={styles.historyTitle}>Histórico</Text>
+
+      {/* Botão Nova Análise */}
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Nova Análise</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
-// import {useNavigation} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-// import React from 'react';
-// import {SafeAreaView, Text} from 'react-native';
-// import {RootStackParams} from '../../../App';
-
-// // TODO: Define the correct type
-// export type CowAnalysisListDataTypes = ReadonlyArray<any>;
-
-// export const CowAnalysisListScreen: React.FC = () => {
-//   const navigation =
-//     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-//   const [cowAnalysisListData, setCowAnalysisListData] =
-//     React.useState<CowAnalysisListDataTypes>();
-
-//   const fetchCowAnalysisList = async () => {
-//     const res = await fetch('../../utils/mocks/Cow.json');
-//     const data = await res.json();
-//     console.log(data);
-//     setCowAnalysisListData(data);
-//   };
-
-//   React.useEffect(() => {
-//     fetchCowAnalysisList();
-//   }, []);
-
-//   const handleCardPress = (id: string) => {
-//     navigation.navigate('CowAnalysis', {
-//       id,
-//     });
-//   };
-
-//   return (
-//     <SafeAreaView>
-//       <Text>Cow Analysis List Screen</Text>
-//     </SafeAreaView>
-//   );
-// };
+export default CowAnalysisListScreen;

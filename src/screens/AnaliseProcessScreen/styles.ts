@@ -1,73 +1,79 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  halfColorBox: {
+    width: '90%',
+    height: 200, // Altura do gradiente
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
+  },
+  content: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  box: {
-    width: 300,
-    padding: 20,
-    borderRadius: 20,
-    backgroundColor: '#f0f0f0',
-  },
-  blueBox: {
-    overflow: 'hidden',
-  },
-  blueArea: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+  description: {
+    fontSize: 16,
+    color: '#333',
   },
   diagnosticText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginRight: 10,
   },
   detailsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 10,
   },
   circle: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'blue',
+    borderWidth: 2, // Define a largura da borda
+    borderColor: '#FF5454', // Define a cor da borda
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 10,
   },
   percentage: {
     fontSize: 16,
-    color: '#fff',
     fontWeight: 'bold',
+    color: 'black',
   },
-  description: {
-    fontSize: 16,
+  separator: {
+    height: 20,
   },
-  textBlock: { // Adicione esta propriedade
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  image: {
-    width: 20, // Defina o tamanho da imagem conforme necessário
-    height: 20, // Defina o tamanho da imagem conforme necessário
-    marginRight: 10,
+  textBlock: {
+    marginBottom: 20,
+    width: '100%',
+    paddingHorizontal: 20, // Adiciona margem horizontal
   },
   boldText: {
     fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: '#0000ff',
+    padding: 20,
+    borderRadius: 5,
+    width: '90%', // Define a largura do botão
+    alignItems: 'center',
+    marginTop: 20, // Adiciona margem superior para separar do conteúdo anterior
   },
   buttonText: {
     color: '#fff',
+    textAlign: 'center',
     fontWeight: 'bold',
   },
+  textRight: {
+    textAlign: 'right', // Alinha o texto à direita
+  },
 });
-
-export default styles;
