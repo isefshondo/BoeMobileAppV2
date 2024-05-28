@@ -73,6 +73,8 @@ export const EditProfileScreen: React.FC = () => {
     value: string,
   ) {
     try {
+      await updateUserDataInStorage(inputName, value);
+
       const res = await fetch('', {
         method: 'PUT',
         headers: {
@@ -90,8 +92,6 @@ export const EditProfileScreen: React.FC = () => {
           `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
         );
       }
-
-      await updateUserDataInStorage(inputName, value);
     } catch (error) {
       console.log(error);
     }
