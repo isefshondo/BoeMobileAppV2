@@ -8,6 +8,7 @@ import EditProfileIcon from '../../assets/edit_icon.svg';
 import SettingsIcon from '../../assets/settings_icon.svg';
 import SupportIcon from '../../assets/help_circle_icon.svg';
 import {Spacer} from '../Spacer';
+import {AuthContext} from '@/context/Auth';
 
 interface RoutesItemsProps {
   icon: 'edit' | 'settings' | 'support';
@@ -41,6 +42,12 @@ const RoutesItems: React.FC<RoutesItemsProps> = ({
 export const SideNavbar: React.FC = () => {
   const navigation = useNavigation();
 
+  const {signOut} = React.useContext(AuthContext);
+
+  function handleSignOutButton() {
+    signOut();
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.closeButtonContainer}>
@@ -70,7 +77,9 @@ export const SideNavbar: React.FC = () => {
             route=""
           />
         </View>
-        <TouchableOpacity style={styles.signOutButtonContainer}>
+        <TouchableOpacity
+          style={styles.signOutButtonContainer}
+          onPress={handleSignOutButton}>
           <View style={styles.signOutVisualRepContainer}>
             <SignOutIcon style={styles.icons} />
             <Text style={styles.signOutLabel}>Sair</Text>

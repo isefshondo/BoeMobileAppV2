@@ -9,7 +9,11 @@ import SideMenuIcon from '../../assets/menu.svg';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import {styles} from './styles';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
-import {DrawerActions, useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  DrawerActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -37,7 +41,7 @@ export const HomeScreen = () => {
     const storagedName = loggedInData
       ? JSON.parse(loggedInData).data.name.split(' ')[0]
       : '';
-    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
     setName(storagedName);
     setJwt(userJWT);
   }
@@ -60,8 +64,8 @@ export const HomeScreen = () => {
   async function fetchAnalyticsAndGraphics() {
     try {
       const [cowHerdAnalyticsRes, graphicsRes] = await Promise.all([
-        genericFetch(''),
-        genericFetch(''),
+        genericFetch('http://192.168.3.105:3000/api/analytics'),
+        genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
       ]);
       setCowHerdAnalytics({
         animalsCount: cowHerdAnalyticsRes.animals_count,
@@ -79,15 +83,15 @@ export const HomeScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       getDataFromStorage();
-    }, [])
-  )
+    }, []),
+  );
 
-  React.useEffect(() => {
-    if (jwt) {
+  useFocusEffect(
+    React.useCallback(() => {
       fetchAnalyticsAndGraphics();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jwt]),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -119,6 +123,12 @@ export const HomeScreen = () => {
               increasedCasesValue={cowHerdAnalytics.sickAnimalsCount}
               decreasedCasesValue={cowHerdAnalytics.curedAnimalsCount}
             />
+          </View>
+        </View>
+        <View style={styles.graphicsContainer}>
+          <View style={styles.graphicsContainerText}>
+            <Text style={styles.graphicsContainerTitle}>Gráfico geral</Text>
+            <Text style={styles.graphicsContainerText}>últimos 30 dias</Text>
           </View>
         </View>
       </View>

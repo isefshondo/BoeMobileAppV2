@@ -6,10 +6,11 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
+    paddingTop: responsiveVerticalScale(55),
     paddingHorizontal: responsiveHorizontalScale(31),
     backgroundColor: '#fff',
-    justifyContent: 'space-around',
   },
   header: {
     width: '100%',
@@ -37,5 +38,13 @@ export const styles = StyleSheet.create({
   filtersIcon: {
     width: responsiveHorizontalScale(28.02),
     height: responsiveVerticalScale(24.02),
+  },
+  registeredAnimalsContainer: {
+    width: '100%',
+    height: responsiveVerticalScale(391),
+  },
+  itemSeparatorComponent: {
+    width: '100%',
+    height: responsiveVerticalScale(35),
   },
 });

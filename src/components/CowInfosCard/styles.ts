@@ -14,6 +14,14 @@ export const styles = StyleSheet.create({
     paddingLeft: responsiveHorizontalScale(21),
     paddingRight: responsiveHorizontalScale(56),
     paddingBottom: responsiveVerticalScale(24),
+    shadowColor: '#006277',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 21,
+    shadowOpacity: 0.1,
+    elevation: 4,
   },
   displayInformation: {
     width: '100%',

@@ -130,7 +130,6 @@ export const CowAnalysisListScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
           <SideMenuIcon
@@ -142,10 +141,8 @@ export const CowAnalysisListScreen: React.FC = () => {
           <NotificationIcon style={styles.notificationBellIcon} />
         </TouchableOpacity>
       </View>
-      {/* Main Container Data */}
-      <View>
+      <View style={{flex: 1, justifyContent: 'space-evenly'}}>
         <View style={styles.searchBarContainer}>
-          {/* Page's title */}
           <View>
             <View
               style={{
@@ -158,7 +155,6 @@ export const CowAnalysisListScreen: React.FC = () => {
             </View>
             <Text style={{fontSize: 32, fontWeight: '700'}}>de imagem</Text>
           </View>
-          {/* Page's content */}
           <SearchBar setSearchInputValue={setSearchInputValue} />
         </View>
         <View>
@@ -166,19 +162,26 @@ export const CowAnalysisListScreen: React.FC = () => {
             <Text>Filtros</Text>
             <FiltersIcon style={styles.filtersIcon} />
           </View>
-          <FlatList
-            data={cowAnalysisListData}
-            renderItem={({item, index}) => (
-              <CowInfosCard
-                name={item.name}
-                numberIdentification={item.numberIdentification}
-                treatmentStatus={item.treatmentStatus}
-                illness={item.illness}
-                chancePercentage={item.chancePercentage}
-              />
-            )}
-            keyExtractor={item => item.id.toString()}
-          />
+          <View style={styles.registeredAnimalsContainer}>
+            <FlatList
+              style={{flex: 1}}
+              data={cowAnalysisListData}
+              renderItem={({item, index}) => (
+                <CowInfosCard
+                  name={item.name}
+                  numberIdentification={item.numberIdentification}
+                  treatmentStatus={item.treatmentStatus}
+                  illness={item.illness}
+                  chancePercentage={item.chancePercentage}
+                  onPress={() => handlePressCowInfosCard(item.id)}
+                />
+              )}
+              keyExtractor={item => item.id.toString()}
+              ItemSeparatorComponent={() => (
+                <View style={styles.itemSeparatorComponent} />
+              )}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>

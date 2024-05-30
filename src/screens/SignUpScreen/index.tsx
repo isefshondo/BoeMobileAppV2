@@ -3,7 +3,7 @@ import React from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AuthStackParams} from '../../../App';
+import {AuthStackParams} from '../../navigation/AuthStack';
 import {styles} from './styles';
 import {PublicAreaHeader} from '../../components/PublicAreaHeader';
 import {DefaultInput} from '../../components/DefaultInput';
@@ -87,6 +87,17 @@ export const SignUpScreen: React.FC = () => {
     console.log(signupInputs);
 
     try {
+      await fetch('http://192.168.3.105:3000/api/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: signupInputs.nameInput,
+          email: signupInputs.emailInput,
+          password: signupInputs.passwordInput,
+        }),
+      });
       navigation.navigate('SignIn');
     } catch (error) {
       console.error(error);

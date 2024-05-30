@@ -1,4 +1,3 @@
-import {colors} from '@/themes/colors/index.themes';
 import {
   responsiveHorizontalScale,
   responsiveVerticalScale,
@@ -10,7 +9,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: responsiveVerticalScale(46),
     borderRadius: 23,
-    backgroundColor: colors.LIGHT_GRAY,
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
     paddingVertical: responsiveVerticalScale(13),
     paddingHorizontal: responsiveVerticalScale(13),
     flexDirection: 'row',

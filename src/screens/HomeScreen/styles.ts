@@ -1,4 +1,6 @@
+import {colors} from '@/themes/colors/index.themes';
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -22,6 +24,8 @@ export const styles = StyleSheet.create({
   dataMainContainer: {
     width: '100%',
     height: responsiveVerticalScale(609),
+    flexDirection: 'column',
+    justifyContent: 'space-around',
   },
   greetingsContainer: {
     width: '100%',
@@ -31,5 +35,25 @@ export const styles = StyleSheet.create({
   statisticsNumbersContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  graphicsContainer: {
+    width: '100%',
+    height: responsiveVerticalScale(315),
+    justifyContent: 'space-between',
+  },
+  graphicsContainerText: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  graphicsContainerTitle: {
+    fontSize: responsiveFontSize(22),
+    fontWeight: '600',
+  },
+  graphicsContainerDropdownLabel: {
+    fontSize: responsiveFontSize(13),
+    fontWeight: '600',
+    color: colors.LIGHT_GRAY,
+    textDecorationLine: 'underline',
   },
 });
