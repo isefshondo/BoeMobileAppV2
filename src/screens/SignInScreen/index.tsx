@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {useNavigation} from '@react-navigation/native';
@@ -82,7 +82,7 @@ export const SignInScreen: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        return Alert.alert('Warning', data.message);
+        return;
       }
 
       StorageInstance.setInStorage(

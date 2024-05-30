@@ -9,6 +9,7 @@ import {EditProfileScreen} from '@/screens/EditProfileScreen';
 import {CowAnalysisScreen} from '@/screens/CowAnalysisScreen';
 import {ProcessAnalysisCameraScreen} from '@/screens/ProcessAnalysisCameraScreen';
 import {SideNavbar} from '@/components/SideNavbar';
+import {RegisterCowScreen} from '@/screens/RegisterCowScreen';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;
@@ -23,7 +24,7 @@ export type RootStackParams = {
   CowDetails: {id: string};
   ProcessAnalysisCamera: {id?: string};
   ProcessAnalysisResults: {id?: string};
-  ProcessAnalysisRegister: {id?: string};
+  RegisterCowScreen: undefined;
 };
 
 const BottomTabs = createBottomTabNavigator<BottomTabsParams>();
@@ -68,6 +69,10 @@ export function RootScreensStack(): React.JSX.Element {
       <RootStack.Screen
         name="ProcessAnalysisCamera"
         component={ProcessAnalysisCameraScreen}
+      />
+      <RootStack.Screen
+        name="RegisterCowScreen"
+        component={RegisterCowScreen}
       />
     </RootStack.Navigator>
   );

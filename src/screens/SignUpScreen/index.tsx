@@ -84,20 +84,26 @@ export const SignUpScreen: React.FC = () => {
       return;
     }
 
-    console.log(signupInputs);
-
     try {
-      await fetch('http://192.168.3.105:3000/api/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://192.168.3.105:3000/api/user/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: signupInputs.nameInput,
+            email: signupInputs.emailInput,
+            password: signupInputs.passwordInput,
+          }),
         },
-        body: JSON.stringify({
-          name: signupInputs.nameInput,
-          email: signupInputs.emailInput,
-          password: signupInputs.passwordInput,
-        }),
-      });
+      );
+
+      if (!response.ok) {
+        return;
+      }
+
       navigation.navigate('SignIn');
     } catch (error) {
       console.error(error);

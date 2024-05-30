@@ -40,7 +40,7 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
           </TouchableOpacity>
         </View>
         <View style={[styles.routesContainer, styles.routesButtonContainer]}>
-          <CameraButton onPress={() => handlePress('ProcessAnalysisCamera')} />
+          <CameraButton onPress={() => handlePress('RegisterCowScreen')} />
         </View>
         <View style={[styles.routesContainer, styles.routesIconsContainer]}>
           <TouchableOpacity onPress={() => handlePress('CowDataListing')}>
