@@ -85,6 +85,8 @@ export const styles = StyleSheet.create({
     height: responsiveVerticalScale(96),
     borderRadius: 100,
     backgroundColor: colors.LIGHT_GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   uploadIcon: {
     width: responsiveHorizontalScale(30),
