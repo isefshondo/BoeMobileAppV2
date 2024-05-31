@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(164),
     height: responsiveVerticalScale(152),
     justifyContent: 'center',
-    alignItems: 'center',
     shadowColor: '#006277',
     shadowOffset: {
       width: 0,
@@ -42,5 +41,8 @@ export const styles = StyleSheet.create({
   textVisualRepresentation: {
     fontSize: 11,
     fontWeight: '500',
+  },
+  statisticsIconsContainer: {
+    justifyContent: 'space-evenly',
   },
 });

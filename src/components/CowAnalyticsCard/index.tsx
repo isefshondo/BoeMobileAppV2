@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {styles} from './styles';
-import {CowAnalyticsCardProps, StatisticsInfoProps} from './types';
+import {CowAnalyticsCardProps} from './types';
 import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
 
@@ -9,19 +9,6 @@ const displayCardsLabel = {
   CURRENT_REGISTERED_COWS: 'Registrados',
   CURRENT_POSITIVE_CASES: 'Casos Positivos',
 };
-
-const StatisticsInfo: React.FC<StatisticsInfoProps> = ({
-  elementIcon,
-  statisticsValue,
-  color,
-}) => (
-  <View style={styles.visualRepresentationContainer}>
-    {elementIcon}
-    <Text style={[styles.textVisualRepresentation, {color}]}>
-      {statisticsValue}
-    </Text>
-  </View>
-);
 
 export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
   type,
@@ -36,18 +23,20 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
     <View style={styles.container}>
       <View style={hasStatisticsInfo ? styles.statisticsContainer : null}>
         <Text style={styles.textValue}>{hasAnalyticsData ? value : '--'}</Text>
-        {hasAnalyticsData && hasStatisticsInfo && (
-          <View style={{justifyContent: 'space-evenly'}}>
-            <StatisticsInfo
-              elementIcon={<UpGreenIcon />}
-              statisticsValue={increasedCasesValue}
-              color="#00A140"
-            />
-            <StatisticsInfo
-              elementIcon={<DownRedIcon />}
-              statisticsValue={decreasedCasesValue}
-              color="#C30000"
-            />
+        {hasStatisticsInfo && (
+          <View style={styles.statisticsIconsContainer}>
+            <View style={styles.visualRepresentationContainer}>
+              <UpGreenIcon />
+              <Text style={styles.textVisualRepresentation}>
+                {increasedCasesValue}
+              </Text>
+            </View>
+            <View style={styles.visualRepresentationContainer}>
+              <DownRedIcon />
+              <Text style={styles.textVisualRepresentation}>
+                {decreasedCasesValue}
+              </Text>
+            </View>
           </View>
         )}
       </View>
