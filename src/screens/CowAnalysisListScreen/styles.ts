@@ -1,4 +1,5 @@
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -46,5 +47,24 @@ export const styles = StyleSheet.create({
   itemSeparatorComponent: {
     width: '100%',
     height: responsiveVerticalScale(35),
+  },
+  bodyContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+  },
+  screenTitleContainer: {
+    width: responsiveHorizontalScale(294),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  screenTitleNonBold: {
+    fontSize: responsiveFontSize(32),
+  },
+  screenTitleBold: {
+    fontSize: responsiveFontSize(32),
+    fontWeight: '700',
+  },
+  flatListContainer: {
+    flex: 1,
   },
 });

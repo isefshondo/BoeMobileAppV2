@@ -1,4 +1,8 @@
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {
+  DrawerActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import React from 'react';
 import {CowAnalysisListDataTypes} from './types';
 import {
@@ -13,73 +17,28 @@ import {styles} from './styles';
 import NotificationIcon from '../../assets/bell_icon.svg';
 import SideMenuIcon from '../../assets/menu.svg';
 import FiltersIcon from '../../assets/filters_icon.svg';
-import {TreatmentStatus} from '@/components/CowInfosCard/enums/status.enum';
-import {Illness} from '@/components/CowInfosCard/enums/illness.enum';
 import {CowInfosCard} from '@/components/CowInfosCard';
 import * as StorageInstance from '../../utils/storage/index.utils';
-
-const DUMMY_COW_ANALYSIS_LIST_DATA = [
-  {
-    id: 1,
-    numberIdentification: 'AU0278',
-    name: 'Chica',
-    treatmentStatus: TreatmentStatus.NO_TREATMENT,
-    illness: Illness.BOVINE_DERMATOPHYTOSIS,
-    chancePercentage: 20,
-  },
-  {
-    id: 2,
-    numberIdentification: 'AU0279',
-    name: 'Mimosa',
-    treatmentStatus: TreatmentStatus.IN_TREATMENT,
-    illness: Illness.BOVINE_DERMATOPHILOSIS,
-    chancePercentage: 50,
-  },
-  {
-    id: 3,
-    numberIdentification: 'AU0280',
-    name: 'Bela',
-    treatmentStatus: TreatmentStatus.CONCLUDED_TREATMENT,
-    illness: Illness.BOVINE_DERMATOPHYTOSIS,
-    chancePercentage: 80,
-  },
-  {
-    id: 4,
-    numberIdentification: 'AU0281',
-    name: 'Pérola',
-    treatmentStatus: TreatmentStatus.NO_TREATMENT,
-    illness: Illness.BOVINE_DERMATOPHILOSIS,
-    chancePercentage: 10,
-  },
-  {
-    id: 5,
-    numberIdentification: 'AU0281',
-    name: 'Piranha',
-    treatmentStatus: TreatmentStatus.NO_TREATMENT,
-    illness: Illness.BOVINE_DERMATOPHILOSIS,
-    chancePercentage: 10,
-  },
-];
 
 export const CowAnalysisListScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const [searchInputValue, setSearchInputValue] = React.useState<string>('');
   const [fetchedCowListData, setFetchedCowListData] =
-    React.useState<CowAnalysisListDataTypes>(DUMMY_COW_ANALYSIS_LIST_DATA);
+    React.useState<CowAnalysisListDataTypes>([]);
   const [cowAnalysisListData, setCowAnalysisListData] =
-    React.useState<CowAnalysisListDataTypes>(DUMMY_COW_ANALYSIS_LIST_DATA);
+    React.useState<CowAnalysisListDataTypes>([]);
   const [jwt, setJwt] = React.useState<string>('');
 
   async function getJWTFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
-    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
     setJwt(userJWT);
   }
 
   async function fetchCowAnalysisListData() {
     try {
-      const res = await fetch('', {
+      const res = await fetch('http://192.168.3.105:3000/api/animal', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -92,25 +51,41 @@ export const CowAnalysisListScreen: React.FC = () => {
         );
       }
 
-      const resData = await res.json();
-      setFetchedCowListData(resData);
+      const data = await res.json();
+
+      console.log(data);
+
+      const cowListData = data.map(item => ({
+        id: item.animal._id,
+        numberIdentification: item.animal.number_identification,
+        name: item.animal.name,
+        treatmentStatus: item.lastAnalysis?.treatment_status,
+        illness: item.lastAnalysis?.disease_class,
+        chancePercentage: item.lastAnalysis?.accuracy,
+      }));
+
+      setFetchedCowListData(cowListData);
     } catch (error) {
       console.error(error);
     }
   }
 
-  function handlePressCowInfosCard(id: string) {
+  function handlePressCowInfosCard(id: any) {
     navigation.navigate('CowDetailsListing', {id});
   }
 
-  React.useEffect(() => {
-    getJWTFromStorage();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getJWTFromStorage();
+    }, []),
+  );
 
-  React.useEffect(() => {
-    fetchCowAnalysisListData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt]);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCowAnalysisListData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jwt]),
+  );
 
   React.useEffect(() => {
     if (fetchedCowListData.length !== 0) {
@@ -141,19 +116,14 @@ export const CowAnalysisListScreen: React.FC = () => {
           <NotificationIcon style={styles.notificationBellIcon} />
         </TouchableOpacity>
       </View>
-      <View style={{flex: 1, justifyContent: 'space-evenly'}}>
+      <View style={styles.bodyContainer}>
         <View style={styles.searchBarContainer}>
           <View>
-            <View
-              style={{
-                width: 294,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text style={{fontSize: 32}}>Registro de</Text>
-              <Text style={{fontSize: 32, fontWeight: '700'}}>análises</Text>
+            <View style={styles.screenTitleContainer}>
+              <Text style={styles.screenTitleNonBold}>Registro de</Text>
+              <Text style={styles.screenTitleBold}>análises</Text>
             </View>
-            <Text style={{fontSize: 32, fontWeight: '700'}}>de imagem</Text>
+            <Text style={styles.screenTitleBold}>de imagem</Text>
           </View>
           <SearchBar setSearchInputValue={setSearchInputValue} />
         </View>
@@ -164,15 +134,15 @@ export const CowAnalysisListScreen: React.FC = () => {
           </View>
           <View style={styles.registeredAnimalsContainer}>
             <FlatList
-              style={{flex: 1}}
+              style={styles.flatListContainer}
               data={cowAnalysisListData}
-              renderItem={({item, index}) => (
+              renderItem={({item}) => (
                 <CowInfosCard
                   name={item.name}
                   numberIdentification={item.numberIdentification}
-                  treatmentStatus={item.treatmentStatus}
-                  illness={item.illness}
-                  chancePercentage={item.chancePercentage}
+                  treatmentStatus={'Sem tratamento'}
+                  illness={'Dermatofitose bovina'}
+                  chancePercentage={item.chancePercentage ?? 50}
                   onPress={() => handlePressCowInfosCard(item.id)}
                 />
               )}
