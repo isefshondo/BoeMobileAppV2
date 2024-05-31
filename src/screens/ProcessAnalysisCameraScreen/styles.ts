@@ -11,21 +11,28 @@ export const styles = StyleSheet.create({
   },
   cameraView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  cameraActionsContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   actionsContainer: {
     width: responsiveHorizontalScale(295),
     height: responsiveVerticalScale(187),
     justifyContent: 'space-between',
     alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: responsiveVerticalScale(20),
   },
   buttonsContainer: {
     width: responsiveHorizontalScale(295),
     height: responsiveVerticalScale(57),
-    borderRadius: 10,
+    borderRadius: 30,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    alignItems: 'center',
     backgroundColor: '#171a21',
   },
   buttonsTexts: {

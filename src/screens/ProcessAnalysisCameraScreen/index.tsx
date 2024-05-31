@@ -138,20 +138,22 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <CameraView style={styles.cameraView} ref={cameraRef}>
-        <View style={styles.actionsContainer}>
-          <View style={styles.buttonsContainer}>
-            <TouchableOpacity onPress={() => handleTakePhotoButton()}>
-              <Text style={styles.buttonsTexts}>Registrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handlePickImageButton()}>
-              <Text style={styles.buttonsTexts}>Galeria</Text>
+        <View style={styles.cameraActionsContainer}>
+          <View style={styles.actionsContainer}>
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity onPress={() => handleTakePhotoButton()}>
+                <Text style={styles.buttonsTexts}>Registrar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handlePickImageButton()}>
+                <Text style={styles.buttonsTexts}>Galeria</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onPress={() => handleTakePhotoButton()}
+              style={styles.mainCameraButtonContainer}>
+              <View style={styles.mainCameraButton} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => handleTakePhotoButton()}
-            style={styles.mainCameraButtonContainer}>
-            <View style={styles.mainCameraButton} />
-          </TouchableOpacity>
         </View>
       </CameraView>
     </SafeAreaView>
