@@ -37,7 +37,7 @@ export const EditProfileScreen: React.FC = () => {
       const storedEmail = loggedInData
         ? JSON.parse(loggedInData).data.email
         : '';
-      const userJWT = loggedInData ? JSON.parse(loggedInData).data.name : '';
+      const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
       setEditProfileInputValues({
         name: storedName,
         email: storedEmail,
