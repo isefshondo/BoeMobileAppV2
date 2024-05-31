@@ -10,8 +10,11 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    justifyContent: 'space-evenly',
-    alignContent: 'center',
+    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: responsiveVerticalScale(85),
+    paddingBottom: responsiveVerticalScale(158),
   },
   header: {
     width: '100%',
@@ -39,7 +42,7 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(320),
     height: responsiveVerticalScale(256),
     justifyContent: 'space-between',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   inputsContainer: {
     width: '100%',
@@ -52,7 +55,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.LIGHT_GRAY,
   },
   formContainer: {
-    width: '100%',
+    width: responsiveHorizontalScale(320),
     height: responsiveVerticalScale(394),
     justifyContent: 'space-between',
   },
@@ -62,7 +65,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colors.BLUE,
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   buttonLabelContainer: {
     width: responsiveHorizontalScale(181),
@@ -94,6 +97,11 @@ export const styles = StyleSheet.create({
   uploadIcon: {
     width: responsiveHorizontalScale(30),
     height: responsiveVerticalScale(32),
+    bottom: 0,
+    right: 0,
     position: 'absolute',
+  },
+  inputText: {
+    fontSize: responsiveFontSize(22),
   },
 });

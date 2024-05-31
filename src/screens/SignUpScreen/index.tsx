@@ -86,7 +86,7 @@ export const SignUpScreen: React.FC = () => {
 
     try {
       const response = await fetch(
-        'http://192.168.3.118:3000/api/user/signup',
+        'http://192.168.3.105:3000/api/user/signup',
         {
           method: 'POST',
           headers: {

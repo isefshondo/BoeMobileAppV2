@@ -43,18 +43,24 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     const data = new FormData();
     const response = await fetch(photo.uri);
     const blob = await response.blob();
+    const imageExt = photo.uri.split('.').pop();
 
-    data.append('analysis_img', photo.uri, `BOE_PHOTO_${Date.now()}.jpg`);
+    const analysisImage = {
+      name: `BOE_PHOTO_${Date.now()}.${imageExt}`,
+      uri: photo.uri,
+      type: blob.type,
+    };
+
+    data.append('analysis_img', analysisImage);
     data.append('animal_id', storeCowId);
 
     try {
       setIsLoading(true);
 
-      const res = await fetch('http://192.168.3.118:3000/api/analysis', {
+      const res = await fetch('http://192.168.3.105:3000/api/analysis', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,
-          'Content-Type': 'multipart/form-data',
         },
         body: data,
       });

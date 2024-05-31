@@ -64,8 +64,8 @@ export const HomeScreen = () => {
   async function fetchAnalyticsAndGraphics() {
     try {
       const [cowHerdAnalyticsRes, graphicsRes] = await Promise.all([
-        genericFetch('http://192.168.3.118:3000/api/analytics'),
-        genericFetch('http://192.168.3.118:3000/api/analytics/graphics'),
+        genericFetch('http://192.168.3.105:3000/api/analytics'),
+        genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
       ]);
       setCowHerdAnalytics({
         animalsCount: cowHerdAnalyticsRes.animals_count,

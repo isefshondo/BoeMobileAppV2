@@ -55,7 +55,7 @@ export const RegisterCowScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://192.168.3.118:3000/api/animal', {
+      const res = await fetch('http://192.168.3.105:3000/api/animal', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -73,7 +73,7 @@ export const RegisterCowScreen: React.FC = () => {
       const data = await res.json();
 
       navigation.navigate('ProcessAnalysisCamera', {
-        id: data.animal_id,
+        id: data.cowId,
       });
     } catch (error) {
       console.error(error);
@@ -104,7 +104,10 @@ export const RegisterCowScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <BackButton style={styles.goBackButton} />
+        <BackButton
+          style={styles.goBackButton}
+          onPress={() => navigation.goBack()}
+        />
       </View>
       <View style={styles.screenDescriptionContainer}>
         <Text style={styles.screenTitle}>Cadastro do animal</Text>
@@ -130,13 +133,15 @@ export const RegisterCowScreen: React.FC = () => {
           </TouchableOpacity>
           <View style={styles.inputsContainer}>
             <TextInput
+              style={styles.inputText}
+              placeholder="Nº de identificação"
               onChangeText={value =>
                 handleInputChange('numberIdentification', value)
               }
             />
             <View>
               <TextInput
-                style={styles.nameInputContainer}
+                style={[styles.nameInputContainer, styles.inputText]}
                 placeholder="Nome do animal"
                 onChangeText={value => handleInputChange('name', value)}
               />
@@ -145,15 +150,15 @@ export const RegisterCowScreen: React.FC = () => {
               )}
             </View>
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleStartAnalysisButton}>
-            <View style={styles.buttonLabelContainer}>
-              <Text style={styles.buttonText}>Iniciar análise</Text>
-              <CameraIcon style={styles.buttonIcon} />
-            </View>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleStartAnalysisButton}>
+          <View style={styles.buttonLabelContainer}>
+            <Text style={styles.buttonText}>Iniciar análise</Text>
+            <CameraIcon style={styles.buttonIcon} />
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
