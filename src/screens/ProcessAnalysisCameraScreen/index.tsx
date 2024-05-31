@@ -21,6 +21,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   const cameraRef = React.useRef(null);
 
   const storeCowId = route.params?.id;
+  console.log(storeCowId);
   const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
   const [jwt, setJwt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -30,7 +31,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
 
   async function getJWTFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
-    const userJWT = loggedInData ? JSON.parse(loggedInData).data.jwt : '';
+    const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
     setJwt(userJWT);
   }
 
@@ -43,13 +44,13 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     const response = await fetch(photo.uri);
     const blob = await response.blob();
 
-    data.append('file', blob, `BOE_PHOTO_${Date.now()}.jpg`);
+    data.append('analysis_img', photo.uri, `BOE_PHOTO_${Date.now()}.jpg`);
     data.append('animal_id', storeCowId);
 
     try {
       setIsLoading(true);
 
-      const res = await fetch('http://192.168.3.105:3000/api/analysis', {
+      const res = await fetch('http://192.168.3.118:3000/api/analysis', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,

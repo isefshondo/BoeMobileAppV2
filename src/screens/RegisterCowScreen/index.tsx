@@ -55,7 +55,7 @@ export const RegisterCowScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/animal', {
+      const res = await fetch('http://192.168.3.118:3000/api/animal', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -90,8 +90,7 @@ export const RegisterCowScreen: React.FC = () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [3, 4],
       base64: true,
     });
 
@@ -146,15 +145,15 @@ export const RegisterCowScreen: React.FC = () => {
               )}
             </View>
           </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleStartAnalysisButton}>
+            <View style={styles.buttonLabelContainer}>
+              <Text style={styles.buttonText}>Iniciar análise</Text>
+              <CameraIcon style={styles.buttonIcon} />
+            </View>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleStartAnalysisButton}>
-          <View style={styles.buttonLabelContainer}>
-            <Text style={styles.buttonText}>Iniciar análise</Text>
-            <CameraIcon style={styles.buttonIcon} />
-          </View>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
