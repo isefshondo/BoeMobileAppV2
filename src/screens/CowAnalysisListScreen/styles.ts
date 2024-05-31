@@ -1,3 +1,4 @@
+import {colors} from '@/themes/colors/index.themes';
 import {
   responsiveFontSize,
   responsiveHorizontalScale,
@@ -66,5 +67,19 @@ export const styles = StyleSheet.create({
   },
   flatListContainer: {
     flex: 1,
+  },
+  loadingFlatList: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  skeletonCowIcon: {
+    width: responsiveHorizontalScale(41),
+    height: responsiveVerticalScale(34.81),
+  },
+  loadingText: {
+    fontSize: responsiveFontSize(17),
+    color: colors.LIGHT_GRAY,
   },
 });

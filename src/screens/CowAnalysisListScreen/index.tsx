@@ -21,6 +21,7 @@ import {CowInfosCard} from '@/components/CowInfosCard';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
+import CowSkeletonIcon from '../../assets/loading_cow.svg';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParams>;
 
@@ -33,6 +34,7 @@ export const CowAnalysisListScreen: React.FC = () => {
   const [cowAnalysisListData, setCowAnalysisListData] =
     React.useState<CowAnalysisListDataTypes>([]);
   const [jwt, setJwt] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   async function getJWTFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
@@ -57,8 +59,6 @@ export const CowAnalysisListScreen: React.FC = () => {
 
       const data = await res.json();
 
-      console.log(data);
-
       const cowListData = data.map(item => ({
         id: item.animal._id,
         numberIdentification: item.animal.number_identification,
@@ -71,6 +71,8 @@ export const CowAnalysisListScreen: React.FC = () => {
       setFetchedCowListData(cowListData);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -96,6 +98,9 @@ export const CowAnalysisListScreen: React.FC = () => {
       if (searchInputValue?.length !== 0) {
         const fetchedDataBySearchInput = fetchedCowListData.filter(data => {
           return Object.values(data).some(value => {
+            if (!value) {
+              return false;
+            }
             const searchableValue = value.toString().toLowerCase();
             return searchableValue.includes(searchInputValue.toLowerCase());
           });
@@ -137,24 +142,31 @@ export const CowAnalysisListScreen: React.FC = () => {
             <FiltersIcon style={styles.filtersIcon} />
           </View>
           <View style={styles.registeredAnimalsContainer}>
-            <FlatList
-              style={styles.flatListContainer}
-              data={cowAnalysisListData}
-              renderItem={({item}) => (
-                <>
-                  <CowInfosCard
-                    name={item.name}
-                    numberIdentification={item.numberIdentification}
-                    treatmentStatus={item.treatmentStatus}
-                    illness={item.illness}
-                    chancePercentage={item.chancePercentage ?? 50}
-                    onPress={() => handlePressCowInfosCard(item.id)}
-                  />
-                  <View style={styles.itemSeparatorComponent} />
-                </>
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
+            {isLoading ? (
+              <View style={styles.loadingFlatList}>
+                <CowSkeletonIcon style={styles.skeletonCowIcon} />
+                <Text style={styles.loadingText}>Carregando...</Text>
+              </View>
+            ) : (
+              <FlatList
+                style={styles.flatListContainer}
+                data={cowAnalysisListData}
+                renderItem={({item}) => (
+                  <>
+                    <CowInfosCard
+                      name={item.name}
+                      numberIdentification={item.numberIdentification}
+                      treatmentStatus={item.treatmentStatus}
+                      illness={item.illness}
+                      chancePercentage={item.chancePercentage ?? 50}
+                      onPress={() => handlePressCowInfosCard(item.id)}
+                    />
+                    <View style={styles.itemSeparatorComponent} />
+                  </>
+                )}
+                keyExtractor={item => item.id.toString()}
+              />
+            )}
           </View>
         </View>
       </View>
