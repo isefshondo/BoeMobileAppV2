@@ -45,7 +45,7 @@ const ChancePercentageComponent: React.FC<IChancePercentageComponent> = ({
   return (
     <View style={styles.displayChancesPercentage}>
       {displayVisualRepresentationCP()}
-      <Text>{percentage}</Text>
+      <Text>{`${Math.round(percentage)}%`}</Text>
     </View>
   );
 };
