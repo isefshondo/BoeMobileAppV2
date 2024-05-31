@@ -14,6 +14,7 @@ import {
   useFocusEffect,
   useNavigation,
 } from '@react-navigation/native';
+import CowSkeletonIcon from '../../assets/loading_cow.svg';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -34,7 +35,7 @@ export const HomeScreen = () => {
       sickAnimalsCount: null,
       curedAnimalsCount: null,
     });
-  // const [graphics, setGraphics] = React.useState<any[]>([]);
+  const [graphics, setGraphics] = React.useState<boolean>(false);
 
   async function getDataFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
@@ -75,6 +76,11 @@ export const HomeScreen = () => {
         sickAnimalsCount: cowHerdAnalyticsRes.current_positive_cases,
         curedAnimalsCount: cowHerdAnalyticsRes.current_negative_cases,
       });
+
+      if (cowHerdAnalyticsRes.current_positive_cases_percentage > 0) {
+        setGraphics(true);
+      }
+
       // setGraphics(graphicsRes);
     } catch (error) {
       console.log(error);
@@ -130,6 +136,24 @@ export const HomeScreen = () => {
           <View style={styles.graphicsContainerText}>
             <Text style={styles.graphicsContainerTitle}>Gráfico geral</Text>
             <Text style={styles.graphicsContainerText}>últimos 30 dias</Text>
+          </View>
+          <View style={styles.dynamicGraphicsContainer}>
+            <View style={styles.dynamicGraphicsContainerContent}>
+              <CowSkeletonIcon style={styles.skeletonCowIcon} />
+              <Text style={styles.dynamicGraphicsContainerText}>
+                Nenhum registro feito ainda
+              </Text>
+            </View>
+            {/* {graphics ? (
+              <View />
+            ) : (
+              <View style={styles.dynamicGraphicsContainerContent}>
+                <CowSkeletonIcon style={styles.skeletonCowIcon} />
+                <Text style={styles.dynamicGraphicsContainerText}>
+                  Nenhum registro feito ainda
+                </Text>
+              </View>
+            )} */}
           </View>
         </View>
       </View>

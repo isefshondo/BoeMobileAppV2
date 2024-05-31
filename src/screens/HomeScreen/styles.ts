@@ -66,4 +66,34 @@ export const styles = StyleSheet.create({
   greetingsTextNormal: {
     fontSize: responsiveFontSize(32),
   },
+  dynamicGraphicsContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    height: responsiveVerticalScale(259),
+    borderRadius: 20,
+    shadowColor: '#006277',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 21,
+    shadowOpacity: 0.1,
+    elevation: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  skeletonCowIcon: {
+    width: responsiveHorizontalScale(41),
+    height: responsiveVerticalScale(34.81),
+  },
+  dynamicGraphicsContainerText: {
+    fontSize: responsiveFontSize(17),
+    color: colors.LIGHT_GRAY,
+  },
+  dynamicGraphicsContainerContent: {
+    width: responsiveHorizontalScale(218),
+    height: responsiveVerticalScale(71.81),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

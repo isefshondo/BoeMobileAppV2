@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(164),
     height: responsiveVerticalScale(152),
     justifyContent: 'center',
+    alignItems: 'center',
     shadowColor: '#006277',
     shadowOffset: {
       width: 0,
@@ -44,5 +45,9 @@ export const styles = StyleSheet.create({
   },
   statisticsIconsContainer: {
     justifyContent: 'space-evenly',
+  },
+  registeredAnimalsContainer: {
+    alignItems: 'flex-start',
+    paddingLeft: responsiveHorizontalScale(24),
   },
 });
