@@ -23,6 +23,9 @@ export const EditProfileScreen: React.FC = () => {
       name: null,
       email: null,
     });
+  const [lastEditedField, setLastEditedField] = React.useState<
+    keyof EditProfileInputValues | null
+  >(null);
   const [jwt, setJwt] = React.useState<string>('');
   const [isTyping, setIsTyping] = React.useState<boolean>(false);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -75,7 +78,7 @@ export const EditProfileScreen: React.FC = () => {
     try {
       await updateUserDataInStorage(inputName, value);
 
-      const res = await fetch('', {
+      const res = await fetch('http://192.168.3.105:3000/api/user/update', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -102,6 +105,7 @@ export const EditProfileScreen: React.FC = () => {
     value: string,
   ) => {
     setIsTyping(true);
+    setLastEditedField(inputName);
     setEditProfileInputValues(prevState => ({
       ...prevState,
       [inputName]: value,
@@ -136,12 +140,10 @@ export const EditProfileScreen: React.FC = () => {
     }
     timeoutIdRef.current = setTimeout(() => {
       setIsTyping(false);
-      Object.entries(editProfileInputValues).forEach(([key, value]) => {
-        if (value) {
-          showAlert(key as keyof EditProfileInputValues);
-        }
-      });
-    }, 1000);
+      if (lastEditedField && editProfileInputValues[lastEditedField]) {
+        showAlert(lastEditedField);
+      }
+    }, 3000);
   };
 
   React.useEffect(() => {
@@ -192,7 +194,7 @@ export const EditProfileScreen: React.FC = () => {
           </View>
           <ChangePasswordInput
             inputCurrentValue={
-              editProfileInputValues.password || 'D3F4U1T_P4SSW0RD'
+              editProfileInputValues.password || 'D3f@ultP@ssw0rd'
             }
             onInputChange={value => handleInputChange('password', value)}
           />

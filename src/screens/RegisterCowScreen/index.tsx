@@ -14,14 +14,18 @@ import UploadIcon from '../../assets/upload.svg';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '@/navigation/RootStack';
 
 interface IAnimalData {
   numberIdentification: string | null;
   name: string | null;
 }
 
+type NavigationProps = NativeStackNavigationProp<RootStackParams>;
+
 export const RegisterCowScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
   const [jwt, setJwt] = React.useState<string>('');
   const [animalData, setAnimalData] = React.useState<IAnimalData>({

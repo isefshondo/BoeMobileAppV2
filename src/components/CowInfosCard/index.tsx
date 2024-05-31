@@ -87,29 +87,28 @@ const TreatmentStatusComponent: React.FC<ITreatmentStatusComponent> = ({
 export const CowInfosCard: React.FC<ICowInfosCard> = ({
   numberIdentification,
   name,
-  treatmentStatus,
-  illness,
-  chancePercentage,
+  treatmentStatus = TreatmentStatus.NO_TREATMENT,
+  illness = Illness.BOVINE_DERMATOPHYTOSIS,
+  chancePercentage = 30,
   onPress,
 }) => {
-  const displayVisualRepresentationIllness = {
-    [Illness.BOVINE_DERMATOPHYTOSIS]: {
-      backgroundColor: colors.LIGHT_RED,
-    },
-    [Illness.BOVINE_DERMATOPHILOSIS]: {
-      backgroundColor: colors.YELLOW,
-    },
-    [Illness.CONTAGIOUS_NODULAR_DERMATITIS]: {
-      backgroundColor: colors.LIGHT_GREEN,
-    },
-  };
+  function displayChancePercentageIndicator() {
+    switch (true) {
+      case chancePercentage >= 10 && chancePercentage <= 39:
+        return colors.LIGHT_GREEN;
+      case chancePercentage >= 40 && chancePercentage <= 79:
+        return colors.YELLOW;
+      case chancePercentage >= 80:
+        return colors.LIGHT_RED;
+    }
+  }
+
   return (
     <TouchableOpacity
       style={[
         styles.container,
         {
-          borderBottomColor:
-            displayVisualRepresentationIllness[illness].backgroundColor,
+          borderBottomColor: displayChancePercentageIndicator(),
         },
       ]}
       onPress={onPress}>

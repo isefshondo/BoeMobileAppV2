@@ -19,9 +19,13 @@ import SideMenuIcon from '../../assets/menu.svg';
 import FiltersIcon from '../../assets/filters_icon.svg';
 import {CowInfosCard} from '@/components/CowInfosCard';
 import * as StorageInstance from '../../utils/storage/index.utils';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '@/navigation/RootStack';
+
+type NavigationProps = NativeStackNavigationProp<RootStackParams>;
 
 export const CowAnalysisListScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
   const [searchInputValue, setSearchInputValue] = React.useState<string>('');
   const [fetchedCowListData, setFetchedCowListData] =
@@ -71,7 +75,7 @@ export const CowAnalysisListScreen: React.FC = () => {
   }
 
   function handlePressCowInfosCard(id: any) {
-    navigation.navigate('CowDetailsListing', {id});
+    navigation.navigate('CowDetails', {id});
   }
 
   useFocusEffect(
@@ -137,19 +141,19 @@ export const CowAnalysisListScreen: React.FC = () => {
               style={styles.flatListContainer}
               data={cowAnalysisListData}
               renderItem={({item}) => (
-                <CowInfosCard
-                  name={item.name}
-                  numberIdentification={item.numberIdentification}
-                  treatmentStatus={'Sem tratamento'}
-                  illness={'Dermatofitose bovina'}
-                  chancePercentage={item.chancePercentage ?? 50}
-                  onPress={() => handlePressCowInfosCard(item.id)}
-                />
+                <>
+                  <CowInfosCard
+                    name={item.name}
+                    numberIdentification={item.numberIdentification}
+                    treatmentStatus={item.treatmentStatus}
+                    illness={item.illness}
+                    chancePercentage={item.chancePercentage ?? 50}
+                    onPress={() => handlePressCowInfosCard(item.id)}
+                  />
+                  <View style={styles.itemSeparatorComponent} />
+                </>
               )}
               keyExtractor={item => item.id.toString()}
-              ItemSeparatorComponent={() => (
-                <View style={styles.itemSeparatorComponent} />
-              )}
             />
           </View>
         </View>
