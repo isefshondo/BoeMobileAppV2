@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, Pressable, Text, View} from 'react-native';
+import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {
   responsiveHorizontalScale,
@@ -90,6 +90,7 @@ export const CowInfosCard: React.FC<ICowInfosCard> = ({
   treatmentStatus,
   illness,
   chancePercentage,
+  onPress,
 }) => {
   const displayVisualRepresentationIllness = {
     [Illness.BOVINE_DERMATOPHYTOSIS]: {
@@ -103,14 +104,15 @@ export const CowInfosCard: React.FC<ICowInfosCard> = ({
     },
   };
   return (
-    <Pressable
+    <TouchableOpacity
       style={[
         styles.container,
         {
           borderBottomColor:
             displayVisualRepresentationIllness[illness].backgroundColor,
         },
-      ]}>
+      ]}
+      onPress={onPress}>
       <View style={styles.displayInformation}>
         <ImageBackground style={styles.displayCowImage} />
         <View style={styles.displayCowData}>
@@ -135,6 +137,6 @@ export const CowInfosCard: React.FC<ICowInfosCard> = ({
           </View>
         </View>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
