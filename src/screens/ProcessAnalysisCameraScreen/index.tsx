@@ -21,7 +21,6 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   const cameraRef = React.useRef(null);
 
   const storeCowId = route.params?.id;
-  console.log(storeCowId);
   const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
   const [jwt, setJwt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
