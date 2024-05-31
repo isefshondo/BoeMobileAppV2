@@ -7,4 +7,5 @@ export interface ICowInfosCard {
   treatmentStatus: TreatmentStatus;
   illness: Illness;
   chancePercentage: number;
+  onPress: () => void;
 }
