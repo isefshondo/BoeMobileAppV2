@@ -34,7 +34,7 @@ export const HomeScreen = () => {
       sickAnimalsCount: null,
       curedAnimalsCount: null,
     });
-  const [graphics, setGraphics] = React.useState<any[]>([]);
+  // const [graphics, setGraphics] = React.useState<any[]>([]);
 
   async function getDataFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
@@ -58,23 +58,24 @@ export const HomeScreen = () => {
         `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
       );
     }
-    return res.json();
+    return await res.json();
   }
 
   async function fetchAnalyticsAndGraphics() {
     try {
-      const [cowHerdAnalyticsRes, graphicsRes] = await Promise.all([
+      const [cowHerdAnalyticsRes] = await Promise.all([
         genericFetch('http://192.168.3.105:3000/api/analytics'),
-        genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
+        // genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
       ]);
+
       setCowHerdAnalytics({
-        animalsCount: cowHerdAnalyticsRes.animals_count,
+        animalsCount: cowHerdAnalyticsRes.registered_animals,
         currentPositiveCasesPercentage:
           cowHerdAnalyticsRes.current_positive_cases_percentage,
-        sickAnimalsCount: cowHerdAnalyticsRes.sick_animals_count,
-        curedAnimalsCount: cowHerdAnalyticsRes.cured_animals_count,
+        sickAnimalsCount: cowHerdAnalyticsRes.current_positive_cases,
+        curedAnimalsCount: cowHerdAnalyticsRes.current_negative_cases,
       });
-      setGraphics(graphicsRes);
+      // setGraphics(graphicsRes);
     } catch (error) {
       console.log(error);
     }
@@ -85,11 +86,6 @@ export const HomeScreen = () => {
       getDataFromStorage();
     }, []),
   );
-
-  React.useEffect(() => {
-    fetchAnalyticsAndGraphics();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -113,9 +109,9 @@ export const HomeScreen = () => {
       </View>
       <View style={styles.dataMainContainer}>
         <View style={styles.greetingsContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 32, fontWeight: 'bold'}}>Olá, </Text>
-            <Text style={{fontSize: 32}}>{name}</Text>
+          <View style={styles.greetingsContainerText}>
+            <Text style={styles.greetingsTextBold}>Olá, </Text>
+            <Text style={styles.greetingsTextNormal}>{name}</Text>
           </View>
           <View style={styles.statisticsNumbersContainer}>
             <CowAnalyticsCard

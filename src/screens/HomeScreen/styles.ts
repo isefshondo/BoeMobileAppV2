@@ -56,4 +56,14 @@ export const styles = StyleSheet.create({
     color: colors.LIGHT_GRAY,
     textDecorationLine: 'underline',
   },
+  greetingsContainerText: {
+    flexDirection: 'row',
+  },
+  greetingsTextBold: {
+    fontSize: responsiveFontSize(32),
+    fontWeight: 'bold',
+  },
+  greetingsTextNormal: {
+    fontSize: responsiveFontSize(32),
+  },
 });
