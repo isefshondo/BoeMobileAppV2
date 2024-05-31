@@ -6,7 +6,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
 import {CameraView, useCameraPermissions} from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {styles} from './styles';
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParams,
@@ -16,7 +17,6 @@ type NavigationProps = NativeStackScreenProps<
 export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   route,
 }) => {
-  // Como guardar a foto que eu tirei pelo aplicativo e mandar para a minha API?
   const navigation = useNavigation();
   const cameraRef = React.useRef(null);
 
@@ -73,6 +73,8 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
 
       const resData = await res.json();
 
+      console.log(resData);
+
       setAnalysisResults(resData);
       // navigation.navigate('');
     } catch (error) {
@@ -90,14 +92,21 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   }
 
   async function handlePickImageButton() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
+    console.log('Starting selection of image from gallery...');
 
-    if (!result.canceled) {
-      handleSendPhotoRequest(result);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const assets = result.assets[0];
+        handleSendPhotoRequest(assets);
+      }
+    } catch (error) {
+      console.log('Error selecting image from gallery:', error);
     }
   }
 
@@ -106,39 +115,43 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   }
 
   if (!permission.granted || !galleryPermission.granted) {
-    return (
-      <SafeAreaView
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Precisamos da sua permissão para acessar a câmera e galeria</Text>
-        <TouchableOpacity onPress={requestPermission}>
-          <Text>Dar acesso à câmera</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={requestGalleryPermission}>
-          <Text>Dar acesso à galeria</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+    Alert.alert(
+      'Conceive permission to Boe App',
+      'Please allow camera and gallery permissions to use this feature.',
+      [
+        {
+          text: 'Allow',
+          onPress: () => {
+            requestPermission();
+            requestGalleryPermission();
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => navigation.goBack(),
+          style: 'cancel',
+        },
+      ],
     );
+    return <View />;
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <CameraView style={{flex: 1}} ref={cameraRef}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
+    <SafeAreaView style={styles.container}>
+      <CameraView style={styles.cameraView} ref={cameraRef}>
+        <View style={styles.actionsContainer}>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity onPress={() => handleTakePhotoButton()}>
+              <Text style={styles.buttonsTexts}>Registrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handlePickImageButton()}>
+              <Text style={styles.buttonsTexts}>Galeria</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
-            onPress={handleTakePhotoButton}
-            style={{alignSelf: 'flex-end', marginBottom: 20}}>
-            <Text style={{color: 'white'}}>Tirar foto</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handlePickImageButton}
-            style={{alignSelf: 'flex-end', marginBottom: 20}}>
-            <Text style={{color: 'white'}}>Selecionar imagem</Text>
+            onPress={() => handleTakePhotoButton()}
+            style={styles.mainCameraButtonContainer}>
+            <View style={styles.mainCameraButton} />
           </TouchableOpacity>
         </View>
       </CameraView>
