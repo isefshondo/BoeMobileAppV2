@@ -15,8 +15,6 @@ const AnalysisResultsProvider: React.FC<AnalysisResultsProviderProps> = ({
     React.useState<AnalysisResultsTypes>({
       illness: null,
       illnessChancePercentage: null,
-      illnessPhaseDescription: null,
-      illnessComplications: null,
     });
 
   return (

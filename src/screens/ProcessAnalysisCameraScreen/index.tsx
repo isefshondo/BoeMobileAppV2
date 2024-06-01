@@ -74,7 +74,10 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
 
       const resData = await res.json();
 
-      setAnalysisResults(resData);
+      setAnalysisResults({
+        illness: resData.newAnalysis.disease_class,
+        illnessChancePercentage: Math.round(resData.newAnalysis.accuracy),
+      });
 
       navigation.navigate('ProcessAnalysisResults');
     } catch (error) {
