@@ -2,7 +2,10 @@ import React from 'react';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {AnalysisResultsContext} from '@/context/AnalysisResults';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
 import {CameraView, useCameraPermissions} from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,13 +20,13 @@ type NavigationProps = NativeStackScreenProps<
 export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   route,
 }) => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const cameraRef = React.useRef(null);
 
   const storeCowId = route.params?.id;
   const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
   const [jwt, setJwt] = React.useState<string>('');
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [permission, requestPermission] = useCameraPermissions();
   const [galleryPermission, requestGalleryPermission] =
     ImagePicker.useMediaLibraryPermissions();
@@ -50,12 +53,11 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
       type: blob.type,
     };
 
+    // @ts-ignore
     data.append('analysis_img', analysisImage);
     data.append('animal_id', storeCowId);
 
     try {
-      setIsLoading(true);
-
       const res = await fetch('http://192.168.3.105:3000/api/analysis', {
         method: 'POST',
         headers: {
@@ -72,14 +74,11 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
 
       const resData = await res.json();
 
-      console.log(resData);
-
       setAnalysisResults(resData);
-      // navigation.navigate('');
+
+      navigation.navigate('ProcessAnalysisResults');
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 

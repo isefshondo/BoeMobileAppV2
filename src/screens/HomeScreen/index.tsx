@@ -138,13 +138,7 @@ export const HomeScreen = () => {
             <Text style={styles.graphicsContainerText}>últimos 30 dias</Text>
           </View>
           <View style={styles.dynamicGraphicsContainer}>
-            <View style={styles.dynamicGraphicsContainerContent}>
-              <CowSkeletonIcon style={styles.skeletonCowIcon} />
-              <Text style={styles.dynamicGraphicsContainerText}>
-                Nenhum registro feito ainda
-              </Text>
-            </View>
-            {/* {graphics ? (
+            {graphics ? (
               <View />
             ) : (
               <View style={styles.dynamicGraphicsContainerContent}>
@@ -153,7 +147,7 @@ export const HomeScreen = () => {
                   Nenhum registro feito ainda
                 </Text>
               </View>
-            )} */}
+            )}
           </View>
         </View>
       </View>

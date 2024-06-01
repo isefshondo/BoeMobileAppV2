@@ -48,11 +48,13 @@ function BottomTabsScreenStack(): React.JSX.Element {
   );
 }
 
+const DefaultSideNavbar = () => <SideNavbar />;
+
 function DrawerTabsScreenStack(): React.JSX.Element {
   return (
     <DrawerTabs.Navigator
       screenOptions={{headerShown: false}}
-      drawerContent={props => <SideNavbar />}>
+      drawerContent={DefaultSideNavbar}>
       <DrawerTabs.Screen name="MainRoutes" component={BottomTabsScreenStack} />
       <DrawerTabs.Screen name="EditProfile" component={EditProfileScreen} />
     </DrawerTabs.Navigator>
@@ -73,6 +75,10 @@ export function RootScreensStack(): React.JSX.Element {
       <RootStack.Screen
         name="RegisterCowScreen"
         component={RegisterCowScreen}
+      />
+      <RootStack.Screen
+        name="ProcessAnalysisResults"
+        component={ProcessAnalysisCameraScreen}
       />
     </RootStack.Navigator>
   );
