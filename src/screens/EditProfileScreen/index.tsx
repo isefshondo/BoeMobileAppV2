@@ -1,10 +1,13 @@
 import React from 'react';
-import {Alert, Text, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {storageInstance} from '../../utils/storage/index.utils';
+import * as StorageInstance from '../../utils/storage/index.utils';
 import {styles} from './styles';
 import {DefaultInput} from '../../components/DefaultInput';
-import {ChangePasswordInput} from '../../components/ChangePasswordInput';
+import GoBackIcon from '../../assets/back_left_icon.svg';
+import TrashIcon from '../../assets/trash_icon.svg';
+import {ChangePasswordInput} from '@/components/ChangePasswordInput';
+import {useNavigation} from '@react-navigation/native';
 
 export type EditProfileInputValues = {
   name: string | null;
@@ -13,90 +16,197 @@ export type EditProfileInputValues = {
 };
 
 export const EditProfileScreen: React.FC = () => {
+  const navigation = useNavigation();
+
   const [editProfileInputValues, setEditProfileInputValues] =
     React.useState<EditProfileInputValues>({
       name: null,
       email: null,
     });
-  const [isInputFocused, setIsInputFocused] = React.useState({
-    name: false,
-    email: false,
-    password: false,
-  });
-  const isFirstRender = React.useRef<boolean>(true);
+  const [lastEditedField, setLastEditedField] = React.useState<
+    keyof EditProfileInputValues | null
+  >(null);
+  const [jwt, setJwt] = React.useState<string>('');
+  const [isTyping, setIsTyping] = React.useState<boolean>(false);
+  const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  async function getUserDataFromStorage() {
+    try {
+      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+      const storedName = loggedInData ? JSON.parse(loggedInData).data.name : '';
+      const storedEmail = loggedInData
+        ? JSON.parse(loggedInData).data.email
+        : '';
+      const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
+      setEditProfileInputValues({
+        name: storedName,
+        email: storedEmail,
+      });
+      setJwt(userJWT);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   React.useEffect(() => {
-    setEditProfileInputValues({
-      name: storageInstance.getString('name') ?? null,
-      email: storageInstance.getString('email') ?? null,
-    });
+    getUserDataFromStorage();
   }, []);
 
-  const handleInputState = (
+  async function updateUserDataInStorage(
+    inputName: keyof EditProfileInputValues,
+    value: string,
+  ) {
+    try {
+      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+      if (loggedInData) {
+        const parsedData = JSON.parse(loggedInData);
+        parsedData.data[inputName] = value;
+        await StorageInstance.setInStorage(
+          'loggedInData',
+          JSON.stringify(parsedData),
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateUserDataInDB(
+    inputName: keyof EditProfileInputValues,
+    value: string,
+  ) {
+    try {
+      await updateUserDataInStorage(inputName, value);
+
+      const res = await fetch('http://192.168.3.105:3000/api/user/update', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...editProfileInputValues,
+          [inputName]: value,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleInputChange = (
     inputName: keyof EditProfileInputValues,
     value: string,
   ) => {
-    if (isInputFocused[inputName]) {
-      setEditProfileInputValues(prevState => ({
-        ...prevState,
-        [inputName]: value,
-      }));
-      storageInstance.set(inputName, value);
+    setIsTyping(true);
+    setLastEditedField(inputName);
+    setEditProfileInputValues(prevState => ({
+      ...prevState,
+      [inputName]: value,
+    }));
+  };
+
+  const showAlert = (field: keyof EditProfileInputValues) => {
+    if (editProfileInputValues[field]) {
+      Alert.alert(
+        'Confirmação',
+        `Deseja realmente alterar o campo ${field} para ${editProfileInputValues[field]}?`,
+        [
+          {
+            text: 'Cancelar',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () =>
+              updateUserDataInDB(field, editProfileInputValues[field]),
+          },
+        ],
+        {cancelable: false},
+      );
     }
   };
 
-  React.useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
+  const handleTimeout = () => {
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
     }
-    const requestTimer = setTimeout(async () => {
-      try {
-        // TODO: Introduce the real HTTPS URL
-        const res = await fetch('');
-        const data = await res.json();
-
-        if (res.ok) {
-          Alert.alert('Deu certo!', data.message);
-        }
-      } catch (error) {
-        console.log(error);
+    timeoutIdRef.current = setTimeout(() => {
+      setIsTyping(false);
+      if (lastEditedField && editProfileInputValues[lastEditedField]) {
+        showAlert(lastEditedField);
       }
-    }, 1500);
-    return () => clearTimeout(requestTimer);
-  }, [editProfileInputValues]);
+    }, 3000);
+  };
+
+  React.useEffect(() => {
+    if (isTyping) {
+      handleTimeout();
+    }
+
+    return () => {
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTyping, editProfileInputValues]);
 
   return (
-    <SafeAreaView>
-      <View style={[styles.bodyContainer, styles.bodyJustifiedContainer]}>
-        <View style={styles.titleAndFormSection}>
+    <SafeAreaView style={styles.container}>
+      <GoBackIcon
+        style={styles.goBackIcon}
+        onPress={() => navigation.goBack()}
+      />
+      <View style={styles.actionsContainer}>
+        <View style={styles.formContainer}>
           <View>
-            <Text>Editar Perfil</Text>
-            <Text>Edite as informações pessoais da sua conta</Text>
+            <Text style={styles.screenTitle}>Editar perfil</Text>
+            <Text style={styles.screenDescription}>
+              Edite as informações pessoais da sua conta
+            </Text>
           </View>
-          <View style={styles.formSection}>
+          <View style={styles.inputsContainer}>
             <DefaultInput
               inputIcon="name"
               inputLabel="Nome"
-              inputCurrentValue={editProfileInputValues.name ?? ''}
-              onInputChange={() => handleInputState}
+              onInputChange={(value: string) =>
+                handleInputChange('name', value)
+              }
+              inputCurrentValue={editProfileInputValues.name || ''}
             />
             <DefaultInput
               inputIcon="email"
               inputLabel="E-mail"
-              inputCurrentValue={editProfileInputValues.email ?? ''}
-              onInputChange={() => handleInputState}
-            />
-            <ChangePasswordInput
-              onInputChange={() => handleInputState}
-              inputCurrentValue="D3F4U1T_P4SSW0RD"
+              onInputChange={(value: string) =>
+                handleInputChange('email', value)
+              }
+              inputCurrentValue={editProfileInputValues.email || ''}
             />
           </View>
+          <ChangePasswordInput
+            inputCurrentValue={
+              editProfileInputValues.password || 'D3f@ultP@ssw0rd'
+            }
+            onInputChange={value => handleInputChange('password', value)}
+          />
         </View>
+        <View style={styles.divider} />
+        <TouchableOpacity style={styles.deleteAccountButton}>
+          <View style={styles.labelIconBtnContainer}>
+            <Text style={styles.deleteAccountButtonLabel}>Excluir conta</Text>
+            <TrashIcon style={styles.trashIcon} />
+          </View>
+        </TouchableOpacity>
       </View>
-      <Text>Edit Profile Screen</Text>
-      <Text>{editProfileInputValues.name}</Text>
-      <Text>{editProfileInputValues.email}</Text>
     </SafeAreaView>
   );
 };

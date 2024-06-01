@@ -1,10 +1,11 @@
-type TreatmentStatusTypes = 'Sem tratamento' | 'Em tratamento' | 'Tratamento concluído';
-type CowIllnessTypes = 'Dermatofitose bovina' | 'Dermatofilose bovina' | 'Lumpy Skin';
+import {Illness} from './enums/illness.enum';
+import {TreatmentStatus} from './enums/status.enum';
 
-export interface CowInfosCardProps {
-    cowNIdentification: string;
-    cowName: string;
-    statusTreatment: TreatmentStatusTypes;
-    cowIllness: CowIllnessTypes;
-    illnessPercentage: string;
+export interface ICowInfosCard {
+  numberIdentification: string;
+  name: string;
+  treatmentStatus?: TreatmentStatus;
+  illness?: Illness;
+  chancePercentage?: number;
+  onPress: () => void;
 }

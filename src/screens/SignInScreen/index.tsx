@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import {useDefaultInputsValidators} from '../../hooks/useDefaultInputsValidators';
-import {storageInstance} from '../../utils/storage/index.utils';
+import * as StorageInstance from '../../utils/storage/index.utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigation/RootStack';
@@ -12,7 +12,6 @@ import {DefaultInput} from '../../components/DefaultInput';
 import {Link} from '../../components/Link';
 import {DefaultButton} from '../../components/DefaultButton';
 import {MixedWeightTitle} from '../../components/MixedWeightTitle';
-import data from '../../utils/mocks/SignIn.json';
 import {AuthContext} from '../../context/Auth';
 
 export type SignInInputsState = {
@@ -30,6 +29,7 @@ export const SignInScreen: React.FC = () => {
     useNavigation<
       NativeStackNavigationProp<RootStackParams & AuthStackParams>
     >();
+
   const {signIn} = React.useContext(AuthContext);
   const [signinInputs, setSigninInputs] = React.useState<SignInInputsState>({
     emailInput: null,
@@ -65,7 +65,27 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      storageInstance.set(
+      const response = await fetch(
+        'http://192.168.3.105:3000/api/user/signin',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: signinInputs.emailInput,
+            password: signinInputs.passwordInput,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return;
+      }
+
+      StorageInstance.setInStorage(
         'loggedInData',
         JSON.stringify({jwt: data.jwt, data: data.data, isLoggedIn: true}),
       );
