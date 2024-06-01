@@ -1,7 +1,7 @@
 import React from 'react';
 import * as StorageInstance from '../../utils/storage/index.utils';
 import {AnalysisResultsContext} from '@/context/AnalysisResults';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
@@ -23,6 +23,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const cameraRef = React.useRef(null);
+  const isFocused = useIsFocused();
 
   const storeCowId = route.params?.id;
   const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
@@ -137,7 +138,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     return <View />;
   }
 
-  return (
+  return isFocused ? (
     <SafeAreaView style={styles.container}>
       <CameraView style={styles.cameraView} ref={cameraRef}>
         <View style={styles.cameraActionsContainer}>
@@ -159,5 +160,5 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
         </View>
       </CameraView>
     </SafeAreaView>
-  );
+  ) : <View />;
 };
