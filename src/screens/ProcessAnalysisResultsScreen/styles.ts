@@ -140,4 +140,11 @@ export const styles = StyleSheet.create({
     fontSize: responsiveFontSize(31),
     fontWeight: '600',
   },
+  resultsTextsContainer: {
+    flexDirection: 'row',
+  },
+  percentageFontSize: {
+    fontSize: responsiveFontSize(18),
+    alignSelf: 'flex-end',
+  },
 });

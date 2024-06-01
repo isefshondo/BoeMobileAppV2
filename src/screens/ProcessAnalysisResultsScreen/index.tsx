@@ -1,4 +1,3 @@
-import {AnalysisResultsContext} from '@/context/AnalysisResults';
 import React from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
@@ -10,14 +9,20 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
 
-export const ProcessAnalysisResultsScreen: React.FC = () => {
+interface ProcessAnalysisResultsScreenProps {
+  illnessName: string;
+  illnessChancePercentage: number;
+}
+
+export const ProcessAnalysisResultsScreen: React.FC<
+  ProcessAnalysisResultsScreenProps
+> = ({illnessName, illnessChancePercentage}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {analysisResults} = React.useContext(AnalysisResultsContext);
   const {illnessPhase, futureComplications, backgroundColor, infectionLevel} =
-    getDescriptions(analysisResults.illnessChancePercentage);
-  const isNormal = analysisResults.illness === 'Normal';
+    getDescriptions(illnessChancePercentage);
+  const isNormal = illnessName === 'Normal';
 
   const listingInformation = isNormal ? 'de acurácia' : 'de chance de infecção';
   const infectionLevelText = isNormal
@@ -38,7 +43,7 @@ export const ProcessAnalysisResultsScreen: React.FC = () => {
             </Text>
             <View>
               <Text style={styles.artificialIntelligenceResultValue}>
-                {analysisResults.illness}
+                {illnessName}
               </Text>
             </View>
           </View>
@@ -47,14 +52,16 @@ export const ProcessAnalysisResultsScreen: React.FC = () => {
               <View
                 style={[styles.chancePercentageIndicator, {backgroundColor}]}>
                 <View style={styles.chancePercentageHolder}>
-                  <Text
-                    style={
-                      styles.chancePercentageText
-                    }>{`${analysisResults.illnessChancePercentage}%`}</Text>
+                  <View style={styles.resultsTextsContainer}>
+                    <Text style={styles.chancePercentageText}>
+                      {illnessChancePercentage}
+                    </Text>
+                    <Text style={styles.percentageFontSize}>%</Text>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text>{`${analysisResults.illnessChancePercentage}% ${listingInformation}`}</Text>
+                <Text>{`${illnessChancePercentage}% ${listingInformation}`}</Text>
                 <Text>{infectionLevelText}</Text>
               </View>
             </View>

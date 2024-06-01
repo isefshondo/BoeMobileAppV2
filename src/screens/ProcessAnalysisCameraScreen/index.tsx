@@ -1,7 +1,6 @@
 import React from 'react';
 import * as StorageInstance from '../../utils/storage/index.utils';
-import {AnalysisResultsContext} from '@/context/AnalysisResults';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
@@ -11,6 +10,12 @@ import {CameraView, useCameraPermissions} from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import {Alert, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
+import {ProcessAnalysisResultsScreen} from '../ProcessAnalysisResultsScreen';
+
+interface IAnalysisResults {
+  illnessName: string | null;
+  illnessChancePercentage: number | null;
+}
 
 type NavigationProps = NativeStackScreenProps<
   RootStackParams,
@@ -23,10 +28,14 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const cameraRef = React.useRef(null);
-  const isFocused = useIsFocused();
+  const [shouldShowCamera, setShowCamera] = React.useState(true);
 
   const storeCowId = route.params?.id;
-  const {setAnalysisResults} = React.useContext(AnalysisResultsContext);
+  const [analysisResults, setAnalysisResults] =
+    React.useState<IAnalysisResults>({
+      illnessName: null,
+      illnessChancePercentage: null,
+    });
   const [jwt, setJwt] = React.useState<string>('');
   const [permission, requestPermission] = useCameraPermissions();
   const [galleryPermission, requestGalleryPermission] =
@@ -76,11 +85,11 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
       const resData = await res.json();
 
       setAnalysisResults({
-        illness: resData.newAnalysis.disease_class,
-        illnessChancePercentage: Math.round(resData.newAnalysis.accuracy),
+        illnessName: resData.newAnalysis.disease_class,
+        illnessChancePercentage: Math.round(resData.newAnalysis.accuracy) * 100,
       });
 
-      navigation.navigate('ProcessAnalysisResults');
+      setShowCamera(false);
     } catch (error) {
       console.error(error);
     }
@@ -138,7 +147,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     return <View />;
   }
 
-  return isFocused ? (
+  return shouldShowCamera ? (
     <SafeAreaView style={styles.container}>
       <CameraView style={styles.cameraView} ref={cameraRef}>
         <View style={styles.cameraActionsContainer}>
@@ -160,5 +169,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
         </View>
       </CameraView>
     </SafeAreaView>
-  ) : <View />;
+  ) : (
+    <ProcessAnalysisResultsScreen {...analysisResults} />
+  );
 };
