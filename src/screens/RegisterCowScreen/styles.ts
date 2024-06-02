@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(96),
     height: responsiveVerticalScale(96),
     borderRadius: 100,
-    backgroundColor: colors.LIGHT_GRAY,
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
     justifyContent: 'center',
     alignItems: 'center',
   },
