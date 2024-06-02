@@ -11,8 +11,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CowAnalysisListScreen from 'src/screens/CowAnalysisListScreen';
 
 export type RootStackParamList = {
+  CowAnalysisListScreen: undefined; 
   DiagnosticScreen: undefined;
   CadastroBovino: undefined;
+  
+
 
 };
 
@@ -54,10 +57,12 @@ function App(): React.JSX.Element {
   );
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DiagnosticScreen">
-   
+      
+      <Stack.Navigator initialRouteName="CowAnalysisListScreen">
+      <Stack.Screen name="CowAnalysisListScreen" component={CowAnalysisListScreen} />
       <Stack.Screen name="DiagnosticScreen" component={DiagnosticScreen} />
         <Stack.Screen name="CadastroBovino" component={CadastroBovinoScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,6 +5,9 @@ import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
+import Iconalerta from './alerta.svg';
+import Iconcontaminacao from './contaminacao.svg';
+
 
 type DiagnosticScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -36,7 +39,10 @@ const DiagnosticScreen = () => {
 
       {/* Primeiro bloco de texto */}
       <View style={styles.textBlock}>
-        <Text style={styles.boldText}>Fase de contaminação</Text>
+      <View style={styles.textIcon}>
+        <Iconcontaminacao />
+        <Text style={styles.boldText}> Fase de contaminação</Text>
+        </View>
         <Text>
           Grave: As lesões podem ser extensas, afetando áreas significativas da pele do animal. 
           Isso pode levar a complicações, como infecções secundárias, dor, desconforto e até mesmo 
@@ -46,7 +52,10 @@ const DiagnosticScreen = () => {
 
       {/* Segundo bloco de texto */}
       <View style={styles.textBlock}>
-        <Text style={styles.boldText}>Complicações</Text>
+      <View style={styles.textIcon}>
+      <Iconalerta />
+        <Text style={styles.boldText}> Complicações</Text>
+        </View>
         <Text>
           O animal pode sentir dor, coceira intensa e desconforto, afetando seu bem-estar. Pode haver perda de peso, 
           queda na produção de leite e comprometimento do sistema imunológico, 

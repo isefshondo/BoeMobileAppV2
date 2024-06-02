@@ -2,7 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {HomeScreen} from '../../screens/HomeScreen';
 import {EditProfileScreen} from '../../screens/EditProfileScreen';
-import {CowAnalysisListScreen} from '../../screens/CowAnalysisListScreen';
+
 import {CowAnalysisScreen} from '../../screens/CowAnalysisScreen';
 
 export type HomeStackParams = {
@@ -29,10 +29,7 @@ export function HomeScreensStack(): React.JSX.Element {
       initialRouteName="Home"
       screenOptions={{headerShown: false}}>
       <BottomTab.Screen name="Home" component={HomeScreen} />
-      <BottomTab.Screen
-        name="CowAnalysisList"
-        component={CowAnalysisListScreen}
-      />
+    
       <BottomTab.Screen
         name="CowAnalysisDetails"
         component={CowAnalysisScreen}

@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
+    
   },
   circle: {
     width: 50,
@@ -54,6 +55,12 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
     paddingHorizontal: 20, // Adiciona margem horizontal
+    
+  },
+  textIcon: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    padding: 10,
   },
   boldText: {
     fontWeight: 'bold',
