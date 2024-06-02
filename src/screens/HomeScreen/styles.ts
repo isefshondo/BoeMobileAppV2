@@ -96,4 +96,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  graphics: {
+    width: responsiveHorizontalScale(298),
+    height: responsiveVerticalScale(184),
+  },
 });

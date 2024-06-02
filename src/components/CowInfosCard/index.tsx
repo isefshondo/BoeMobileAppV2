@@ -10,6 +10,7 @@ import {colors} from '@/themes/colors/index.themes';
 import {Illness} from './enums/illness.enum';
 import BovineDermatophytosisIcon from '../../assets/bovine_dermatophytosis_icon.svg';
 import BovineDermatophilosisIcon from '../../assets/bovine_dermatophilosis_icon.svg';
+import LumpySkinDiseaseIcon from '../../assets/lumpy_skin_icon.svg';
 import {ICowInfosCard} from './types';
 
 interface IChancePercentageComponent {
@@ -21,7 +22,6 @@ const ChancePercentageComponent: React.FC<IChancePercentageComponent> = ({
   illness,
   percentage,
 }) => {
-  // TODO: Implement the visual representation of CONTAGIOUS_NODULAR_DERMATITIS
   function displayVisualRepresentationCP(): React.ReactNode {
     switch (illness) {
       case Illness.BOVINE_DERMATOPHYTOSIS:
@@ -38,6 +38,13 @@ const ChancePercentageComponent: React.FC<IChancePercentageComponent> = ({
             height={responsiveVerticalScale(15)}
           />
         );
+      case Illness.CONTAGIOUS_NODULAR_DERMATITIS:
+        return (
+          <LumpySkinDiseaseIcon
+            width={responsiveHorizontalScale(15)}
+            height={responsiveVerticalScale(15)}
+          />
+        );
       default:
         return;
     }
@@ -45,7 +52,7 @@ const ChancePercentageComponent: React.FC<IChancePercentageComponent> = ({
   return (
     <View style={styles.displayChancesPercentage}>
       {displayVisualRepresentationCP()}
-      <Text>{`${Math.round(percentage)}%`}</Text>
+      <Text style={styles.infoText}>{`${Math.round(percentage)}%`}</Text>
     </View>
   );
 };
@@ -79,7 +86,7 @@ const TreatmentStatusComponent: React.FC<ITreatmentStatusComponent> = ({
           },
         ]}
       />
-      <Text>{status}</Text>
+      <Text style={styles.infoText}>{status}</Text>
     </View>
   );
 };
@@ -87,10 +94,11 @@ const TreatmentStatusComponent: React.FC<ITreatmentStatusComponent> = ({
 export const CowInfosCard: React.FC<ICowInfosCard> = ({
   numberIdentification,
   name,
-  treatmentStatus = TreatmentStatus.NO_TREATMENT,
-  illness = Illness.BOVINE_DERMATOPHYTOSIS,
-  chancePercentage = 30,
+  treatmentStatus,
+  illness,
+  chancePercentage,
   onPress,
+  image,
 }) => {
   function displayChancePercentageIndicator() {
     switch (true) {
@@ -113,15 +121,20 @@ export const CowInfosCard: React.FC<ICowInfosCard> = ({
       ]}
       onPress={onPress}>
       <View style={styles.displayInformation}>
-        <ImageBackground style={styles.displayCowImage} />
+        <ImageBackground
+          style={styles.displayCowImage}
+          source={{uri: `data:image/jpeg;base64,${image}`}}
+        />
         <View style={styles.displayCowData}>
           <View
             style={[
               styles.displaySpacer,
               {width: responsiveHorizontalScale(147)},
             ]}>
-            <Text>{numberIdentification}</Text>
-            <Text>{name}</Text>
+            <Text style={styles.numberIdentificationText}>
+              {numberIdentification}
+            </Text>
+            <Text style={styles.nameText}>{name}</Text>
           </View>
           <View
             style={[

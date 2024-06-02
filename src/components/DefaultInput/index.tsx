@@ -43,6 +43,7 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
           {inputIcon && renderInputIcon[inputIcon]}
         </View>
         <TextInput
+          secureTextEntry={inputLabel === 'Senha' ? true : false}
           style={[styles.input, {borderBottomColor: shouldChangeBorderColor}]}
           value={inputCurrentValue}
           onChangeText={onInputChange}

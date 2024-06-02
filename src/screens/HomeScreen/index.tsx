@@ -15,6 +15,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import CowSkeletonIcon from '../../assets/loading_cow.svg';
+import Graphics from '../../assets/graphics.svg';
 
 export type CowHerdAnalyticsTypes = {
   animalsCount: number | null;
@@ -139,7 +140,7 @@ export const HomeScreen = () => {
           </View>
           <View style={styles.dynamicGraphicsContainer}>
             {graphics ? (
-              <View />
+              <Graphics style={styles.graphics} />
             ) : (
               <View style={styles.dynamicGraphicsContainerContent}>
                 <CowSkeletonIcon style={styles.skeletonCowIcon} />

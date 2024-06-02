@@ -8,4 +8,5 @@ export interface ICowInfosCard {
   illness?: Illness;
   chancePercentage?: number;
   onPress: () => void;
+  image: string;
 }

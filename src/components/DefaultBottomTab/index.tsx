@@ -31,6 +31,9 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
       navigation.navigate(routeName);
     }
   };
+
+  const currentRoute = state.routes[state.index].name;
+
   return (
     <View style={styles.container}>
       <View style={styles.routesButtonsContainer}>
@@ -38,6 +41,7 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
           <TouchableOpacity onPress={() => handlePress('InitialRoute')}>
             <HomeIcon />
           </TouchableOpacity>
+          {currentRoute === 'InitialRoute' && <View style={styles.underline} />}
         </View>
         <View style={[styles.routesContainer, styles.routesButtonContainer]}>
           <CameraButton onPress={() => handlePress('RegisterCowScreen')} />
@@ -46,6 +50,9 @@ export const DefaultBottomTab: React.FC<BottomTabBarProps> = ({
           <TouchableOpacity onPress={() => handlePress('CowDataListing')}>
             <CowIcon />
           </TouchableOpacity>
+          {currentRoute === 'CowDataListing' && (
+            <View style={styles.underline} />
+          )}
         </View>
       </View>
       <BottomTabBackground style={styles.bottomTabBackground} />

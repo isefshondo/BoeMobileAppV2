@@ -8,6 +8,7 @@ interface IListingCowsData {
   treatmentStatus: TreatmentStatus;
   illness: Illness;
   chancePercentage: number;
+  animalProfilePicture: string;
 }
 
 export type CowAnalysisListDataTypes = ReadonlyArray<IListingCowsData>;

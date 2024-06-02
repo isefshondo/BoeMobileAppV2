@@ -22,6 +22,7 @@ import * as StorageInstance from '../../utils/storage/index.utils';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
 import CowSkeletonIcon from '../../assets/loading_cow.svg';
+import {arrayToBase64} from '../../utils/array-to-base64/index.utils';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParams>;
 
@@ -65,7 +66,8 @@ export const CowAnalysisListScreen: React.FC = () => {
         name: item.animal.name,
         treatmentStatus: item.lastAnalysis?.treatment_status,
         illness: item.lastAnalysis?.disease_class,
-        chancePercentage: item.lastAnalysis?.accuracy,
+        chancePercentage: item.lastAnalysis?.accuracy * 100,
+        animalProfilePicture: arrayToBase64(item.animal.image.data),
       }));
 
       setFetchedCowListData(cowListData);
@@ -151,19 +153,29 @@ export const CowAnalysisListScreen: React.FC = () => {
               <FlatList
                 style={styles.flatListContainer}
                 data={cowAnalysisListData}
-                renderItem={({item}) => (
-                  <>
-                    <CowInfosCard
-                      name={item.name}
-                      numberIdentification={item.numberIdentification}
-                      treatmentStatus={item.treatmentStatus}
-                      illness={item.illness}
-                      chancePercentage={item.chancePercentage ?? 50}
-                      onPress={() => handlePressCowInfosCard(item.id)}
-                    />
-                    <View style={styles.itemSeparatorComponent} />
-                  </>
-                )}
+                renderItem={({item}) => {
+                  if (
+                    !item.illness ||
+                    !item.treatmentStatus ||
+                    !item.chancePercentage
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <>
+                      <CowInfosCard
+                        name={item.name}
+                        numberIdentification={item.numberIdentification}
+                        treatmentStatus={item.treatmentStatus}
+                        illness={item.illness}
+                        chancePercentage={item.chancePercentage}
+                        onPress={() => handlePressCowInfosCard(item.id)}
+                        image={item.animalProfilePicture}
+                      />
+                      <View style={styles.itemSeparatorComponent} />
+                    </>
+                  );
+                }}
                 keyExtractor={item => item.id.toString()}
               />
             )}

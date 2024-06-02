@@ -1,4 +1,5 @@
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -60,5 +61,17 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(72),
     height: responsiveVerticalScale(71),
     borderRadius: 10,
+  },
+  numberIdentificationText: {
+    fontSize: responsiveFontSize(22),
+    fontWeight: '600',
+  },
+  nameText: {
+    fontSize: responsiveFontSize(22),
+    fontWeight: '300',
+  },
+  infoText: {
+    fontSize: responsiveFontSize(13),
+    fontWeight: '300',
   },
 });

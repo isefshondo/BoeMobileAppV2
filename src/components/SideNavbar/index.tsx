@@ -9,6 +9,7 @@ import SettingsIcon from '../../assets/settings_icon.svg';
 import SupportIcon from '../../assets/help_circle_icon.svg';
 import {Spacer} from '../Spacer';
 import {AuthContext} from '@/context/Auth';
+import * as StorageInstance from '../../utils/storage/index.utils';
 
 interface RoutesItemsProps {
   icon: 'edit' | 'settings' | 'support';
@@ -44,7 +45,8 @@ export const SideNavbar: React.FC = () => {
 
   const {signOut} = React.useContext(AuthContext);
 
-  function handleSignOutButton() {
+  async function handleSignOutButton() {
+    await StorageInstance.removeFromStorage('loggedInData');
     signOut();
   }
 

@@ -8,6 +8,7 @@ import GoBackIcon from '../../assets/back_left_icon.svg';
 import TrashIcon from '../../assets/trash_icon.svg';
 import {ChangePasswordInput} from '@/components/ChangePasswordInput';
 import {useNavigation} from '@react-navigation/native';
+import {AuthContext} from '@/context/Auth';
 
 export type EditProfileInputValues = {
   name: string | null;
@@ -18,6 +19,7 @@ export type EditProfileInputValues = {
 export const EditProfileScreen: React.FC = () => {
   const navigation = useNavigation();
 
+  const {signOut} = React.useContext(AuthContext);
   const [editProfileInputValues, setEditProfileInputValues] =
     React.useState<EditProfileInputValues>({
       name: null,
@@ -160,6 +162,28 @@ export const EditProfileScreen: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTyping, editProfileInputValues]);
 
+  async function handleDeleteAccount() {
+    try {
+      const res = await fetch('http://192.168.3.105:3000/api/user/delete', {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+
+      await StorageInstance.removeFromStorage('loggedInData');
+      signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <GoBackIcon
@@ -200,7 +224,9 @@ export const EditProfileScreen: React.FC = () => {
           />
         </View>
         <View style={styles.divider} />
-        <TouchableOpacity style={styles.deleteAccountButton}>
+        <TouchableOpacity
+          style={styles.deleteAccountButton}
+          onPress={handleDeleteAccount}>
           <View style={styles.labelIconBtnContainer}>
             <Text style={styles.deleteAccountButtonLabel}>Excluir conta</Text>
             <TrashIcon style={styles.trashIcon} />
