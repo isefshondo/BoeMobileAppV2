@@ -45,4 +45,11 @@ export const styles = StyleSheet.create({
   routesButtonContainer: {
     alignItems: 'center',
   },
+  underline: {
+    width: responsiveHorizontalScale(13),
+    height: responsiveVerticalScale(5),
+    borderRadius: 5,
+    backgroundColor: colors.BLUE,
+    marginTop: responsiveVerticalScale(4),
+  },
 });
