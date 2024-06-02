@@ -1,4 +1,5 @@
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -14,6 +15,14 @@ export const styles = StyleSheet.create({
     paddingLeft: responsiveHorizontalScale(21),
     paddingRight: responsiveHorizontalScale(56),
     paddingBottom: responsiveVerticalScale(24),
+    shadowColor: '#006277',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 21,
+    shadowOpacity: 0.1,
+    elevation: 4,
   },
   displayInformation: {
     width: '100%',
@@ -52,5 +61,17 @@ export const styles = StyleSheet.create({
     width: responsiveHorizontalScale(72),
     height: responsiveVerticalScale(71),
     borderRadius: 10,
+  },
+  numberIdentificationText: {
+    fontSize: responsiveFontSize(22),
+    fontWeight: '600',
+  },
+  nameText: {
+    fontSize: responsiveFontSize(22),
+    fontWeight: '300',
+  },
+  infoText: {
+    fontSize: responsiveFontSize(13),
+    fontWeight: '300',
   },
 });

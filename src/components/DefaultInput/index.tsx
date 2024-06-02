@@ -6,13 +6,14 @@ import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
 import {Spacer} from '../Spacer';
 import {responsiveHorizontalScale} from '../../utils/metrics/index.utils';
+import {colors} from '@/themes/colors/index.themes';
 
 interface DefaultInputProps {
   inputLabel: string;
   inputIcon?: 'name' | 'email' | 'password';
   inputCurrentValue: string;
   onInputChange: (text: string) => void;
-  inputErrorMessage: string | null;
+  inputErrorMessage?: string | null;
 }
 
 export const DefaultInput: React.FC<DefaultInputProps> = ({
@@ -27,6 +28,8 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
     email: <EmailIcon width={20} height={20} />,
     password: <PasswordIcon width={20} height={20} />,
   };
+  const shouldChangeBorderColor =
+    inputCurrentValue.length > 0 ? colors.BLUE : colors.LIGHT_GRAY;
 
   return (
     <>
@@ -40,7 +43,8 @@ export const DefaultInput: React.FC<DefaultInputProps> = ({
           {inputIcon && renderInputIcon[inputIcon]}
         </View>
         <TextInput
-          style={styles.input}
+          secureTextEntry={inputLabel === 'Senha' ? true : false}
+          style={[styles.input, {borderBottomColor: shouldChangeBorderColor}]}
           value={inputCurrentValue}
           onChangeText={onInputChange}
         />

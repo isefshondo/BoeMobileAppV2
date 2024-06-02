@@ -15,3 +15,11 @@ export async function getFromStorage(key) {
     console.log(error);
   }
 }
+
+export async function removeFromStorage(key) {
+  try {
+    await SecureStore.deleteItemAsync(key);
+  } catch (error) {
+    console.log(error);
+  }
+}

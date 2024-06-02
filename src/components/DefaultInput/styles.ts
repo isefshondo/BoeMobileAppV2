@@ -20,6 +20,5 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.GRAY,
     borderBottomWidth: 1.3,
-    borderBottomColor: colors.LIGHT_GRAY,
   },
 });

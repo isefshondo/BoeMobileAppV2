@@ -4,7 +4,9 @@ import {TreatmentStatus} from './enums/status.enum';
 export interface ICowInfosCard {
   numberIdentification: string;
   name: string;
-  treatmentStatus: TreatmentStatus;
-  illness: Illness;
-  chancePercentage: number;
+  treatmentStatus?: TreatmentStatus;
+  illness?: Illness;
+  chancePercentage?: number;
+  onPress: () => void;
+  image: string;
 }

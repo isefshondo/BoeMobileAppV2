@@ -1,81 +1,188 @@
+import {
+  DrawerActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView  } from 'react-native';
-import { styles } from './styles';
-import Fotoboi from './boiperfil.svg';
-import Boiinfec from './boiinfectado.svg';
+import {CowAnalysisListDataTypes} from './types';
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {SearchBar} from '@/components/SearchBar';
+import {styles} from './styles';
+import NotificationIcon from '../../assets/bell_icon.svg';
+import SideMenuIcon from '../../assets/menu.svg';
+import FiltersIcon from '../../assets/filters_icon.svg';
+import {CowInfosCard} from '@/components/CowInfosCard';
+import * as StorageInstance from '../../utils/storage/index.utils';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '@/navigation/RootStack';
+import CowSkeletonIcon from '../../assets/loading_cow.svg';
+import {arrayToBase64} from '../../utils/array-to-base64/index.utils';
+
+type NavigationProps = NativeStackNavigationProp<RootStackParams>;
+
+export const CowAnalysisListScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProps>();
+
+  const [searchInputValue, setSearchInputValue] = React.useState<string>('');
+  const [fetchedCowListData, setFetchedCowListData] =
+    React.useState<CowAnalysisListDataTypes>([]);
+  const [cowAnalysisListData, setCowAnalysisListData] =
+    React.useState<CowAnalysisListDataTypes>([]);
+  const [jwt, setJwt] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
+  async function getJWTFromStorage() {
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const userJWT = loggedInData ? JSON.parse(loggedInData).jwt : '';
+    setJwt(userJWT);
+  }
+
+  async function fetchCowAnalysisListData() {
+    try {
+      const res = await fetch('http://192.168.3.105:3000/api/animal', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+        );
+      }
+
+      const data = await res.json();
+
+      const cowListData = data.map(item => ({
+        id: item.animal._id,
+        numberIdentification: item.animal.number_identification,
+        name: item.animal.name,
+        treatmentStatus: item.lastAnalysis?.treatment_status,
+        illness: item.lastAnalysis?.disease_class,
+        chancePercentage: item.lastAnalysis?.accuracy * 100,
+        animalProfilePicture: arrayToBase64(item.animal.image.data),
+      }));
+
+      setFetchedCowListData(cowListData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handlePressCowInfosCard(id: any) {
+    navigation.navigate('CowDetails', {id});
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getJWTFromStorage();
+    }, []),
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCowAnalysisListData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jwt]),
+  );
+
+  React.useEffect(() => {
+    if (fetchedCowListData.length !== 0) {
+      if (searchInputValue?.length !== 0) {
+        const fetchedDataBySearchInput = fetchedCowListData.filter(data => {
+          return Object.values(data).some(value => {
+            if (!value) {
+              return false;
+            }
+            const searchableValue = value.toString().toLowerCase();
+            return searchableValue.includes(searchInputValue.toLowerCase());
+          });
+        });
+        setCowAnalysisListData(fetchedDataBySearchInput);
+      } else {
+        setCowAnalysisListData(fetchedCowListData);
+      }
+    }
+  }, [fetchedCowListData, searchInputValue]);
 
 const CowAnalysisListScreen = () => {
   return (
-    
-    <View style={styles.container}>
-      <ScrollView nestedScrollEnabled contentContainerStyle={styles.container}>
-      {/* Foto do Animal e Informações Básicas */}
-      <View style={styles.headerContainer}>
-        <Fotoboi />
-        <View style={styles.animalInfo}>
-          <Text style={styles.animalId}>ID: 12345</Text>
-          <Text style={styles.animalName}>Chica</Text>
-        </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <SideMenuIcon
+            style={styles.sideMenuIcon}
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <NotificationIcon style={styles.notificationBellIcon} />
+        </TouchableOpacity>
       </View>
-      <View style={styles.result}>
-      <Text style={styles.resulttext}>Resultado:</Text>
-      <Text style={styles.resultdoenca}>Dermatofitose Bovina</Text>
-      </View>
-      {/* Status do Tratamento */}
-      <View style={styles.statusContainer}>
-        <Text style={styles.statusText}>Status do {'\n'}Tratamento:</Text>
-        <View style={styles.statusIndicatorContainer}>
-          <View style={styles.statusIndicator} />
-          <Text style={styles.statusDescription}>Sem Tratamento</Text>
+      <View style={styles.bodyContainer}>
+        <View style={styles.searchBarContainer}>
+          <View>
+            <View style={styles.screenTitleContainer}>
+              <Text style={styles.screenTitleNonBold}>Registro de</Text>
+              <Text style={styles.screenTitleBold}>análises</Text>
+            </View>
+            <Text style={styles.screenTitleBold}>de imagem</Text>
+          </View>
+          <SearchBar setSearchInputValue={setSearchInputValue} />
         </View>
-      </View>
-
-      {/* Últimas Análises */}
-      <View style={styles.analysisContainer}>
-        <Text style={styles.analysisTitle}>Últimas Análises</Text>
-        <Text style={styles.analysisDate}>Data: 20/05/2024</Text>
-        <View style={styles.analysiscontainerinfection}>
-        <View style={styles.analysisResults}>
-          <Text style={styles.percentage}>50%</Text>          
-        </View>
-        
-        <Text style={styles.infectionChance}>Moderado {'\n'}Chance de Infecção</Text>
-        </View>
-        <View style={styles.descriptionContainer}>
-          
-          <Boiinfec />
-          <View style={styles.descriptionTextContainer}>
-            <Text style={styles.descriptionTitle}>Descrição da Análise</Text>            
-            <Text style={styles.descriptionText}>
-              Esta é uma descrição breve da análise. Inclui algumas {'\n'}informações importantes.
-            </Text>
+        <View>
+          <View style={styles.filtersRow}>
+            <Text>Filtros</Text>
+            <FiltersIcon style={styles.filtersIcon} />
+          </View>
+          <View style={styles.registeredAnimalsContainer}>
+            {isLoading ? (
+              <View style={styles.loadingFlatList}>
+                <CowSkeletonIcon style={styles.skeletonCowIcon} />
+                <Text style={styles.loadingText}>Carregando...</Text>
+              </View>
+            ) : (
+              <FlatList
+                style={styles.flatListContainer}
+                data={cowAnalysisListData}
+                renderItem={({item}) => {
+                  if (
+                    !item.illness ||
+                    !item.treatmentStatus ||
+                    !item.chancePercentage
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <>
+                      <CowInfosCard
+                        name={item.name}
+                        numberIdentification={item.numberIdentification}
+                        treatmentStatus={item.treatmentStatus}
+                        illness={item.illness}
+                        chancePercentage={item.chancePercentage}
+                        onPress={() => handlePressCowInfosCard(item.id)}
+                        image={item.animalProfilePicture}
+                      />
+                      <View style={styles.itemSeparatorComponent} />
+                    </>
+                  );
+                }}
+                keyExtractor={item => item.id.toString()}
+              />
+            )}
           </View>
         </View>
-        
       </View>
-
-      {/* Histórico */}
-      <Text style={styles.historyTitle}>Histórico</Text>
-      <View style={styles.containerresult}>
-        <View style={styles.circle}>
-          <Text style={styles.percentagehist}>80%</Text>
-        </View>
-        <Text style={styles.text}>de chance de infecção</Text>
-      </View>
-      <View style={styles.containerresult}>
-        <View style={styles.circle}>
-          <Text style={styles.percentagehist}>80%</Text>
-        </View>
-        <Text style={styles.text}>de chance de infecção</Text>
-      </View>
-      {/* Botão Nova Análise */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>+ Nova Análise</Text>
-      </TouchableOpacity>
-      </ScrollView>
-    </View>
-    
+    </SafeAreaView>
   );
 };
-
-export default CowAnalysisListScreen;
