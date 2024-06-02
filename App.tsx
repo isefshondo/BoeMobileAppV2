@@ -26,9 +26,4 @@ function App(): React.JSX.Element {
   );
 }
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
-
 export default App;

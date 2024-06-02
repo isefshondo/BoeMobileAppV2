@@ -114,7 +114,6 @@ export const CowAnalysisListScreen: React.FC = () => {
     }
   }, [fetchedCowListData, searchInputValue]);
 
-const CowAnalysisListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

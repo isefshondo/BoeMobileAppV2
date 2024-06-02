@@ -7,6 +7,7 @@ export interface CowHistoricProps {
   chancePercentage: number;
   analysisDate: string | Date;
   analysisDescription: string;
+  analysisImage: string;
 }
 
 export type SelectedCowHistoricTypes = ReadonlyArray<CowHistoricProps>;
@@ -15,4 +16,6 @@ export interface CowAnalysisProps {
   numberIdentification: string;
   name: string;
   selectedCowHistoric: SelectedCowHistoricTypes;
+  image: string;
+  mostRecentAnalysis: any;
 }
