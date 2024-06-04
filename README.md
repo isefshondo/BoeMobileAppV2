@@ -13,3 +13,5 @@ Algumas informações aparecem no terminal, você pode escolher entre escanear o
 Caso tenha optado pelo Android Studio, após executar o comando: npx expo start -c. Aperta a tecla A dentro do seu terminal.
 
 A aplicação deve executar normalmente. É possível haver problemas por conta da rede em que se encontra, procure que o seu dispositivo móvel esteja na mesma rede que a máquina que está rodando a aplicação
+
+ATENÇÃO: Por estar rodando localmente, é preciso procurar todas as requisições feitas no aplicação e substituir o IP pelo IP da sua própria máquina.
