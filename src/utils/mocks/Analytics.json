@@ -1,9 +1,0 @@
-{
-  "status": 200,
-  "message": "Request accepted successfully",
-  "animals_count": 70,
-  "current_positive_cases_percentage": "30%",
-  "sick_animals_count": 10,
-  "cured_animals_count": 13,
-  "graphics": []
-}
