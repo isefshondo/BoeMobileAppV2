@@ -1,9 +1,0 @@
-{
-  "status": 201,
-  "message": "User logged in successfully",
-  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  "data": {
-    "email": "isisclaricesilveira@alanamaral.com.br",
-    "name": "Isis Clarice Bruna Silveira"
-  }
-}
