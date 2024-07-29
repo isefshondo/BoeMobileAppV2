@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
+import {responsiveVerticalScale} from '@/utils/metrics/index.utils';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    
+    width: '100%',
+    height: responsiveVerticalScale(932),
     padding: 10,
     backgroundColor: '#fff',
-    
   },
   headerContainer: {
     flexDirection: 'row',
@@ -46,12 +46,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     justifyContent: 'space-between',
-
   },
   statusText: {
     fontSize: 16,
     fontWeight: 'bold',
-   
   },
   statusIndicatorContainer: {
     flexDirection: 'row',
@@ -64,17 +62,12 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: 'red', // Cor para indicar status
     marginRight: 10,
-    
   },
   statusDescription: {
     fontSize: 16,
- 
   },
   analysisContainer: {
     marginBottom: 20,
-    
-    
-    
   },
   analysisTitle: {
     fontSize: 16,
@@ -85,7 +78,7 @@ export const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 10,
   },
-  analysiscontainerinfection:{
+  analysiscontainerinfection: {
     padding: 10,
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -98,18 +91,18 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
     width: 70,
     height: 70,
-    borderRadius:35,
+    borderRadius: 35,
     borderWidth: 4, // Define a largura da borda
     borderColor: '#FFEB36', // Define a cor da borda
     justifyContent: 'center',
     marginRight: 10,
   },
 
-percentage: {
-fontSize: 22,
-fontWeight: 'bold',
-color: 'black',
-},
+  percentage: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'black',
+  },
   resultText: {
     fontSize: 16,
   },
@@ -121,19 +114,17 @@ color: 'black',
     flexDirection: 'row',
     padding: 15,
     alignItems: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',
   },
   descriptionImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
     marginRight: 10,
-    
   },
   descriptionTextContainer: {
     flex: 1,
     padding: 10,
-    
   },
   descriptionTitle: {
     fontSize: 16,
@@ -172,15 +163,14 @@ color: 'black',
     width: '90%', // Define a largura do botão
   },
   circle: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        borderWidth: 2, // Define a largura da borda
-        borderColor: '#FF5454', // Define a cor da borda
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 10,
-        
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2, // Define a largura da borda
+    borderColor: '#FF5454', // Define a cor da borda
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
   },
   percentagehist: {
     fontSize: 16,

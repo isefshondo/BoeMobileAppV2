@@ -8,7 +8,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: responsiveVerticalScale(932),
     paddingTop: responsiveVerticalScale(49),
     paddingHorizontal: responsiveHorizontalScale(34),
     backgroundColor: '#fff',

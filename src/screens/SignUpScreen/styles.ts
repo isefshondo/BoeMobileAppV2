@@ -7,7 +7,8 @@ import {colors} from '../../themes/colors/index.themes';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: responsiveVerticalScale(932),
     paddingHorizontal: responsiveHorizontalScale(53.5),
     paddingTop: responsiveVerticalScale(85),
     backgroundColor: '#FFF',
