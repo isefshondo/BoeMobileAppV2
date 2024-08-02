@@ -45,20 +45,38 @@ export const CowAnalysisListScreen: React.FC = () => {
 
   async function fetchCowAnalysisListData() {
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/animal', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
+      // const res = await fetch('http://192.168.3.105:3000/api/animal', {
+      //   method: 'GET',
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //   },
+      // });
+
+      // if (!res.ok) {
+      //   throw new Error(
+      //     `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      //   );
+      // }
+
+      const data = [
+        {
+          animal: {
+            _id: '66ac2c450206d3ff098d8dbc',
+            number_identification: 'AU0123',
+            user_id: '66ac25df0044baaefefa3a59',
+            name: 'Mimosa',
+            created_at: '2024-08-02T00:46:37.238Z',
+            disease_class: 'Dermatite',
+            result: 'positivo',
+            treatment_status: 'Sem tratamento',
+          },
+          lastAnalysis: {
+            treatment_status: 'Sem tratamento',
+            disease_class: 'Dermatite',
+            accuracy: 0.5094009041786194,
+          },
         },
-      });
-
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
-
-      const data = await res.json();
+      ];
 
       const cowListData = data.map(item => ({
         id: item.animal._id,
@@ -67,7 +85,7 @@ export const CowAnalysisListScreen: React.FC = () => {
         treatmentStatus: item.lastAnalysis?.treatment_status,
         illness: item.lastAnalysis?.disease_class,
         chancePercentage: item.lastAnalysis?.accuracy * 100,
-        animalProfilePicture: arrayToBase64(item.animal.image.data),
+        // animalProfilePicture: arrayToBase64(item.animal.image.data),
       }));
 
       setFetchedCowListData(cowListData);

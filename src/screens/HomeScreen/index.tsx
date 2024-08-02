@@ -65,10 +65,16 @@ export const HomeScreen = () => {
 
   async function fetchAnalyticsAndGraphics() {
     try {
-      const [cowHerdAnalyticsRes] = await Promise.all([
-        genericFetch('http://192.168.3.105:3000/api/analytics'),
-        // genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
-      ]);
+      // const [cowHerdAnalyticsRes] = await Promise.all([
+      //   genericFetch('http://192.168.3.105:3000/api/analytics'),
+      //   // genericFetch('http://192.168.3.105:3000/api/analytics/graphics'),
+      // ]);
+      const cowHerdAnalyticsRes = {
+        registered_animals: 2,
+        current_positive_cases_percentage: 50,
+        current_positive_cases: 1,
+        current_negative_cases: 1,
+      };
 
       setCowHerdAnalytics({
         animalsCount: cowHerdAnalyticsRes.registered_animals,

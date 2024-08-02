@@ -16,7 +16,7 @@ interface ProcessAnalysisResultsScreenProps {
 
 export const ProcessAnalysisResultsScreen: React.FC<
   ProcessAnalysisResultsScreenProps
-> = ({illnessName, illnessChancePercentage}) => {
+> = ({illnessName = 'Dermatite', illnessChancePercentage = 0.504}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 

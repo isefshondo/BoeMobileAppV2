@@ -21,7 +21,6 @@ import GoBackIcon from '../../assets/back_left_icon.svg';
 import {arrayToBase64} from '@/utils/array-to-base64/index.utils';
 import LoadingCow from '../../assets/loading_cow.svg';
 import {colors} from '@/themes/colors/index.themes';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function displayIllnessSeverity(chancePercentage: number) {
   switch (true) {
@@ -78,17 +77,44 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
 
   async function fetchSelectedCowData() {
     try {
-      const res = await fetch(
-        `http://192.168.3.105:3000/api/animal/${storeCowId}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${jwt}`,
+      // const res = await fetch(
+      //   `http://192.168.3.105:3000/api/animal/${storeCowId}`,
+      //   {
+      //     method: 'GET',
+      //     headers: {
+      //       Authorization: `Bearer ${jwt}`,
+      //     },
+      //   },
+      // );
+
+      const {animal, analysisHistoric} = {
+        animal: {
+          _id: '66ac2c450206d3ff098d8dbc',
+          number_identification: 'AU0123',
+          user_id: '66ac25df0044baaefefa3a59',
+          name: 'Mimosa',
+          created_at: '2024-08-02T00:46:37.238Z',
+          disease_class: 'Dermatite',
+          result: 'positivo',
+          treatment_status: 'Sem tratamento',
+          image: {
+            data: new Uint8Array([255, 216, 255, 224, 0, 16, 74, 70, 73]),
           },
         },
-      );
-
-      const {animal, analysisHistoric} = await res.json();
+        analysisHistoric: [
+          {
+            _id: '66ac2c450206d3ff098d8dbc',
+            animal_id: '66ac2c450206d3ff098d8dbc',
+            disease_class: 'Dermatite',
+            treatment_status: 'Sem tratamento',
+            accuracy: 0.5094009041786194,
+            created_at: '2024-08-02T00:46:37.238Z',
+            analysis_img: {
+              data: new Uint8Array([255, 216, 255, 224, 0, 16, 74, 70, 73]),
+            },
+          },
+        ],
+      };
 
       const selectedCowHistoric = analysisHistoric.map(item => ({
         illnessName: item.disease_class,
@@ -96,7 +122,7 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
         chancePercentage: item.accuracy,
         analysisDate: item.created_at,
         analysisDescription: getDescriptions(item.accuracy),
-        analysisImage: arrayToBase64(item.analysis_img.data),
+        // analysisImage: arrayToBase64(item.analysis_img.data),
       }));
 
       const mostRecentAnalysis = analysisHistoric.sort(
@@ -108,7 +134,7 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
         numberIdentification: animal.number_identification,
         name: animal.name,
         selectedCowHistoric,
-        image: arrayToBase64(animal.image.data),
+        // image: arrayToBase64(animal.image.data),
         mostRecentAnalysis,
       });
       setIllnessSeverity(
@@ -135,7 +161,6 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
       if (jwt) {
         fetchSelectedCowData();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jwt]),
   );
 
@@ -159,10 +184,10 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
         <View style={styles.firstSpacer} />
         <View style={styles.mainDataContainer}>
           <View style={styles.cowDetailsContainer}>
-            <Image
+            {/* <Image
               source={{uri: `data:image/jpeg;base64,${selectedCowData.image}`}}
               style={styles.cowProfilePicture}
-            />
+            /> */}
             <View style={styles.cowPersonalInfoContainer}>
               <Text style={styles.numberIdentificationText}>
                 {selectedCowData.numberIdentification}
@@ -226,7 +251,7 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
               </View>
             </View>
             <View style={styles.analysisDescriptionContainer}>
-              <Image
+              {/* <Image
                 source={{
                   uri: `data:image/jpeg;base64,${btoa(
                     arrayToBase64(
@@ -237,7 +262,7 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
                   )}`,
                 }}
                 style={styles.analysisImage}
-              />
+              /> */}
               <View style={styles.analysisDescriptionText}>
                 <Text>Descrição da análise</Text>
                 <Text>{illnessSeverity.analysisDescription}</Text>

@@ -65,25 +65,32 @@ export const SignInScreen: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        'http://192.168.3.105:3000/api/user/signin',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: signinInputs.emailInput,
-            password: signinInputs.passwordInput,
-          }),
+      // const response = await fetch(
+      //   'http://192.168.3.105:3000/api/user/signin',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       email: signinInputs.emailInput,
+      //       password: signinInputs.passwordInput,
+      //     }),
+      //   },
+      // );
+
+      const data = {
+        message: 'User logged in successfully',
+        jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YWQxZjM4YWMxNjljNmZkZDBhN2ExYyIsImlhdCI6MTcyMjYyMTc5MCwiZXhwIjoxNzIyNjI1MzkwfQ.FmRhreg7icL_UqE4XTKFH4oQlO_qR6PTQWL1YFtlcAs',
+        data: {
+          email: 'mariana.pedro@gmail.com',
+          name: 'Mariana Pedro',
         },
-      );
+      };
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        return;
-      }
+      // if (!response.ok) {
+      //   return;
+      // }
 
       StorageInstance.setInStorage(
         'loggedInData',

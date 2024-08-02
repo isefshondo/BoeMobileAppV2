@@ -80,23 +80,23 @@ export const EditProfileScreen: React.FC = () => {
     try {
       await updateUserDataInStorage(inputName, value);
 
-      const res = await fetch('http://192.168.3.105:3000/api/user/update', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...editProfileInputValues,
-          [inputName]: value,
-        }),
-      });
+      // const res = await fetch('http://192.168.3.105:3000/api/user/update', {
+      //   method: 'PUT',
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     ...editProfileInputValues,
+      //     [inputName]: value,
+      //   }),
+      // });
 
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
+      // if (!res.ok) {
+      //   throw new Error(
+      //     `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      //   );
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -164,18 +164,18 @@ export const EditProfileScreen: React.FC = () => {
 
   async function handleDeleteAccount() {
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/user/delete', {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
+      // const res = await fetch('http://192.168.3.105:3000/api/user/delete', {
+      //   method: 'DELETE',
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //   },
+      // });
 
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
+      // if (!res.ok) {
+      //   throw new Error(
+      //     `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      //   );
+      // }
 
       await StorageInstance.removeFromStorage('loggedInData');
       signOut();

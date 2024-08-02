@@ -59,26 +59,24 @@ export const RegisterCowScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/animal', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({...animalData, image}),
-      });
+      // const res = await fetch('http://192.168.3.105:3000/api/animal', {
+      //   method: 'POST',
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({...animalData, image}),
+      // });
 
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
+      // if (!res.ok) {
+      //   throw new Error(
+      //     `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      //   );
+      // }
 
-      const data = await res.json();
+      // const data = await res.json();
 
-      navigation.navigate('ProcessAnalysisCamera', {
-        id: data.cowId,
-      });
+      navigation.navigate('ProcessAnalysisCamera');
     } catch (error) {
       console.error(error);
     }

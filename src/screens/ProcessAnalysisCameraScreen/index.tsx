@@ -68,21 +68,26 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     data.append('animal_id', storeCowId);
 
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/analysis', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
+      // const res = await fetch('http://192.168.3.105:3000/api/analysis', {
+      //   method: 'POST',
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //   },
+      //   body: data,
+      // });
+
+      // if (!res.ok) {
+      //   throw new Error(
+      //     `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      //   );
+      // }
+
+      const resData = {
+        newAnalysis: {
+          disease_class: 'Dermatite',
+          accuracy: 0.5094009041786194,
         },
-        body: data,
-      });
-
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
-
-      const resData = await res.json();
+      };
 
       setAnalysisResults({
         illnessName: resData.newAnalysis.disease_class,
