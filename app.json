@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "BoeMobileAppV2",
-    "slug": "BoeMobileAppV2",
+    "name": "boe-mobile-app-v2",
+    "slug": "boe-mobile-app-v2",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
