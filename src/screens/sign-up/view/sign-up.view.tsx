@@ -11,7 +11,10 @@ import {
 } from 'react-native';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import GoBack from '../../../assets/back_left_icon.svg';
-import {responsiveVerticalScale} from '@/utils/metrics/index.utils';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
 
 export const SignUp = () => {
   return (
@@ -19,18 +22,18 @@ export const SignUp = () => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <View>
+        <View style={styles.header}>
           <GoBack width={33} height={33} />
           <BoeSymbol width={25} height={25} />
         </View>
-        <View>
+        <View style={styles.mainContent}>
           <View>
             <Text style={styles.title}>Registre-se</Text>
             <Text style={styles.description}>
               Insira seus dados e crie uma nova conta gratuitamente!
             </Text>
           </View>
-          <View style={styles.firstSpace} />
+          {/* <View style={styles.firstSpace} /> */}
           <View style={styles.registerForm}>
             <View>
               <Text>Nome</Text>
@@ -90,6 +93,18 @@ export const styles = StyleSheet.create({
   },
   registerForm: {
     height: responsiveVerticalScale(403),
+    justifyContent: 'space-between',
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: responsiveHorizontalScale(52),
+    paddingRight: responsiveHorizontalScale(55),
+  },
+  mainContent: {
+    height: responsiveVerticalScale(534),
     justifyContent: 'space-between',
   },
 });
