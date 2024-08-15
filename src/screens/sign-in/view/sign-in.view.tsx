@@ -16,8 +16,13 @@ import {
 } from '@/utils/metrics/index.utils';
 import {colors} from '@/themes/colors/index.themes';
 import {DefaultButton} from '@/components/DefaultButton';
+import { SignInInputs } from '../controller/sign-in.controller';
 
-export const SignIn = () => {
+interface SignIn {
+  setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
+}
+
+export const SignIn: React.FC<SignIn> = ({setSignInInputs}) => {
   return (
     <KeyboardAvoidingView
       style={styles.container}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {SignIn} from '../view/sign-in.view';
 
-type SignInInputs = {
+export type SignInInputs = {
   email: string | null;
   password: string | null;
 }
@@ -12,5 +12,5 @@ export function SignInController() {
     password: null,
   });
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  return <SignIn />;
+  return <SignIn setSignInInputs={setSignInInputs} />;
 }
