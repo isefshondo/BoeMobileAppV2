@@ -12,7 +12,7 @@ import {DefaultInput} from '../../components/DefaultInput';
 import {Link} from '../../components/Link';
 import {DefaultButton} from '../../components/DefaultButton';
 import {MixedWeightTitle} from '../../components/MixedWeightTitle';
-import {AuthContext} from '../../context/Auth';
+import {AuthContext} from '../../context/auth';
 
 export type SignInInputsState = {
   emailInput: string | null;

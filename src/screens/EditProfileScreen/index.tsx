@@ -8,7 +8,7 @@ import GoBackIcon from '../../assets/back_left_icon.svg';
 import TrashIcon from '../../assets/trash_icon.svg';
 import {ChangePasswordInput} from '@/components/ChangePasswordInput';
 import {useNavigation} from '@react-navigation/native';
-import {AuthContext} from '@/context/Auth';
+import {AuthContext} from '@/context/auth';
 
 export type EditProfileInputValues = {
   name: string | null;
