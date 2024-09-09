@@ -6,7 +6,7 @@ import {
   responsiveVerticalScale,
 } from '../../utils/metrics/index.utils';
 import SideMenuIcon from '../../assets/menu.svg';
-import NotificationIcon from '../../assets/bell_icon.svg';
+import BoeSymbol from '../../assets/boe_symbol.svg';
 import {styles} from './styles';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
 import {
@@ -109,12 +109,12 @@ export const HomeScreen = () => {
           height={responsiveVerticalScale(34)}
           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         />
-        <NotificationIcon
-          width={responsiveHorizontalScale(34)}
-          height={responsiveVerticalScale(36)}
+        <BoeSymbol
+          width={responsiveHorizontalScale(25)}
+          height={responsiveVerticalScale(33)}
         />
       </View>
-      <View style={styles.dataMainContainer}>
+      <View>
         <View style={styles.greetingsContainer}>
           <View style={styles.greetingsContainerText}>
             <Text style={styles.greetingsTextBold}>Olá, </Text>

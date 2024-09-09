@@ -8,25 +8,22 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: responsiveVerticalScale(932),
+    flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: responsiveHorizontalScale(31.5),
-    paddingTop: responsiveVerticalScale(55),
     justifyContent: 'space-around',
   },
   header: {
     width: '100%',
-    height: responsiveVerticalScale(36),
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
-  dataMainContainer: {
-    width: '100%',
-    height: responsiveVerticalScale(609),
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
+  // dataMainContainer: {
+  //   width: '100%',
+  //   height: responsiveVerticalScale(609),
+  //   flexDirection: 'column',
+  //   justifyContent: 'space-around',
+  // },
   greetingsContainer: {
     width: '100%',
     height: responsiveVerticalScale(219),
