@@ -3,13 +3,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {DefaultBottomTab} from '../../components/DefaultBottomTab';
-import {HomeScreen} from '@/screens/HomeScreen';
 import {CowAnalysisListScreen} from '@/screens/CowAnalysisListScreen';
 import {EditProfileScreen} from '@/screens/EditProfileScreen';
 import {CowAnalysisScreen} from '@/screens/CowAnalysisScreen';
 import {ProcessAnalysisCameraScreen} from '@/screens/ProcessAnalysisCameraScreen';
 import {SideNavbar} from '@/components/SideNavbar';
 import {RegisterCowScreen} from '@/screens/RegisterCowScreen';
+import { HomeController } from '@/screens/home/controller/home.controller';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;
@@ -39,7 +39,7 @@ function BottomTabsScreenStack(): React.JSX.Element {
       initialRouteName="InitialRoute"
       screenOptions={{headerShown: false}}
       tabBar={MainBottomTab}>
-      <BottomTabs.Screen name="InitialRoute" component={HomeScreen} />
+      <BottomTabs.Screen name="InitialRoute" component={HomeController} />
       <BottomTabs.Screen
         name="CowDataListing"
         component={CowAnalysisListScreen}
