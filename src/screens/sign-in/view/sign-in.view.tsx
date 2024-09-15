@@ -20,9 +20,12 @@ import { SignInInputs } from '../controller/sign-in.controller';
 
 interface SignIn {
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
+  handleRegisterLinkPress: () => void;
+  handleLogInButtonPress: () => Promise<void>;
+  errorMessage: string | null;
 }
 
-export const SignIn: React.FC<SignIn> = ({setSignInInputs}) => {
+export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPress, handleLogInButtonPress}) => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -40,20 +43,18 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs}) => {
             <DefaultInput
               inputLabel="E-mail"
               inputCurrentValue=""
-              onInputChange={() => {}}
-              inputErrorMessage=""
+              onInputChange={(email) => setSignInInputs((previousState) => ({...previousState, email}))}
             />
             <View style={styles.firstSpace} />
             <View>
               <DefaultInput
                 inputLabel="Senha"
                 inputCurrentValue=""
-                onInputChange={() => {}}
-                inputErrorMessage=""
+                onInputChange={(password) => setSignInInputs((previousState) => ({...previousState, password}))}
               />
               <View style={styles.secondSpace} />
               <TouchableOpacity>
-                <Text style={[styles.navigation, styles.alignToRight]}>
+                <Text style={[styles.navigation, styles.alignToCenter]}>
                   Esqueci minha senha
                 </Text>
               </TouchableOpacity>
@@ -61,12 +62,12 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs}) => {
           </View>
           <View style={styles.thirdSpace} />
           <View>
-            <DefaultButton buttonText="Log in" onButtonPress={() => {}} />
+            <DefaultButton buttonText="Log in" onButtonPress={handleLogInButtonPress} />
             <View style={styles.fourthSpace} />
             <Text style={styles.navigationDescription}>
               Não possui uma conta ainda?
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleRegisterLinkPress}>
               <Text style={[styles.navigation, styles.navigationLink]}>
                 Registre-se
               </Text>
@@ -126,8 +127,8 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
   },
-  alignToRight: {
-    textAlign: 'right',
+  alignToCenter: {
+    textAlign: 'center',
   },
   navigationLink: {
     textAlign: 'center',
