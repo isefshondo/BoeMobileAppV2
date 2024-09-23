@@ -22,6 +22,7 @@ import {arrayToBase64} from '@/utils/array-to-base64/index.utils';
 import LoadingCow from '../../assets/loading_cow.svg';
 import {colors} from '@/themes/colors/index.themes';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import { responsiveHorizontalScale } from '@/utils/metrics/index.utils';
 
 function displayIllnessSeverity(chancePercentage: number) {
   switch (true) {
@@ -147,105 +148,108 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
       </View>
     );
   }
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        scrollEnabled
-        nestedScrollEnabled
-        style={styles.scrollViewContainer}>
-        <View style={styles.header}>
-          <GoBackIcon style={styles.goBackButton} onPress={navigation.goBack} />
-        </View>
-        <View style={styles.firstSpacer} />
-        <View style={styles.mainDataContainer}>
-          <View style={styles.cowDetailsContainer}>
-            <Image
-              source={{uri: `data:image/jpeg;base64,${selectedCowData.image}`}}
-              style={styles.cowProfilePicture}
-            />
-            <View style={styles.cowPersonalInfoContainer}>
-              <Text style={styles.numberIdentificationText}>
-                {selectedCowData.numberIdentification}
-              </Text>
-              <TextInput
-                value={selectedCowData.name}
-                style={styles.nameTextInput}
-                editable={false}
-              />
-            </View>
-          </View>
-          <View style={styles.illnessInfoContainer}>
-            <View>
-              <Text style={styles.resultTextLabel}>Resultado</Text>
-              <Text style={styles.resultText}>
-                {selectedCowData.mostRecentAnalysis.disease_class}
-              </Text>
-            </View>
-            <View style={styles.treatmentStatusContainer}>
-              <Text style={styles.treatmentStatusTextLabel}>
-                Status de tratamento
-              </Text>
-              <View style={styles.treatmentStatusText}>
-                <View style={styles.treatmentStatusVR} />
-                <Text style={styles.treatmentStatusTextRes}>
-                  {selectedCowData.mostRecentAnalysis.treatment_status}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.secondSpacer} />
-        <View style={styles.mostRecentAnalysisContainer}>
-          <View style={styles.mostRecentAnalysisTitle}>
-            <Text style={styles.lastAnalysisLabel}>Última análise</Text>
-            <Text style={styles.dateText}>
-              {`${new Date(
-                selectedCowData.mostRecentAnalysis.created_at,
-              ).getDay()}/${new Date(
-                selectedCowData.mostRecentAnalysis.created_at,
-              ).getMonth()}/${new Date(
-                selectedCowData.mostRecentAnalysis.created_at,
-              ).getFullYear()}`}
-            </Text>
-          </View>
-          <View style={styles.lastAnalysisInfoContainer}>
-            <View style={styles.accuracyContainer}>
-              <View style={styles.circleResult}>
-                <Text style={{fontSize: 32}}>
-                  {Math.round(
-                    selectedCowData.mostRecentAnalysis.accuracy * 100,
-                  )}
-                </Text>
-                <Text style={{fontSize: 13}}>%</Text>
-              </View>
-              <View style={styles.resultsLastAnalysis}>
-                <Text style={{fontSize: 17, color: illnessSeverity.color}}>
-                  {illnessSeverity.text}
-                </Text>
-                <Text>{illnessSeverity.textDescription}</Text>
-              </View>
-            </View>
-            <View style={styles.analysisDescriptionContainer}>
-              <Image
-                source={{
-                  uri: `data:image/jpeg;base64,${btoa(
-                    arrayToBase64(
-                      new Uint8Array(
-                        selectedCowData.mostRecentAnalysis.analysis_img.data,
-                      ),
-                    ),
-                  )}`,
-                }}
-                style={styles.analysisImage}
-              />
-              <View style={styles.analysisDescriptionText}>
-                <Text>Descrição da análise</Text>
-                <Text>{illnessSeverity.analysisDescription}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+  return (<SafeAreaView style={{flex: 1, backgroundColor: '#fff', justifyContent: 'center'}}>
+    <View style={{width: '100%', paddingLeft: responsiveHorizontalScale(34)}}></View>
+  </SafeAreaView>);
+  // return (
+  //   <SafeAreaView style={styles.container}>
+  //     <ScrollView
+  //       scrollEnabled
+  //       nestedScrollEnabled
+  //       style={styles.scrollViewContainer}>
+  //       <View style={styles.header}>
+  //         <GoBackIcon style={styles.goBackButton} onPress={navigation.goBack} />
+  //       </View>
+  //       <View style={styles.firstSpacer} />
+  //       <View style={styles.mainDataContainer}>
+  //         <View style={styles.cowDetailsContainer}>
+  //           <Image
+  //             source={{uri: `data:image/jpeg;base64,${selectedCowData.image}`}}
+  //             style={styles.cowProfilePicture}
+  //           />
+  //           <View style={styles.cowPersonalInfoContainer}>
+  //             <Text style={styles.numberIdentificationText}>
+  //               {selectedCowData.numberIdentification}
+  //             </Text>
+  //             <TextInput
+  //               value={selectedCowData.name}
+  //               style={styles.nameTextInput}
+  //               editable={false}
+  //             />
+  //           </View>
+  //         </View>
+  //         <View style={styles.illnessInfoContainer}>
+  //           <View>
+  //             <Text style={styles.resultTextLabel}>Resultado</Text>
+  //             <Text style={styles.resultText}>
+  //               {selectedCowData.mostRecentAnalysis.disease_class}
+  //             </Text>
+  //           </View>
+  //           <View style={styles.treatmentStatusContainer}>
+  //             <Text style={styles.treatmentStatusTextLabel}>
+  //               Status de tratamento
+  //             </Text>
+  //             <View style={styles.treatmentStatusText}>
+  //               <View style={styles.treatmentStatusVR} />
+  //               <Text style={styles.treatmentStatusTextRes}>
+  //                 {selectedCowData.mostRecentAnalysis.treatment_status}
+  //               </Text>
+  //             </View>
+  //           </View>
+  //         </View>
+  //       </View>
+  //       <View style={styles.secondSpacer} />
+  //       <View style={styles.mostRecentAnalysisContainer}>
+  //         <View style={styles.mostRecentAnalysisTitle}>
+  //           <Text style={styles.lastAnalysisLabel}>Última análise</Text>
+  //           <Text style={styles.dateText}>
+  //             {`${new Date(
+  //               selectedCowData.mostRecentAnalysis.created_at,
+  //             ).getDay()}/${new Date(
+  //               selectedCowData.mostRecentAnalysis.created_at,
+  //             ).getMonth()}/${new Date(
+  //               selectedCowData.mostRecentAnalysis.created_at,
+  //             ).getFullYear()}`}
+  //           </Text>
+  //         </View>
+  //         <View style={styles.lastAnalysisInfoContainer}>
+  //           <View style={styles.accuracyContainer}>
+  //             <View style={styles.circleResult}>
+  //               <Text style={{fontSize: 32}}>
+  //                 {Math.round(
+  //                   selectedCowData.mostRecentAnalysis.accuracy * 100,
+  //                 )}
+  //               </Text>
+  //               <Text style={{fontSize: 13}}>%</Text>
+  //             </View>
+  //             <View style={styles.resultsLastAnalysis}>
+  //               <Text style={{fontSize: 17, color: illnessSeverity.color}}>
+  //                 {illnessSeverity.text}
+  //               </Text>
+  //               <Text>{illnessSeverity.textDescription}</Text>
+  //             </View>
+  //           </View>
+  //           <View style={styles.analysisDescriptionContainer}>
+  //             <Image
+  //               source={{
+  //                 uri: `data:image/jpeg;base64,${btoa(
+  //                   arrayToBase64(
+  //                     new Uint8Array(
+  //                       selectedCowData.mostRecentAnalysis.analysis_img.data,
+  //                     ),
+  //                   ),
+  //                 )}`,
+  //               }}
+  //               style={styles.analysisImage}
+  //             />
+  //             <View style={styles.analysisDescriptionText}>
+  //               <Text>Descrição da análise</Text>
+  //               <Text>{illnessSeverity.analysisDescription}</Text>
+  //             </View>
+  //           </View>
+  //         </View>
+  //       </View>
+  //     </ScrollView>
+  //   </SafeAreaView>
+  // );
 };
