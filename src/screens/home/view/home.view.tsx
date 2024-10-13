@@ -9,7 +9,11 @@ import {
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
 import {colors} from '@/themes/colors/index.themes';
-import {AnimalAnalytics, RequestsLoading} from '../controller/home.controller';
+import {
+  AnimalAnalytics,
+  RequestsErrors,
+  RequestsLoading,
+} from '../controller/home.controller';
 import {LineGraphics} from '@/components/line-graphics.component';
 
 interface Home {
@@ -18,6 +22,7 @@ interface Home {
   handleMenuPress: () => void;
   analytics: AnimalAnalytics;
   graphics: any[];
+  error: RequestsErrors;
 }
 
 export const Home: React.FC<Home> = ({
@@ -26,8 +31,9 @@ export const Home: React.FC<Home> = ({
   handleMenuPress,
   analytics,
   graphics,
+  error,
 }) => {
-  function renderGraphics() {
+  function renderGraphicsComponent() {
     return graphics.length > 0 ? (
       <View>
         <LineGraphics labels={[]} datasets={[]} />
@@ -38,6 +44,30 @@ export const Home: React.FC<Home> = ({
         <View style={styles.thirdSpace} />
         <Text style={styles.textLabel}>Nenhum registro foi feito ainda</Text>
       </View>
+    );
+  }
+  function renderGraphics() {
+    return error.hasGraphicsFailed ? (
+      <Text>Futuro componente de erro</Text>
+    ) : (
+      renderGraphicsComponent()
+    );
+  }
+  function renderCard(
+    type: any,
+    value: number,
+    increasedCasesValue?: number,
+    decreasedCasesValue?: number,
+  ) {
+    return error.hasAnalyticsFailed ? (
+      <Text>Futuro componente de erro</Text>
+    ) : (
+      <CowAnalyticsCard
+        type={type}
+        value={value}
+        increasedCasesValue={increasedCasesValue}
+        decreasedCasesValue={decreasedCasesValue}
+      />
     );
   }
 
@@ -58,16 +88,16 @@ export const Home: React.FC<Home> = ({
           </View>
           <View style={styles.firstSpace} />
           <View style={styles.justifiedRow}>
-            <CowAnalyticsCard
-              type="CURRENT_REGISTERED_COWS"
-              value={analytics.allRegisteredAnimal}
-            />
-            <CowAnalyticsCard
-              type="CURRENT_POSITIVE_CASES"
-              value={analytics.currentPositiveCases}
-              increasedCasesValue={analytics.sickAnimals}
-              decreasedCasesValue={analytics.curedAnimals}
-            />
+            {renderCard(
+              'CURRENT_REGISTERED_COWS',
+              analytics.allRegisteredAnimal,
+            )}
+            {renderCard(
+              'CURRENT_POSITIVE_CASES',
+              analytics.currentPositiveCases,
+              analytics.sickAnimals,
+              analytics.curedAnimals,
+            )}
           </View>
         </View>
         <View style={styles.secondSpace} />

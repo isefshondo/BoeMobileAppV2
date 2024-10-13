@@ -29,7 +29,17 @@ export const SignIn: React.FC<SignIn> = ({
   setSignInInputs,
   handleRegisterLinkPress,
   handleLogInButtonPress,
+  errorMessage,
 }) => {
+  function renderErrorMessage() {
+    return (
+      errorMessage && (
+        <View>
+          <Text>{errorMessage}</Text>
+        </View>
+      )
+    );
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -63,7 +73,8 @@ export const SignIn: React.FC<SignIn> = ({
                   }))
                 }
               />
-              <View style={styles.secondSpace} />
+              {/* <View style={styles.secondSpace} /> */}
+              {renderErrorMessage()}
               <TouchableOpacity>
                 <Text style={[styles.navigation, styles.alignToCenter]}>
                   Esqueci minha senha
