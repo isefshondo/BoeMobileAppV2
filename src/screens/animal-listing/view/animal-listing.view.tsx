@@ -1,47 +1,103 @@
-import { SearchBar } from "@/components/SearchBar";
-import { responsiveHorizontalScale, responsiveVerticalScale } from "@/utils/metrics/index.utils";
-import { FlatList, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import {SearchBar} from '@/components/SearchBar';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import Filter from '../../../assets/filters_icon.svg';
-import { CowInfosCard } from "@/components/CowInfosCard";
+import {CowInfosCard} from '@/components/CowInfosCard';
 
-export const AnimalListing = () => {
+interface AnimalListing {
+  isLoading: boolean;
+  isError: boolean;
+  animals: any[];
+  handleMenuPress: () => void;
+  handleSearchBarChange: (value: string) => void;
+  navigateToAnimalProfile: (id: string) => void;
+}
+
+export const AnimalListing: React.FC<AnimalListing> = ({
+  isLoading,
+  isError,
+  animals,
+  handleMenuPress,
+  handleSearchBarChange,
+  navigateToAnimalProfile,
+}) => {
   function renderCard({item}) {
-    return <>
-      <View style={styles.cardsContainer}>
-        <CowInfosCard name={item.name} numberIdentification={item.identifier} treatmentStatus={item.treatmentStatus} illness={item.illness} chancePercentage={item.chancePercentage} onPress={() => {}} image={item.animalProfilePicture} />
-        <View style={styles.sixthSpace} />
-      </View>
-    </>;
-  }
-  return <KeyboardAvoidingView style={styles.main} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    <FlatList data={[]} renderItem={renderCard} keyExtractor={(item) => item.id} contentContainerStyle={{flexGrow: 1}} ListHeaderComponent={<>
-      <View style={styles.firstSpace} />
-      <View style={styles.header}>
-        <Menu width={34} height={34} />
-        <BoeSymbol width={25} height={33} />
-      </View>
-      <View style={styles.secondSpace} />
-      <View style={styles.container}>
-        <View>
-          <View style={styles.row}>
-            <Text style={styles.titleRegular}>Registro de </Text>
-            <Text style={styles.titleSemibold}>análises </Text>
-          </View>
-          <Text style={styles.titleSemibold}>de imagem</Text>
+    if (isError) {
+      return <Text>Futuro componente de erro</Text>;
+    }
+    return (
+      <>
+        <View style={styles.cardsContainer}>
+          <CowInfosCard
+            name={item.name}
+            numberIdentification={item.identifier}
+            treatmentStatus={item.treatmentStatus}
+            illness={item.illness}
+            chancePercentage={item.chancePercentage}
+            onPress={() => navigateToAnimalProfile(item.id)}
+            image={item.animalProfilePicture}
+          />
+          <View style={styles.sixthSpace} />
         </View>
-        <View style={styles.thirdSpace} />
-        <SearchBar setSearchInputValue={() => {}} />
-      </View>
-      <View style={styles.fourthSpace} />
-      <View style={styles.filter}>
-        <Text style={styles.secondaryTitleSemibold}>Filtros</Text>
-        <Filter width={28.02} height={24.02} />
-      </View>
-      <View style={styles.fifthSpace} />
-    </>} />
-  </KeyboardAvoidingView>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return <Text>Futuro Skeleton</Text>;
+  }
+  return (
+    <KeyboardAvoidingView
+      style={styles.main}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <FlatList
+        data={animals}
+        renderItem={renderCard}
+        keyExtractor={item => item.id}
+        contentContainerStyle={{flexGrow: 1}}
+        ListHeaderComponent={
+          <>
+            <View style={styles.firstSpace} />
+            <View style={styles.header}>
+              <Menu width={34} height={34} onPress={handleMenuPress} />
+              <BoeSymbol width={25} height={33} />
+            </View>
+            <View style={styles.secondSpace} />
+            <View style={styles.container}>
+              <View>
+                <View style={styles.row}>
+                  <Text style={styles.titleRegular}>Registro de </Text>
+                  <Text style={styles.titleSemibold}>análises</Text>
+                </View>
+                <Text style={styles.titleSemibold}>de imagem</Text>
+              </View>
+              <View style={styles.thirdSpace} />
+              <SearchBar setSearchInputValue={handleSearchBarChange} />
+            </View>
+            <View style={styles.fourthSpace} />
+            <View style={styles.filter}>
+              <Text style={styles.secondaryTitleSemibold}>Filtros</Text>
+              <Filter width={28.02} height={24.02} />
+            </View>
+            <View style={styles.fifthSpace} />
+          </>
+        }
+      />
+    </KeyboardAvoidingView>
+  );
 };
 
 export const styles = StyleSheet.create({
@@ -68,13 +124,13 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingLeft: responsiveHorizontalScale(31),
-    paddingRight: responsiveHorizontalScale(33)
+    paddingRight: responsiveHorizontalScale(33),
   },
   row: {flexDirection: 'row'},
-  titleRegular: { fontSize: 32 },
+  titleRegular: {fontSize: 32},
   titleSemibold: {
     fontSize: 32,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   thirdSpace: {
     width: '100%',
@@ -96,7 +152,7 @@ export const styles = StyleSheet.create({
   },
   fifthSpace: {
     width: '100%',
-    height: responsiveVerticalScale(45.98)
+    height: responsiveVerticalScale(45.98),
   },
   cardsContainer: {
     paddingHorizontal: responsiveHorizontalScale(31),
@@ -104,5 +160,5 @@ export const styles = StyleSheet.create({
   sixthSpace: {
     width: '100%',
     height: responsiveVerticalScale(35),
-  }
-})
+  },
+});
