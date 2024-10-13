@@ -16,7 +16,7 @@ import {
 } from '@/utils/metrics/index.utils';
 import {colors} from '@/themes/colors/index.themes';
 import {DefaultButton} from '@/components/DefaultButton';
-import { SignInInputs } from '../controller/sign-in.controller';
+import {SignInInputs} from '../controller/sign-in.controller';
 
 interface SignIn {
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
@@ -25,7 +25,11 @@ interface SignIn {
   errorMessage: string | null;
 }
 
-export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPress, handleLogInButtonPress}) => {
+export const SignIn: React.FC<SignIn> = ({
+  setSignInInputs,
+  handleRegisterLinkPress,
+  handleLogInButtonPress,
+}) => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -43,14 +47,21 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPre
             <DefaultInput
               inputLabel="E-mail"
               inputCurrentValue=""
-              onInputChange={(email) => setSignInInputs((previousState) => ({...previousState, email}))}
+              onInputChange={email =>
+                setSignInInputs(previousState => ({...previousState, email}))
+              }
             />
             <View style={styles.firstSpace} />
             <View>
               <DefaultInput
                 inputLabel="Senha"
                 inputCurrentValue=""
-                onInputChange={(password) => setSignInInputs((previousState) => ({...previousState, password}))}
+                onInputChange={password =>
+                  setSignInInputs(previousState => ({
+                    ...previousState,
+                    password,
+                  }))
+                }
               />
               <View style={styles.secondSpace} />
               <TouchableOpacity>
@@ -62,7 +73,10 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPre
           </View>
           <View style={styles.thirdSpace} />
           <View>
-            <DefaultButton buttonText="Log in" onButtonPress={handleLogInButtonPress} />
+            <DefaultButton
+              buttonText="Log in"
+              onButtonPress={handleLogInButtonPress}
+            />
             <View style={styles.fourthSpace} />
             <Text style={styles.navigationDescription}>
               Não possui uma conta ainda?

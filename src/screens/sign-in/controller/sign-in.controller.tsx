@@ -1,25 +1,28 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import {SignIn} from '../view/sign-in.view';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParams } from '@/navigation/AuthStack';
-import { RootStackParams } from '@/navigation/RootStack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AuthStackParams} from '@/navigation/AuthStack';
+import {RootStackParams} from '@/navigation/RootStack';
 import * as StorageInstance from '../../../utils/storage/index.utils';
-import { AuthContext } from '@/context/auth';
+import {AuthContext} from '@/context/auth';
 
 export type SignInInputs = {
   email: string | null;
   password: string | null;
-}
+};
 
 export function SignInController() {
-  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParams & RootStackParams>>();
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<AuthStackParams & RootStackParams>
+    >();
   const [signInInputs, setSignInInputs] = React.useState<SignInInputs>({
     email: null,
     password: null,
   });
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const { signIn } = useContext(AuthContext);
+  const {signIn} = useContext(AuthContext);
 
   function handleRegisterLinkPress() {
     navigation.navigate('SignUp');
@@ -35,7 +38,7 @@ export function SignInController() {
         body: JSON.stringify({
           email: signInInputs.email,
           password: signInInputs.password,
-        })
+        }),
       });
       const {jwt, data} = await response.json();
 
@@ -48,5 +51,12 @@ export function SignInController() {
     }
   }, []);
 
-  return <SignIn setSignInInputs={setSignInInputs} handleRegisterLinkPress={handleRegisterLinkPress} handleLogInButtonPress={fetchSignIn} errorMessage={errorMessage} />;
+  return (
+    <SignIn
+      setSignInInputs={setSignInInputs}
+      handleRegisterLinkPress={handleRegisterLinkPress}
+      handleLogInButtonPress={fetchSignIn}
+      errorMessage={errorMessage}
+    />
+  );
 }

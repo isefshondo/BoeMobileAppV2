@@ -39,9 +39,11 @@ export function useDefaultInputsValidators({
   };
 
   const confirmPasswordInputValidator = () => {
-    const arePasswordsInputsEqual = (passwordInput?.length === confirmPasswordInput?.length) && (passwordInput === confirmPasswordInput);
+    const arePasswordsInputsEqual =
+      passwordInput?.length === confirmPasswordInput?.length &&
+      passwordInput === confirmPasswordInput;
     if (!arePasswordsInputsEqual) return 'As senhas não conferem';
-    return null; 
+    return null;
   };
 
   return {
