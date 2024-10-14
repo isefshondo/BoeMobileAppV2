@@ -18,6 +18,7 @@ import {colors} from '@/themes/colors/index.themes';
 import {DefaultButton} from '@/components/DefaultButton';
 import {SignInInputs} from '../controller/sign-in.controller';
 import Info from '../../../assets/info.svg';
+import { StatusBar } from 'expo-status-bar';
 
 interface SignIn {
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
@@ -52,6 +53,7 @@ export const SignIn: React.FC<SignIn> = ({
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <StatusBar backgroundColor='#fff' />
         <View style={styles.header}>
           <BoeSymbol width={25} height={33} />
         </View>
