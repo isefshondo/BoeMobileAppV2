@@ -21,7 +21,7 @@ export function SignInController() {
     email: null,
     password: null,
   });
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [isAuthenticationError, setIsAuthenticationError] = React.useState(false);
   const {signIn} = useContext(AuthContext);
 
   function handleRegisterLinkPress() {
@@ -46,7 +46,7 @@ export function SignInController() {
       signIn({jwt, data, isLoggedIn: true});
     } catch (error) {
       if (error.status === 401 || error.status === 404) {
-        setErrorMessage('E-mail ou senha inválidos');
+        setIsAuthenticationError(true);
       }
     }
   }, []);
@@ -56,7 +56,7 @@ export function SignInController() {
       setSignInInputs={setSignInInputs}
       handleRegisterLinkPress={handleRegisterLinkPress}
       handleLogInButtonPress={fetchSignIn}
-      errorMessage={errorMessage}
+      isAuthenticationError={isAuthenticationError}
     />
   );
 }
