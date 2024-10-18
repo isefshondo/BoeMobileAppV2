@@ -21,7 +21,8 @@ export function SignInController() {
     email: null,
     password: null,
   });
-  const [isAuthenticationError, setIsAuthenticationError] = React.useState(false);
+  const [isAuthenticationError, setIsAuthenticationError] =
+    React.useState(false);
   const {signIn} = useContext(AuthContext);
 
   function handleRegisterLinkPress() {

@@ -9,7 +9,7 @@ import {ProcessAnalysisCameraScreen} from '@/screens/ProcessAnalysisCameraScreen
 import {SideNavbar} from '@/components/SideNavbar';
 import {RegisterCowScreen} from '@/screens/RegisterCowScreen';
 import {HomeController} from '@/screens/home/controller/home.controller';
-import { AnimalListingController } from '@/screens/animal-listing/controller/animal-listing.controller';
+import {AnimalListingController} from '@/screens/animal-listing/controller/animal-listing.controller';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;

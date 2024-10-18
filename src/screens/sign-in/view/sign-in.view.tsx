@@ -18,7 +18,7 @@ import {colors} from '@/themes/colors/index.themes';
 import {DefaultButton} from '@/components/DefaultButton';
 import {SignInInputs} from '../controller/sign-in.controller';
 import Info from '../../../assets/info.svg';
-import { StatusBar } from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 
 interface SignIn {
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
@@ -33,7 +33,9 @@ export const SignIn: React.FC<SignIn> = ({
   handleLogInButtonPress,
   isAuthenticationError,
 }) => {
-  const signInFormToLink = !isAuthenticationError ? styles.secondSpace : styles.fifthSpace;
+  const signInFormToLink = !isAuthenticationError
+    ? styles.secondSpace
+    : styles.fifthSpace;
   function renderErrorMessage() {
     return (
       isAuthenticationError && (
@@ -53,7 +55,7 @@ export const SignIn: React.FC<SignIn> = ({
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <StatusBar backgroundColor='#fff' />
+        <StatusBar backgroundColor="#fff" />
         <View style={styles.header}>
           <BoeSymbol width={25} height={33} />
         </View>
@@ -188,10 +190,10 @@ export const styles = StyleSheet.create({
   },
   textTertiary: {
     fontSize: 12,
-    color: '#fff'
+    color: '#fff',
   },
   seventhSpace: {
     width: responsiveHorizontalScale(4),
     height: '100%',
-  }
+  },
 });

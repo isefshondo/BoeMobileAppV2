@@ -16,8 +16,8 @@ import {
 } from '@/utils/metrics/index.utils';
 import {DefaultButton} from '@/components/DefaultButton';
 import {colors} from '@/themes/colors/index.themes';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {StatusBar} from 'expo-status-bar';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const SignUp = () => {
   return (
@@ -26,7 +26,7 @@ export const SignUp = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.flexGrowMain}>
         <SafeAreaView style={styles.flexGrowMain}>
-          <StatusBar backgroundColor='#fff' />
+          <StatusBar backgroundColor="#fff" />
           <View style={styles.header}>
             <GoBack width={33} height={33} />
             <View style={styles.firstSpace} />
@@ -34,8 +34,12 @@ export const SignUp = () => {
           </View>
           <View style={styles.mainContent}>
             <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>Insira seus dados e crie uma nova conta</Text>
-              <Text style={styles.navigationDescription}>Já possui uma conta?</Text>
+              <Text style={styles.description}>
+                Insira seus dados e crie uma nova conta
+              </Text>
+              <Text style={styles.navigationDescription}>
+                Já possui uma conta?
+              </Text>
               <TouchableOpacity>
                 <Text style={styles.navigationLink}>Log in</Text>
               </TouchableOpacity>
