@@ -71,9 +71,9 @@ export function AnimalListingController() {
 
   useFocusEffect(
     useCallback(() => {
-      if (jwt) {
-        fetchAnimals();
-      }
+      // if (jwt) {
+      fetchAnimals();
+      // }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jwt]),
   );

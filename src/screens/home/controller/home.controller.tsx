@@ -117,7 +117,10 @@ export function HomeController() {
       handleMenuPress={handleMenuPress}
       analytics={analytics}
       graphics={graphics}
-      error={{hasAnalyticsFailed: error.hasAnalyticsFailed, hasGraphicsFailed: error.hasGraphicsFailed}}
+      error={{
+        hasAnalyticsFailed: error.hasAnalyticsFailed,
+        hasGraphicsFailed: error.hasGraphicsFailed,
+      }}
     />
   );
 }
