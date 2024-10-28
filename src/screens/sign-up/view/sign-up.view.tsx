@@ -18,8 +18,44 @@ import {DefaultButton} from '@/components/DefaultButton';
 import {colors} from '@/themes/colors/index.themes';
 import {StatusBar} from 'expo-status-bar';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Avatar} from '@/components/avatar.component';
+import Camera from '../../../assets/camera.svg';
+import {ErrorMessage, SignUpInputs} from '../controller/sign-up.controller';
 
-export const SignUp = () => {
+interface SignUp {
+  handleSignInLinkPress: () => void;
+  signUpInputs: SignUpInputs;
+  setSignUpInputs: any;
+  errorMessage: ErrorMessage;
+  imageMimeType: string | null;
+  handleSetImage: () => void;
+  handleSignUpButtonPress: () => void;
+}
+
+export const SignUp: React.FC<SignUp> = ({
+  handleSignInLinkPress,
+  handleSetImage,
+  handleSignUpButtonPress,
+  signUpInputs,
+  setSignUpInputs,
+  errorMessage,
+  imageMimeType,
+}) => {
+  function renderCameraBadge() {
+    return (
+      <View style={styles.badgeContainer}>
+        <Camera
+          width={responsiveHorizontalScale(13)}
+          height={responsiveVerticalScale(10)}
+          fill="#fff"
+        />
+      </View>
+    );
+  }
+  const image =
+    signUpInputs.image && imageMimeType
+      ? `data:image/${imageMimeType};base64,${signUpInputs.image}`
+      : undefined;
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -28,7 +64,7 @@ export const SignUp = () => {
         <SafeAreaView style={styles.flexGrowMain}>
           <StatusBar backgroundColor="#fff" />
           <View style={styles.header}>
-            <GoBack width={33} height={33} />
+            <GoBack width={33} height={33} onPress={handleSignInLinkPress} />
             <View style={styles.firstSpace} />
             <Text style={styles.title}>Criar conta</Text>
           </View>
@@ -40,47 +76,74 @@ export const SignUp = () => {
               <Text style={styles.navigationDescription}>
                 Já possui uma conta?
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleSignInLinkPress}>
                 <Text style={styles.navigationLink}>Log in</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.registerForm}>
               <View style={styles.profilePictureContainer}>
-                {/* TODO: Add ProfilePicture component */}
+                <Avatar
+                  width={92}
+                  height={92}
+                  image={image}
+                  badge={renderCameraBadge()}
+                  badgeTop={64}
+                  handleSetImage={handleSetImage}
+                />
               </View>
               <View style={styles.formInputs}>
                 <DefaultInput
                   inputLabel="Nome"
                   inputIcon="name"
-                  inputCurrentValue=""
-                  onInputChange={() => {}}
-                  inputErrorMessage=""
+                  inputCurrentValue={signUpInputs.name}
+                  onInputChange={name =>
+                    setSignUpInputs(previousState => ({...previousState, name}))
+                  }
+                  inputErrorMessage={errorMessage.name}
                 />
                 <DefaultInput
                   inputLabel="Email"
                   inputIcon="email"
-                  inputCurrentValue=""
-                  onInputChange={() => {}}
-                  inputErrorMessage=""
+                  inputCurrentValue={signUpInputs.email}
+                  onInputChange={email =>
+                    setSignUpInputs(previousState => ({
+                      ...previousState,
+                      email,
+                    }))
+                  }
+                  inputErrorMessage={errorMessage.email}
                 />
                 <DefaultInput
                   inputLabel="Senha"
                   inputIcon="password"
-                  inputCurrentValue=""
-                  onInputChange={() => {}}
-                  inputErrorMessage=""
+                  inputCurrentValue={signUpInputs.password}
+                  onInputChange={password =>
+                    setSignUpInputs(previousState => ({
+                      ...previousState,
+                      password,
+                    }))
+                  }
+                  inputErrorMessage={errorMessage.password}
                 />
                 <DefaultInput
                   inputLabel="Confirmar senha"
-                  inputCurrentValue=""
-                  onInputChange={() => {}}
-                  inputErrorMessage=""
+                  inputCurrentValue={signUpInputs.confirmPassword}
+                  onInputChange={confirmPassword =>
+                    setSignUpInputs(previousState => ({
+                      ...previousState,
+                      confirmPassword,
+                    }))
+                  }
+                  inputErrorMessage={errorMessage.confirmPassword}
                 />
               </View>
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <DefaultButton buttonText="Registrar-se" onButtonPress={() => {}} />
+            <DefaultButton
+              buttonText="Registrar-se"
+              onButtonPress={handleSignUpButtonPress}
+            />
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -163,5 +226,13 @@ export const styles = StyleSheet.create({
   formInputs: {
     flexGrow: 2,
     justifyContent: 'space-between',
+  },
+  badgeContainer: {
+    width: responsiveHorizontalScale(26),
+    height: responsiveVerticalScale(26),
+    backgroundColor: colors.BLUE,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

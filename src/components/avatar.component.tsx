@@ -15,6 +15,7 @@ interface AvatarProps {
   isSquaredDisplay?: boolean;
   isBorderedDisplay?: boolean;
   isClickable?: boolean;
+  handleSetImage?: () => void;
 }
 
 export const Avatar: React.FC<AvatarProps> = ({
@@ -26,6 +27,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   isSquaredDisplay,
   isBorderedDisplay,
   isClickable,
+  handleSetImage,
 }) => {
   const borderRadius = isSquaredDisplay ? 10 : Math.round((width + height) / 2);
   const border = {
@@ -50,7 +52,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     );
   }
   return (
-    <TouchableOpacity disabled={!!isClickable}>
+    <TouchableOpacity onPress={handleSetImage} disabled={!!isClickable}>
       <Image
         style={{
           width: responsiveHorizontalScale(width),
