@@ -21,6 +21,7 @@ import Info from '../../../assets/info.svg';
 import {StatusBar} from 'expo-status-bar';
 
 interface SignIn {
+  signInInputs: SignInInputs;
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
   handleRegisterLinkPress: () => void;
   handleLogInButtonPress: () => Promise<void>;
@@ -28,6 +29,7 @@ interface SignIn {
 }
 
 export const SignIn: React.FC<SignIn> = ({
+  signInInputs,
   setSignInInputs,
   handleRegisterLinkPress,
   handleLogInButtonPress,
@@ -67,7 +69,7 @@ export const SignIn: React.FC<SignIn> = ({
           <View>
             <DefaultInput
               inputLabel="E-mail"
-              inputCurrentValue=""
+              inputCurrentValue={signInInputs.email}
               onInputChange={email =>
                 setSignInInputs(previousState => ({...previousState, email}))
               }
@@ -76,7 +78,7 @@ export const SignIn: React.FC<SignIn> = ({
             <View>
               <DefaultInput
                 inputLabel="Senha"
-                inputCurrentValue=""
+                inputCurrentValue={signInInputs.password}
                 onInputChange={password =>
                   setSignInInputs(previousState => ({
                     ...previousState,

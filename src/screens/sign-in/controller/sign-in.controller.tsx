@@ -18,8 +18,8 @@ export function SignInController() {
       NativeStackNavigationProp<AuthStackParams & RootStackParams>
     >();
   const [signInInputs, setSignInInputs] = React.useState<SignInInputs>({
-    email: null,
-    password: null,
+    email: '',
+    password: '',
   });
   const [isAuthenticationError, setIsAuthenticationError] =
     React.useState(false);
@@ -54,6 +54,7 @@ export function SignInController() {
 
   return (
     <SignIn
+      signInInputs={signInInputs}
       setSignInInputs={setSignInInputs}
       handleRegisterLinkPress={handleRegisterLinkPress}
       handleLogInButtonPress={fetchSignIn}
