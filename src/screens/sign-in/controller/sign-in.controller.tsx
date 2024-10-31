@@ -6,6 +6,7 @@ import {AuthStackParams} from '@/navigation/AuthStack';
 import {RootStackParams} from '@/navigation/RootStack';
 import * as StorageInstance from '../../../utils/storage/index.utils';
 import {AuthContext} from '@/context/auth';
+import axios from 'axios';
 
 export type SignInInputs = {
   email: string | null;
@@ -29,19 +30,14 @@ export function SignInController() {
     navigation.navigate('SignUp');
   }
 
-  const fetchSignIn = React.useCallback(async () => {
+  async function fetchSignIn() {
     try {
-      const response = await fetch(`/api/user/signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await axios.post(`http://192.168.3.118:3000/api/user/signin`, {
           email: signInInputs.email,
           password: signInInputs.password,
-        }),
-      });
-      const {jwt, data} = await response.json();
+        }, {headers: {'Content-Type': 'application/json'}}
+      );
+      const {jwt, data} = await response.data;
 
       StorageInstance.setInStorage('loggedInData', JSON.stringify({jwt, data}));
       signIn({jwt, data, isLoggedIn: true});
@@ -50,7 +46,7 @@ export function SignInController() {
         setIsAuthenticationError(true);
       }
     }
-  }, []);
+  };
 
   return (
     <SignIn

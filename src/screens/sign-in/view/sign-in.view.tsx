@@ -99,7 +99,7 @@ export const SignIn: React.FC<SignIn> = ({
           <View>
             <DefaultButton
               buttonText="Log in"
-              onButtonPress={handleLogInButtonPress}
+              onButtonPress={() => handleLogInButtonPress()}
             />
             <View style={styles.fourthSpace} />
             <Text style={styles.navigationDescription}>

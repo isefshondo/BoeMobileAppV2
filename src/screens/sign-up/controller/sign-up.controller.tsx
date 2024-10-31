@@ -5,6 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParams} from '@/navigation/AuthStack';
 import {RootStackParams} from '@/navigation/RootStack';
 import * as ImagePicker from 'expo-image-picker';
+import * as StorageInstance from '../../../utils/storage/index.utils';
 
 export type SignUpInputs = {
   name: string | null;
@@ -24,7 +25,7 @@ export type ErrorMessage = {
 export function SignUpController() {
   const navigation =
     useNavigation<
-      NativeStackNavigationProp<AuthStackParams & RootStackParams>
+      NativeStackNavigationProp<AuthStackParams>
     >();
   const [signUpInputs, setSignUpInputs] = React.useState<SignUpInputs>({
     name: '',
@@ -45,7 +46,7 @@ export function SignUpController() {
   async function fetchSignUp() {
     try {
       const {name, email, password, image} = signUpInputs;
-      const res = await fetch('/api/user/signup', {
+      const res = await fetch('http://192.168.3.118:3000/api/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ export function SignUpController() {
           image,
         }),
       });
-      if (res.ok) navigation.navigate('Home');
+      if (res.ok) {}
     } catch (error) {}
   }
   async function handleSetImage() {
