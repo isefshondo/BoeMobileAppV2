@@ -22,7 +22,7 @@ import {arrayToBase64} from '@/utils/array-to-base64/index.utils';
 import LoadingCow from '../../assets/loading_cow.svg';
 import {colors} from '@/themes/colors/index.themes';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import { responsiveHorizontalScale } from '@/utils/metrics/index.utils';
+import {responsiveHorizontalScale} from '@/utils/metrics/index.utils';
 
 function displayIllnessSeverity(chancePercentage: number) {
   switch (true) {
@@ -148,9 +148,16 @@ export const CowAnalysisScreen: React.FC<NavigationProps> = ({route}) => {
       </View>
     );
   }
-  return (<SafeAreaView style={{flex: 1, backgroundColor: '#fff', justifyContent: 'center'}}>
-    <View style={{width: '100%', paddingLeft: responsiveHorizontalScale(34)}}></View>
-  </SafeAreaView>);
+  return (
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: '#fff', justifyContent: 'center'}}>
+      <View
+        style={{
+          width: '100%',
+          paddingLeft: responsiveHorizontalScale(34),
+        }}></View>
+    </SafeAreaView>
+  );
   // return (
   //   <SafeAreaView style={styles.container}>
   //     <ScrollView

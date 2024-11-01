@@ -1,6 +1,10 @@
-import React, { useCallback } from "react";
-import { Home } from "../view/home.view";
-import { DrawerActions, useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, {useCallback} from 'react';
+import {Home} from '../view/home.view';
+import {
+  DrawerActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import * as StorageInstance from '../../../utils/storage/index.utils';
 
 export type RequestsErrors = {
@@ -16,7 +20,7 @@ export type AnimalAnalytics = {
   currentPositiveCases: number | null;
   sickAnimals: number | null;
   curedAnimals: number | null;
-}
+};
 
 export function HomeController() {
   const navigation = useNavigation();
@@ -39,7 +43,7 @@ export function HomeController() {
   });
 
   function handleMenuPress() {
-    navigation.dispatch(DrawerActions.openDrawer())
+    navigation.dispatch(DrawerActions.openDrawer());
   }
 
   async function getDataFromStorage() {
@@ -57,7 +61,7 @@ export function HomeController() {
 
   useFocusEffect(
     useCallback(() => {
-      getDataFromStorage()
+      getDataFromStorage();
     }, []),
   );
 
@@ -65,7 +69,7 @@ export function HomeController() {
     try {
       const res = await fetch('', {
         method: 'GET',
-        headers: { Authorization: `Bearer ${jwt}` }
+        headers: {Authorization: `Bearer ${jwt}`},
       });
       const data = await res.json();
       setAnalytics({
@@ -73,12 +77,12 @@ export function HomeController() {
         currentPositiveCases: data.current_positive_cases_percentage,
         sickAnimals: data.current_positive_cases,
         curedAnimals: data.current_negative_cases,
-      })
+      });
     } catch (error) {
       // TODO: Verify if it will handle everything in the same view or redirect to an specific error page
-      setError((previousState) => ({...previousState, hasAnalyticsFailed: true}));
+      setError(previousState => ({...previousState, hasAnalyticsFailed: true}));
     } finally {
-      setIsLoading((previousState) => ({...previousState, analytics: false}));
+      setIsLoading(previousState => ({...previousState, analytics: false}));
     }
   }
 
@@ -86,25 +90,37 @@ export function HomeController() {
     try {
       const res = await fetch('', {
         method: 'GET',
-        headers: { Authorization: `Bearer ${jwt}` }
+        headers: {Authorization: `Bearer ${jwt}`},
       });
       const data = await res.json();
       setGraphics([]);
     } catch (error) {
-      setError((previousState) => ({...previousState, hasGraphicsFailed: true}));
+      setError(previousState => ({...previousState, hasGraphicsFailed: true}));
     } finally {
-      setIsLoading((previousState) => ({...previousState, graphics: false}));
+      setIsLoading(previousState => ({...previousState, graphics: false}));
     }
   }
 
   useFocusEffect(
     useCallback(() => {
       // if (jwt) {
-        fetchAnalytics();
-        fetchGraphics();
+      fetchAnalytics();
+      fetchGraphics();
       // }
-    }, [jwt])
+    }, [jwt]),
   );
 
-  return <Home isLoading={isLoading} name={name} handleMenuPress={handleMenuPress} analytics={analytics} graphics={graphics} />
+  return (
+    <Home
+      isLoading={isLoading}
+      name={name}
+      handleMenuPress={handleMenuPress}
+      analytics={analytics}
+      graphics={graphics}
+      error={{
+        hasAnalyticsFailed: error.hasAnalyticsFailed,
+        hasGraphicsFailed: error.hasGraphicsFailed,
+      }}
+    />
+  );
 }

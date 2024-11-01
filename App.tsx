@@ -1,8 +1,8 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { AuthScreenStack } from './src/navigation/AuthStack';
-import { RootScreensStack } from './src/navigation/RootStack';
-import { AuthContext, AuthProvider } from './src/context/auth';
+import {NavigationContainer} from '@react-navigation/native';
+import {AuthScreenStack} from './src/navigation/AuthStack';
+import {RootScreensStack} from './src/navigation/RootStack';
+import {AuthContext, AuthProvider} from './src/context/auth';
 
 function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
   if (!isLoggedIn) {
@@ -16,7 +16,7 @@ function App(): React.JSX.Element {
     <AuthProvider>
       <NavigationContainer>
         <AuthContext.Consumer>
-          {({ isLoggedIn }) => renderRoutesByLoginStatus(isLoggedIn)}
+          {({isLoggedIn}) => renderRoutesByLoginStatus(isLoggedIn)}
         </AuthContext.Consumer>
       </NavigationContainer>
     </AuthProvider>

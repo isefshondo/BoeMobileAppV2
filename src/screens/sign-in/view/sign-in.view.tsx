@@ -16,21 +16,48 @@ import {
 } from '@/utils/metrics/index.utils';
 import {colors} from '@/themes/colors/index.themes';
 import {DefaultButton} from '@/components/DefaultButton';
-import { SignInInputs } from '../controller/sign-in.controller';
+import {SignInInputs} from '../controller/sign-in.controller';
+import Info from '../../../assets/info.svg';
+import {StatusBar} from 'expo-status-bar';
 
 interface SignIn {
+  signInInputs: SignInInputs;
   setSignInInputs: React.Dispatch<React.SetStateAction<SignInInputs>>;
   handleRegisterLinkPress: () => void;
   handleLogInButtonPress: () => Promise<void>;
-  errorMessage: string | null;
+  isAuthenticationError: boolean;
 }
 
-export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPress, handleLogInButtonPress}) => {
+export const SignIn: React.FC<SignIn> = ({
+  signInInputs,
+  setSignInInputs,
+  handleRegisterLinkPress,
+  handleLogInButtonPress,
+  isAuthenticationError,
+}) => {
+  const signInFormToLink = !isAuthenticationError
+    ? styles.secondSpace
+    : styles.fifthSpace;
+  function renderErrorMessage() {
+    return (
+      isAuthenticationError && (
+        <>
+          <View style={styles.errorMessage}>
+            <Info width={13} height={13} />
+            <View style={styles.seventhSpace} />
+            <Text style={styles.textTertiary}>E-mail ou senha inválidos</Text>
+          </View>
+          <View style={styles.sixthSpace} />
+        </>
+      )
+    );
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <StatusBar backgroundColor="#fff" />
         <View style={styles.header}>
           <BoeSymbol width={25} height={33} />
         </View>
@@ -42,19 +69,27 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPre
           <View>
             <DefaultInput
               inputLabel="E-mail"
-              inputCurrentValue=""
-              onInputChange={(email) => setSignInInputs((previousState) => ({...previousState, email}))}
+              inputCurrentValue={signInInputs.email}
+              onInputChange={email =>
+                setSignInInputs(previousState => ({...previousState, email}))
+              }
             />
             <View style={styles.firstSpace} />
             <View>
               <DefaultInput
                 inputLabel="Senha"
-                inputCurrentValue=""
-                onInputChange={(password) => setSignInInputs((previousState) => ({...previousState, password}))}
+                inputCurrentValue={signInInputs.password}
+                onInputChange={password =>
+                  setSignInInputs(previousState => ({
+                    ...previousState,
+                    password,
+                  }))
+                }
               />
-              <View style={styles.secondSpace} />
+              <View style={signInFormToLink} />
+              {renderErrorMessage()}
               <TouchableOpacity>
-                <Text style={[styles.navigation, styles.alignToCenter]}>
+                <Text style={[styles.navigation, styles.navigationLink]}>
                   Esqueci minha senha
                 </Text>
               </TouchableOpacity>
@@ -62,7 +97,10 @@ export const SignIn: React.FC<SignIn> = ({setSignInInputs, handleRegisterLinkPre
           </View>
           <View style={styles.thirdSpace} />
           <View>
-            <DefaultButton buttonText="Log in" onButtonPress={handleLogInButtonPress} />
+            <DefaultButton
+              buttonText="Log in"
+              onButtonPress={() => handleLogInButtonPress()}
+            />
             <View style={styles.fourthSpace} />
             <Text style={styles.navigationDescription}>
               Não possui uma conta ainda?
@@ -108,7 +146,7 @@ export const styles = StyleSheet.create({
   },
   secondSpace: {
     width: '100%',
-    height: responsiveVerticalScale(14),
+    height: responsiveVerticalScale(21),
   },
   navigation: {
     fontSize: 15,
@@ -117,7 +155,7 @@ export const styles = StyleSheet.create({
   },
   thirdSpace: {
     width: '100%',
-    height: responsiveVerticalScale(52),
+    height: responsiveVerticalScale(47),
   },
   fourthSpace: {
     width: '100%',
@@ -132,7 +170,32 @@ export const styles = StyleSheet.create({
   },
   navigationLink: {
     textAlign: 'center',
-    color: colors.LIGHT_BLUE,
+    color: colors.SECONDARY_BLUE,
     textDecorationLine: 'underline',
+  },
+  fifthSpace: {
+    width: '100%',
+    height: responsiveVerticalScale(11),
+  },
+  sixthSpace: {
+    width: '100%',
+    height: responsiveVerticalScale(25),
+  },
+  errorMessage: {
+    width: '100%',
+    height: responsiveVerticalScale(27),
+    backgroundColor: colors.LIGHT_RED,
+    borderRadius: 9,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textTertiary: {
+    fontSize: 12,
+    color: '#fff',
+  },
+  seventhSpace: {
+    width: responsiveHorizontalScale(4),
+    height: '100%',
   },
 });

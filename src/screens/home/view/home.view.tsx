@@ -1,13 +1,20 @@
-import React from "react";
+import React from 'react';
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import AnimalIcon from '../../../assets/loading_cow.svg';
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { CowAnalyticsCard } from "@/components/CowAnalyticsCard";
-import { responsiveHorizontalScale, responsiveVerticalScale } from "@/utils/metrics/index.utils";
-import { colors } from "@/themes/colors/index.themes";
-import { AnimalAnalytics, RequestsLoading } from "../controller/home.controller";
-import { LineGraphics } from "@/components/line-graphics.component";
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
+import {colors} from '@/themes/colors/index.themes';
+import {
+  AnimalAnalytics,
+  RequestsErrors,
+  RequestsLoading,
+} from '../controller/home.controller';
+import {LineGraphics} from '@/components/line-graphics.component';
 
 interface Home {
   isLoading: RequestsLoading;
@@ -15,44 +22,94 @@ interface Home {
   handleMenuPress: () => void;
   analytics: AnimalAnalytics;
   graphics: any[];
+  error: RequestsErrors;
 }
 
-export const Home: React.FC<Home> = ({isLoading, name, handleMenuPress, analytics, graphics}) => {
+export const Home: React.FC<Home> = ({
+  isLoading,
+  name,
+  handleMenuPress,
+  analytics,
+  graphics,
+  error,
+}) => {
+  function renderGraphicsComponent() {
+    return graphics.length > 0 ? (
+      <View>
+        <LineGraphics labels={[]} datasets={[]} />
+      </View>
+    ) : (
+      <View style={styles.graphics}>
+        <AnimalIcon width={41} height={34.81} />
+        <View style={styles.thirdSpace} />
+        <Text style={styles.textLabel}>Nenhum registro foi feito ainda</Text>
+      </View>
+    );
+  }
   function renderGraphics() {
-    return graphics.length > 0 ? <View><LineGraphics labels={[]} datasets={[]} /></View> : <View style={styles.graphics}>
-      <AnimalIcon width={41} height={34.81} />
-      <View style={styles.thirdSpace} />
-      <Text style={styles.textLabel}>Nenhum registro foi feito ainda</Text>
-    </View>;
+    return error.hasGraphicsFailed ? (
+      <Text>Futuro componente de erro</Text>
+    ) : (
+      renderGraphicsComponent()
+    );
+  }
+  function renderCard(
+    type: any,
+    value: number,
+    increasedCasesValue?: number,
+    decreasedCasesValue?: number,
+  ) {
+    return error.hasAnalyticsFailed ? (
+      <Text>Futuro componente de erro</Text>
+    ) : (
+      <CowAnalyticsCard
+        type={type}
+        value={value}
+        increasedCasesValue={increasedCasesValue}
+        decreasedCasesValue={decreasedCasesValue}
+      />
+    );
   }
 
-  if (isLoading.analytics || isLoading.graphics) return <Text>Futuro Skeleton</Text>;
-  return <SafeAreaView style={styles.container}>
-    <View style={styles.header}>
-      <Menu width={34} height={34} onPress={handleMenuPress} />
-      <BoeSymbol width={25} height={34} />
-    </View>
-    <View style={styles.main}>
-      <View>
-        <View style={styles.row}>
-          <Text style={styles.textPrimaryBold}>Olá, </Text>
-          <Text style={styles.textPrimaryLight}>{name}</Text>
+  if (isLoading.analytics || isLoading.graphics) {
+    return <Text>Futuro Skeleton</Text>;
+  }
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Menu width={34} height={34} onPress={handleMenuPress} />
+        <BoeSymbol width={25} height={34} />
+      </View>
+      <View style={styles.main}>
+        <View>
+          <View style={styles.row}>
+            <Text style={styles.textPrimaryBold}>Olá, </Text>
+            <Text style={styles.textPrimaryLight}>{name}</Text>
+          </View>
+          <View style={styles.firstSpace} />
+          <View style={styles.justifiedRow}>
+            {renderCard(
+              'CURRENT_REGISTERED_COWS',
+              analytics.allRegisteredAnimal,
+            )}
+            {renderCard(
+              'CURRENT_POSITIVE_CASES',
+              analytics.currentPositiveCases,
+              analytics.sickAnimals,
+              analytics.curedAnimals,
+            )}
+          </View>
         </View>
-        <View style={styles.firstSpace} />
-        <View style={styles.justifiedRow}>
-          <CowAnalyticsCard type="CURRENT_REGISTERED_COWS" value={analytics.allRegisteredAnimal} />
-          <CowAnalyticsCard type="CURRENT_POSITIVE_CASES" value={analytics.currentPositiveCases} increasedCasesValue={analytics.sickAnimals} decreasedCasesValue={analytics.curedAnimals} />
+        <View style={styles.secondSpace} />
+        <View style={styles.graphicsContainer}>
+          <View style={styles.justifiedRow}>
+            <Text style={styles.textSecondary}>Gráfico geral</Text>
+          </View>
+          {renderGraphics()}
         </View>
       </View>
-      <View style={styles.secondSpace} />
-      <View style={styles.graphicsContainer}>
-        <View style={styles.justifiedRow}>
-          <Text style={styles.textSecondary}>Gráfico geral</Text>
-        </View>
-        {renderGraphics()}
-      </View>
-    </View>
-  </SafeAreaView>
+    </SafeAreaView>
+  );
 };
 
 export const styles = StyleSheet.create({
@@ -116,7 +173,7 @@ export const styles = StyleSheet.create({
     elevation: 8,
     shadowColor: '#006277',
     shadowRadius: 21,
-    shadowOpacity: .1,
+    shadowOpacity: 0.1,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -132,4 +189,4 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: responsiveVerticalScale(17),
   },
-})
+});
