@@ -32,10 +32,13 @@ export function SignInController() {
 
   async function fetchSignIn() {
     try {
-      const response = await axios.post(`http://192.168.3.118:3000/api/user/signin`, {
+      const response = await axios.post(
+        `http://192.168.3.118:3000/api/user/signin`,
+        {
           email: signInInputs.email,
           password: signInInputs.password,
-        }, {headers: {'Content-Type': 'application/json'}}
+        },
+        {headers: {'Content-Type': 'application/json'}},
       );
       const {jwt, data} = await response.data;
 
@@ -46,7 +49,7 @@ export function SignInController() {
         setIsAuthenticationError(true);
       }
     }
-  };
+  }
 
   return (
     <SignIn

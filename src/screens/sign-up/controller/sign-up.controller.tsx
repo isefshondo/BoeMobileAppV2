@@ -24,9 +24,7 @@ export type ErrorMessage = {
 
 export function SignUpController() {
   const navigation =
-    useNavigation<
-      NativeStackNavigationProp<AuthStackParams>
-    >();
+    useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   const [signUpInputs, setSignUpInputs] = React.useState<SignUpInputs>({
     name: '',
     email: '',
@@ -58,7 +56,8 @@ export function SignUpController() {
           image,
         }),
       });
-      if (res.ok) {}
+      if (res.ok) {
+      }
     } catch (error) {}
   }
   async function handleSetImage() {
