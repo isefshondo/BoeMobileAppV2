@@ -15,6 +15,7 @@ import {
   RequestsLoading,
 } from '../controller/home.controller';
 import {LineGraphics} from '@/components/line-graphics.component';
+import {Skeleton} from '@/components/skeleton.component';
 
 interface Home {
   isLoading: RequestsLoading;
@@ -47,8 +48,16 @@ export const Home: React.FC<Home> = ({
     );
   }
   function renderGraphics() {
+    if (isLoading.graphics)
+      return <Skeleton width={361} height={259} borderRadius={20} />;
     return error.hasGraphicsFailed ? (
-      <Text>Futuro componente de erro</Text>
+      <View style={styles.graphicsErrorContainer}>
+        <View style={styles.graphicsErrorComponents}>
+          <Text style={styles.graphicsErrorText}>
+            Algo deu errado ao tentar carregar os dados
+          </Text>
+        </View>
+      </View>
     ) : (
       renderGraphicsComponent()
     );
@@ -59,6 +68,11 @@ export const Home: React.FC<Home> = ({
     increasedCasesValue?: number,
     decreasedCasesValue?: number,
   ) {
+    const isBiggerCard = type === 'CURRENT_POSITIVE_CASE';
+    const width = isBiggerCard ? 182 : 164;
+    if (isLoading.analytics) {
+      return <Skeleton width={width} height={164} borderRadius={10} />;
+    }
     return error.hasAnalyticsFailed ? (
       <Text>Futuro componente de erro</Text>
     ) : (
@@ -71,9 +85,6 @@ export const Home: React.FC<Home> = ({
     );
   }
 
-  if (isLoading.analytics || isLoading.graphics) {
-    return <Text>Futuro Skeleton</Text>;
-  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -188,5 +199,27 @@ export const styles = StyleSheet.create({
   thirdSpace: {
     width: '100%',
     height: responsiveVerticalScale(17),
+  },
+  graphicsErrorContainer: {
+    width: '100%',
+    height: responsiveVerticalScale(259),
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    elevation: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  graphicsErrorComponents: {
+    width: responsiveHorizontalScale(250),
+    height: responsiveVerticalScale(92),
+    gap: responsiveVerticalScale(17),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  graphicsErrorText: {
+    fontSize: 17,
+    fontWeight: '500',
+    color: colors.GRAY,
+    textAlign: 'center',
   },
 });

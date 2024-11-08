@@ -47,16 +47,12 @@ export function HomeController() {
   }
 
   async function getDataFromStorage() {
-    try {
-      const loggedInData = await StorageInstance.getFromStorage('loggedInData');
-      const parsedLoggedInData = JSON.parse(loggedInData);
-      const storagedName = parsedLoggedInData.data.name.split(' ')[0] ?? '';
-      const userJwt = parsedLoggedInData.jwt ?? '';
-      setName(storagedName);
-      setJwt(userJwt);
-    } catch (error) {
-      // TODO: Handle Error with components or a new screen
-    }
+    const loggedInData = await StorageInstance.getFromStorage('loggedInData');
+    const parsedLoggedInData = JSON.parse(loggedInData);
+    const storagedName = parsedLoggedInData.data.name.split(' ')[0] ?? '';
+    const userJwt = parsedLoggedInData.jwt ?? '';
+    setName(storagedName);
+    setJwt(userJwt);
   }
 
   useFocusEffect(
@@ -67,7 +63,7 @@ export function HomeController() {
 
   async function fetchAnalytics() {
     try {
-      const res = await fetch('', {
+      const res = await fetch('http://192.168.3.118:3000/api/analytics', {
         method: 'GET',
         headers: {Authorization: `Bearer ${jwt}`},
       });
@@ -79,7 +75,6 @@ export function HomeController() {
         curedAnimals: data.current_negative_cases,
       });
     } catch (error) {
-      // TODO: Verify if it will handle everything in the same view or redirect to an specific error page
       setError(previousState => ({...previousState, hasAnalyticsFailed: true}));
     } finally {
       setIsLoading(previousState => ({...previousState, analytics: false}));
@@ -103,10 +98,8 @@ export function HomeController() {
 
   useFocusEffect(
     useCallback(() => {
-      // if (jwt) {
       fetchAnalytics();
       fetchGraphics();
-      // }
     }, [jwt]),
   );
 
