@@ -1,13 +1,17 @@
 <h1 align="center">BOE's Mobile App</h1>
 
-Este projeto foi criado com o intuito de auxiliar o processo de diagnóstico das doenças dermatológicas em bovinos, especificamente: o berne, a dermatofitose bovina, a dermatofilose bovine e a dermatite nodular contagiosa, acelerando-o. Isso pode ser feito com o uso de Aprendizagem Profunda, uma subárea da Inteligência Artificial. A arquitetura do BOE é composta por 4 desenvolvimentos: [BoeMobileApp](https://github.com/isefshondo/BoeMobileAppV2), [BoeWebDashboard](https://github.com/RebecaBaruch/boe-web-dashboard), [BoeBff](https://github.com/isefshondo/BoeApiV2) e [BoeAI](https://github.com/mayarakaren/IA-Boe).
+:brazil: Este projeto foi criado com o intuito de auxiliar o processo de diagnóstico das doenças dermatológicas em bovinos, especificamente: o berne, a dermatofitose bovina, a dermatofilose bovine e a dermatite nodular contagiosa, acelerando-o. Isso pode ser feito com o uso de Aprendizagem Profunda, uma subárea da Inteligência Artificial. A arquitetura do BOE é composta por 4 desenvolvimentos: [BoeMobileApp](https://github.com/isefshondo/BoeMobileAppV2), [BoeWebDashboard](https://github.com/RebecaBaruch/boe-web-dashboard), [BoeBff](https://github.com/isefshondo/BoeApiV2) e [BoeAI](https://github.com/mayarakaren/IA-Boe).
+
+:us: This project was designed to assist in the diagnostic process of dermatological diseases in cattle, specifically: warble fly infestation, bovine dermatophytosis, bovine dermatophilosis, and contagious nodular dermatitis, accelerating the process. This can be achieved through the use of Deep Learning, a subfield of Artificial Intelligence. The architecture of the BOE consists of four developments: [BoeMobileApp](https://github.com/isefshondo/BoeMobileAppV2), [BoeWebDashboard](https://github.com/RebecaBaruch/boe-web-dashboard), [BoeBff](https://github.com/isefshondo/BoeApiV2) e [BoeAI](https://github.com/mayarakaren/IA-Boe).
 
 ![BOE's Mobile App](./docs/readme-header.png)
 
 > [!NOTE]
-> É importante ressaltar que este trabalho não substitui um profissional da medicina veterinária.
+> :brazil: É importante ressaltar que este trabalho não substitui um profissional da medicina veterinária.
+> 
+> :us: It is important to emphasise that this work does not replace a veterinary professional.
 
-## Funcionalidades
+## :hammer_and_wrench: Funcionalidades
 
 Este repositório aborda a aplicação para dispositivos móveis.
 
@@ -23,20 +27,20 @@ Tem-se como suas funcionalidades as seguintes:
 - Listagem de animais (Dados principais e de maior relevância do animal em explícito)
 - Visualização macro dos detalhes do animal (Incluindo seu histórico)
 
-## Pré-requisitos para funcionamento íntegro
+## :white_check_mark: Pré-requisitos para funcionamento íntegro
 
 - Node
 - Visual Studio Code
-- Expo Go (Aplicativo disponível na [Play Store]() ou [Apple Store]())
+- Expo Go (Aplicativo disponível na [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR&pli=1) ou [App Store](https://apps.apple.com/br/app/expo-go/id982107779))
 
-## Dependências
+## :package: Dependências
 
 Para que possa experenciar todas as funcionalidades que a aplicação tem a oferecer, é **preciso** que as seguintes dependências sejam instaladas e executados simultaneamente à execução desta aplicação:
 
 - [BoeBff](https://github.com/isefshondo/BoeApiV2)
 - [BoeAI](https://github.com/mayarakaren/IA-Boe)
 
-## Configuração do BOE
+## :computer: Configuração do BOE
 
 1. Após ter clonando, de acordo com seus respectivos READMEs, os repositórios acima, clone este repositório em sua máquina:
 
@@ -68,7 +72,7 @@ npx expo start -c
    - Escaneie o QR Code que aparece em seu terminal; ou
    - Digite a URL que aparece em seu terminal.
 
-## Quer contribuir com a melhora desta aplicação?
+## Quer contribuir com a melhora desta aplicação? :blush::blue_heart:
 
 É simples! Em uma branch separada, implemente suas sugestões e abra uma Pull Request! Você pode colocar como revisores os seguintes perfis:
 
@@ -77,7 +81,7 @@ npx expo start -c
 - [Nayara (@NahAzevedo)](https://github.com/NahAzevedo)
 - [Rebeca (@RebecaBaruch)](https://github.com/RebecaBaruch)
 
-## Tecnologias
+## :gear: Tecnologias
 
 ![React Native](https://img.shields.io/badge/react--native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)&nbsp;
