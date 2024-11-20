@@ -4,6 +4,7 @@ import {styles} from './styles';
 import {CowAnalyticsCardProps} from './types';
 import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
+import {responsiveHorizontalScale} from '@/utils/metrics/index.utils';
 
 const displayCardsLabel = {
   CURRENT_REGISTERED_COWS: 'Registrados',
@@ -19,13 +20,16 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
   const isStatistics = type === 'CURRENT_POSITIVE_CASES';
   const hasAnalyticsData = value && value !== 0;
   const valueWithOrWithoutPerc = isStatistics ? `${value}%` : value;
+  const width = isStatistics
+    ? responsiveHorizontalScale(182)
+    : responsiveHorizontalScale(164);
 
   return (
     <View
       style={
         !isStatistics
-          ? [styles.container, styles.registeredAnimalsContainer]
-          : styles.container
+          ? [styles.container, {width}, styles.registeredAnimalsContainer]
+          : [styles.container, {width}]
       }>
       <View style={isStatistics ? styles.statisticsContainer : null}>
         <Text style={styles.textValue}>

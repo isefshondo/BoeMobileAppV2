@@ -34,9 +34,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     borderWidth: isBorderedDisplay ? 5 : 0,
     borderColor: isBorderedDisplay ? colors.BLUE : 'transparent',
   };
-  const src =
-    image ??
-    'https://fastly.picsum.photos/id/200/1920/1280.jpg?hmac=-eKjMC8-UrbLMpy1A4OWrK0feVPB3Ka5KNOGibQzpRU';
+  const src = image ? `data:image/*;base64,${image}` : 'https://fastly.picsum.photos/id/200/1920/1280.jpg?hmac=-eKjMC8-UrbLMpy1A4OWrK0feVPB3Ka5KNOGibQzpRU';
   const badgePaddingTop = badge && badgeTop ? badgeTop : 0;
   function renderBadge() {
     return (
@@ -61,7 +59,7 @@ export const Avatar: React.FC<AvatarProps> = ({
           borderWidth: border.borderWidth,
           borderColor: border.borderColor,
         }}
-        src={src}
+        source={{uri: src}}
       />
       {renderBadge()}
     </TouchableOpacity>
