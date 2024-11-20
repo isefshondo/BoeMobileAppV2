@@ -15,7 +15,7 @@
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
-    "expo": "^52.0.7",
+    "expo": "^51.0.5",
     "expo-camera": "~15.0.9",
     "expo-image-picker": "~15.0.5",
     "expo-secure-store": "~13.0.1",
