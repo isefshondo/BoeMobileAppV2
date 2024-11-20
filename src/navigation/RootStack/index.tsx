@@ -2,7 +2,6 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {DefaultBottomTab} from '../../components/DefaultBottomTab';
 import {EditProfileScreen} from '@/screens/EditProfileScreen';
 import {CowAnalysisScreen} from '@/screens/CowAnalysisScreen';
 import {ProcessAnalysisCameraScreen} from '@/screens/ProcessAnalysisCameraScreen';
@@ -10,6 +9,7 @@ import {SideNavbar} from '@/components/SideNavbar';
 import {RegisterCowScreen} from '@/screens/RegisterCowScreen';
 import {HomeController} from '@/screens/home/controller/home.controller';
 import {AnimalListingController} from '@/screens/animal-listing/controller/animal-listing.controller';
+import { BottomTab } from '@/components/bottom-tab.component';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;
@@ -31,7 +31,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsParams>();
 const DrawerTabs = createDrawerNavigator<DrawerTabsParams>();
 const RootStack = createNativeStackNavigator<RootStackParams>();
 
-const MainBottomTab = props => <DefaultBottomTab {...props} />;
+const MainBottomTab = ({state, descriptors, navigation, insets}) => <BottomTab state={state} navigation={navigation} descriptors={descriptors} insets={insets}  />;
 
 function BottomTabsScreenStack(): React.JSX.Element {
   return (
