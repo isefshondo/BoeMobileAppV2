@@ -1,17 +1,87 @@
-Como rodar este projeto?
+<h1 align="center">BOE's Mobile App</h1>
 
-Antes de tudo, instale as dependências do projeto pelo comando: npm i
+:brazil: Este projeto foi criado com o intuito de auxiliar o processo de diagnóstico das doenças dermatológicas em bovinos, especificamente: o berne, a dermatofitose bovina, a dermatofilose bovine e a dermatite nodular contagiosa, acelerando-o. Isso pode ser feito com o uso de Aprendizagem Profunda, uma subárea da Inteligência Artificial. A arquitetura do BOE é composta por 4 desenvolvimentos: [BoeMobileApp](https://github.com/isefshondo/BoeMobileAppV2), [BoeWebDashboard](https://github.com/RebecaBaruch/boe-web-dashboard), [BoeBff](https://github.com/isefshondo/BoeApiV2) e [BoeAI](https://github.com/mayarakaren/IA-Boe).
 
-Após a instalação das dependências, há dois jeitos de executar a aplicação: Expo GO e Android Studio
+:us: This project was designed to assist in the diagnostic process of dermatological diseases in cattle, specifically: warble fly infestation, bovine dermatophytosis, bovine dermatophilosis, and contagious nodular dermatitis, accelerating the process. This can be achieved through the use of Deep Learning, a subfield of Artificial Intelligence. The architecture of the BOE consists of four developments: [BoeMobileApp](https://github.com/isefshondo/BoeMobileAppV2), [BoeWebDashboard](https://github.com/RebecaBaruch/boe-web-dashboard), [BoeBff](https://github.com/isefshondo/BoeApiV2) e [BoeAI](https://github.com/mayarakaren/IA-Boe).
 
-O Expo GO permite uma experiência pelo seu próprio dispositivo móvel, para usá-lo, basta procurá-lo na Play Store e baixá-lo.
+![BOE's Mobile App](./docs/readme-header.png)
 
-Execute o seguinte comando no terminal: npx expo start -c
+> [!NOTE]
+> :brazil: É importante ressaltar que este trabalho não substitui um profissional da medicina veterinária.
+> 
+> :us: It is important to emphasise that this work does not replace a veterinary professional.
 
-Algumas informações aparecem no terminal, você pode escolher entre escanear o QR Code pela câmera do seu celular (caso seja iPhone) ou usar o leitor de QR Code do seu aplicativo Expo GO.
+## :hammer_and_wrench: Funcionalidades
 
-Caso tenha optado pelo Android Studio, após executar o comando: npx expo start -c. Aperta a tecla A dentro do seu terminal.
+Este repositório aborda a aplicação para dispositivos móveis.
 
-A aplicação deve executar normalmente. É possível haver problemas por conta da rede em que se encontra, procure que o seu dispositivo móvel esteja na mesma rede que a máquina que está rodando a aplicação
+![BOE's Main Features](./docs/readme-features.png)
 
-ATENÇÃO: Por estar rodando localmente, é preciso procurar todas as requisições feitas no aplicação e substituir o IP pelo IP da sua própria máquina.
+Tem-se como suas funcionalidades as seguintes:
+
+- **Cadastro do animal**
+- **Câmera ou Upload de Imagens**
+- Cadastro e Login de Usuário
+- Visualização de dados estatísticos (Por números e gráficos)
+- Edição de dados pessoais
+- Listagem de animais (Dados principais e de maior relevância do animal em explícito)
+- Visualização macro dos detalhes do animal (Incluindo seu histórico)
+
+## :white_check_mark: Pré-requisitos para funcionamento íntegro
+
+- Node
+- Visual Studio Code
+- Expo Go (Aplicativo disponível na [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR&pli=1) ou [App Store](https://apps.apple.com/br/app/expo-go/id982107779))
+
+## :package: Dependências
+
+Para que possa experenciar todas as funcionalidades que a aplicação tem a oferecer, é **preciso** que as seguintes dependências sejam instaladas e executados simultaneamente à execução desta aplicação:
+
+- [BoeBff](https://github.com/isefshondo/BoeApiV2)
+- [BoeAI](https://github.com/mayarakaren/IA-Boe)
+
+## :computer: Configuração do BOE
+
+1. Após ter clonando, de acordo com seus respectivos READMEs, os repositórios acima, clone este repositório em sua máquina:
+
+```
+git clone https://github.com/isefshondo/BoeMobileAppV2.git
+```
+
+2. Abra este repositório em seu Visual Studio
+
+3. Instale suas dependências
+
+   - Em seu terminal - esteja certo de que ele se encontra dentro deste repositório - execute o seguinte comando:
+
+   ```
+   npm ci
+   ```
+
+4. Procure por todas as requisições feitas e substitua o IP fixado na requisição pelo IP de sua própria máquina
+
+5. Certifique-se de que tanto esta aplicação e o seu dispositivo móvel estejam na mesma rede
+
+6. Execute o seguinte comando:
+
+```
+npx expo start -c
+```
+
+7. Abra seu Expo Go em seu dispositivo móvel e escolha a maneira como desejará abrir o APP, existem duas formas:
+   - Escaneie o QR Code que aparece em seu terminal; ou
+   - Digite a URL que aparece em seu terminal.
+
+## Quer contribuir com a melhora desta aplicação? :blush::blue_heart:
+
+É simples! Em uma branch separada, implemente suas sugestões e abra uma Pull Request! Você pode colocar como revisores os seguintes perfis:
+
+- [Isabelle (@isefshondo)](https://github.com/isefshondo)
+- [Mayara (@mayarakaren)](https://github.com/mayarakaren)
+- [Nayara (@NahAzevedo)](https://github.com/NahAzevedo)
+- [Rebeca (@RebecaBaruch)](https://github.com/RebecaBaruch)
+
+## :gear: Tecnologias
+
+![React Native](https://img.shields.io/badge/react--native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)&nbsp;
