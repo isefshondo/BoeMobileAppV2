@@ -16,6 +16,7 @@ import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import Filter from '../../../assets/filters_icon.svg';
 import {CowInfosCard} from '@/components/CowInfosCard';
+import {AnimalListingCard} from '@/components/animal-listing-card.component';
 
 interface AnimalListing {
   isLoading: boolean;
@@ -35,24 +36,18 @@ export const AnimalListing: React.FC<AnimalListing> = ({
   navigateToAnimalProfile,
 }) => {
   function renderCard({item}) {
-    if (isError) {
-      return <Text>Futuro componente de erro</Text>;
-    }
     return (
-      <>
-        <View style={styles.cardsContainer}>
-          <CowInfosCard
-            name={item.name}
-            numberIdentification={item.identifier}
-            treatmentStatus={item.treatmentStatus}
-            illness={item.illness}
-            chancePercentage={item.chancePercentage}
-            onPress={() => navigateToAnimalProfile(item.id)}
-            image={item.animalProfilePicture}
-          />
-          <View style={styles.sixthSpace} />
-        </View>
-      </>
+      <View style={styles.cardsContainer}>
+        <AnimalListingCard
+          id={item.id}
+          identifier={item.identifier}
+          name={item.name}
+          disease={item.illness}
+          diseasePercentage={item.chancePercentage}
+          image={item.animalProfilePicture}
+        />
+        <View style={styles.sixthSpace} />
+      </View>
     );
   }
 

@@ -9,7 +9,7 @@ import * as StorageInstance from '../../../utils/storage/index.utils';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParams} from '@/navigation/RootStack';
 import axios from 'axios';
-import { arrayToBase64 } from '@/utils/array-to-base64/index.utils';
+import {arrayToBase64} from '@/utils/array-to-base64/index.utils';
 
 export function AnimalListingController() {
   const navigation =
@@ -55,7 +55,9 @@ export function AnimalListingController() {
         identifier: animal.number_identification,
         treatmentStatus: lastAnalysis?.treatment_status,
         illness: lastAnalysis?.disease_class,
-        chancePercentage: lastAnalysis ? lastAnalysis.accuracy * 100 : undefined,
+        chancePercentage: lastAnalysis
+          ? lastAnalysis.accuracy * 100
+          : undefined,
         animalProfilePicture: arrayToBase64(animal.image.data),
       }));
       setAnimals(animalListing);

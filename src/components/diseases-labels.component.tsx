@@ -1,4 +1,7 @@
-import { responsiveHorizontalScale, responsiveVerticalScale } from '@/utils/metrics/index.utils';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
@@ -18,9 +21,8 @@ export const DiseasesLabels: React.FC<DiseasesLabels> = ({
   diseases,
   isCardComponent,
 }) => {
-  const formattedDiseaseLabel = !isCardComponent
-    ? diseases
-    : diseases.split(' ')[0];
+  const splitLabel = !diseases ? '--' : diseases.split(' ')[0];
+  const formattedDiseaseLabel = !isCardComponent ? diseases : splitLabel;
   const fontSize = !isCardComponent ? 23 : 10;
   const diseasesLabels = {
     'Dermatofitose bovina': {
@@ -44,14 +46,14 @@ export const DiseasesLabels: React.FC<DiseasesLabels> = ({
       color: '#001f3c',
       paddingHorizontal: 0,
     },
-    'Berne': {
+    Berne: {
       width: !isCardComponent ? 0 : 43,
       height: !isCardComponent ? 28 : 18,
       backgroundColor: '#4a65cf',
       color: '#fff',
       paddingHorizontal: !isCardComponent ? 9 : 0,
     },
-    'Saudável': {
+    Saudável: {
       width: !isCardComponent ? 0 : 84,
       height: !isCardComponent ? 28 : 18,
       backgroundColor: '#ff12cb',
@@ -64,9 +66,18 @@ export const DiseasesLabels: React.FC<DiseasesLabels> = ({
     backgroundColor: '#f2f2f5',
     color: '#717171',
   };
-  const {width, height, backgroundColor, color} = diseasesLabels[diseases] ?? defaultDisease;
+  const {width, height, backgroundColor, color} =
+    diseasesLabels[diseases] ?? defaultDisease;
   return (
-    <View style={[{width: responsiveHorizontalScale(width), height: responsiveVerticalScale(height), backgroundColor}, styles.container]}>
+    <View
+      style={[
+        {
+          width: responsiveHorizontalScale(width),
+          height: responsiveVerticalScale(height),
+          backgroundColor,
+        },
+        styles.container,
+      ]}>
       <Text style={[{color, fontSize}, styles.fontWeight]}>
         {formattedDiseaseLabel}
       </Text>

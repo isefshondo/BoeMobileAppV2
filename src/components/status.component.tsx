@@ -5,13 +5,17 @@ import {
 } from '@/utils/metrics/index.utils';
 import {StyleSheet, Text, View} from 'react-native';
 
-type StatusTypes = 'Tratamento concluído' | 'Em tratamento' | 'Sem tratamento';
+export type StatusTypes =
+  | 'Tratamento concluído'
+  | 'Em tratamento'
+  | 'Sem tratamento';
 interface Status {
-  label: StatusTypes;
+  label?: StatusTypes;
   isBoxedStatusDisplay?: boolean;
 }
 
 export const Status: React.FC<Status> = ({label, isBoxedStatusDisplay}) => {
+  const definedLabel = label ?? 'Sem tratamento';
   function renderVisualStatusLabel() {
     const visualStatusLabel = {
       'Tratamento concluído': (
@@ -29,7 +33,7 @@ export const Status: React.FC<Status> = ({label, isBoxedStatusDisplay}) => {
       ),
       'Sem tratamento': <Text style={styles.visualStatusLabelText}>--</Text>,
     };
-    return visualStatusLabel[label];
+    return visualStatusLabel[definedLabel];
   }
   return (
     <View
@@ -39,7 +43,7 @@ export const Status: React.FC<Status> = ({label, isBoxedStatusDisplay}) => {
       ]}>
       {renderVisualStatusLabel()}
       {!isBoxedStatusDisplay && <View style={styles.firstSpace} />}
-      <Text style={[styles.label, styles.majorFlexGrow]}>{label}</Text>
+      <Text style={[styles.label, styles.majorFlexGrow]}>{definedLabel}</Text>
     </View>
   );
 };

@@ -8,7 +8,7 @@
 
 > [!NOTE]
 > :brazil: É importante ressaltar que este trabalho não substitui um profissional da medicina veterinária.
-> 
+>
 > :us: It is important to emphasise that this work does not replace a veterinary professional.
 
 ## :hammer_and_wrench: Funcionalidades
