@@ -61,6 +61,7 @@ export function AnimalListingController() {
         animalProfilePicture: arrayToBase64(animal.image.data),
       }));
       setAnimals(animalListing);
+      setFilteredAnimals(animalListing);
     } catch (error) {
       setIsError(true);
     } finally {
@@ -70,9 +71,7 @@ export function AnimalListingController() {
 
   useFocusEffect(
     useCallback(() => {
-      // if (jwt) {
       fetchAnimals();
-      // }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jwt]),
   );
@@ -81,7 +80,10 @@ export function AnimalListingController() {
     if (!searchBarValue.length) {
       setFilteredAnimals(animals);
     } else {
-      setFilteredAnimals(animals);
+      const filterAnimalBySearchValue = animals.filter((animal) => {
+        return animal.name.includes(searchBarValue) || animal.identifier.includes(searchBarValue);
+      });
+      setFilteredAnimals(filterAnimalBySearchValue);
     }
   }
 

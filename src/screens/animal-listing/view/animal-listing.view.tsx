@@ -15,7 +15,6 @@ import {
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import Filter from '../../../assets/filters_icon.svg';
-import {CowInfosCard} from '@/components/CowInfosCard';
 import {AnimalListingCard} from '@/components/animal-listing-card.component';
 
 interface AnimalListing {
@@ -37,7 +36,7 @@ export const AnimalListing: React.FC<AnimalListing> = ({
 }) => {
   function renderCard({item}) {
     return (
-      <View style={styles.cardsContainer}>
+      <View style={styles.cardsContainer} key={item.id}>
         <AnimalListingCard
           id={item.id}
           identifier={item.identifier}
