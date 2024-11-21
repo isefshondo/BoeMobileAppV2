@@ -8,7 +8,7 @@ import EditProfileIcon from '../../assets/edit_icon.svg';
 import SettingsIcon from '../../assets/settings_icon.svg';
 import SupportIcon from '../../assets/help_circle_icon.svg';
 import {Spacer} from '../Spacer';
-import {AuthContext} from '@/context/Auth';
+import {AuthContext} from '@/context/auth';
 import * as StorageInstance from '../../utils/storage/index.utils';
 
 interface RoutesItemsProps {

@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     backgroundColor: '#fff',
-    width: responsiveHorizontalScale(164),
     height: responsiveVerticalScale(152),
     justifyContent: 'center',
     alignItems: 'center',

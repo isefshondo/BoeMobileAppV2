@@ -2,8 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthScreenStack} from './src/navigation/AuthStack';
 import {RootScreensStack} from './src/navigation/RootStack';
-import {AuthContext, AuthProvider} from './src/context/Auth';
-import {AnalysisResultsProvider} from '@/context/AnalysisResults';
+import {AuthContext, AuthProvider} from './src/context/auth';
 
 function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
   if (!isLoggedIn) {
@@ -15,13 +14,11 @@ function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
 function App(): React.JSX.Element {
   return (
     <AuthProvider>
-      <AnalysisResultsProvider>
-        <NavigationContainer>
-          <AuthContext.Consumer>
-            {({isLoggedIn}) => renderRoutesByLoginStatus(isLoggedIn)}
-          </AuthContext.Consumer>
-        </NavigationContainer>
-      </AnalysisResultsProvider>
+      <NavigationContainer>
+        <AuthContext.Consumer>
+          {({isLoggedIn}) => renderRoutesByLoginStatus(isLoggedIn)}
+        </AuthContext.Consumer>
+      </NavigationContainer>
     </AuthProvider>
   );
 }
