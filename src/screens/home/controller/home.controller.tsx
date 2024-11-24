@@ -6,6 +6,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import * as StorageInstance from '../../../utils/storage/index.utils';
+import { formatDate } from '@/utils/format-date.util';
 
 export type RequestsErrors = {
   hasAnalyticsFailed: boolean;
@@ -41,7 +42,12 @@ export function HomeController() {
     hasAnalyticsFailed: false,
     hasGraphicsFailed: false,
   });
-
+  const currentDate = new Date();
+  const initialGraphicsDate = new Date();
+  initialGraphicsDate.setDate(initialGraphicsDate.getDate() - 5);
+  const [startDate, setStartDate] = React.useState(initialGraphicsDate);
+  const [endDate, setEndDate] = React.useState(currentDate);
+  
   function handleMenuPress() {
     navigation.dispatch(DrawerActions.openDrawer());
   }
@@ -63,7 +69,7 @@ export function HomeController() {
 
   async function fetchAnalytics() {
     try {
-      const res = await fetch('http://192.168.3.118:3000/api/analytics', {
+      const res = await fetch('http://192.168.3.118:4000/api/analytics', {
         method: 'GET',
         headers: {Authorization: `Bearer ${jwt}`},
       });
@@ -83,7 +89,7 @@ export function HomeController() {
 
   async function fetchGraphics() {
     try {
-      const res = await fetch('', {
+      const res = await fetch('http://192.168.3.118:4000/api/analytics/graphics', {
         method: 'GET',
         headers: {Authorization: `Bearer ${jwt}`},
       });
@@ -114,6 +120,8 @@ export function HomeController() {
         hasAnalyticsFailed: error.hasAnalyticsFailed,
         hasGraphicsFailed: error.hasGraphicsFailed,
       }}
+      startDate={formatDate(startDate)}
+      endDate={formatDate(endDate)}
     />
   );
 }

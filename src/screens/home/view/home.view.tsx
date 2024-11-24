@@ -2,9 +2,16 @@ import React from 'react';
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import AnimalIcon from '../../../assets/loading_cow.svg';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -16,6 +23,10 @@ import {
 } from '../controller/home.controller';
 import {LineGraphics} from '@/components/line-graphics.component';
 import {Skeleton} from '@/components/skeleton.component';
+import CalendarAsset from '../../../assets/calendar.svg';
+import {Calendar} from 'react-native-calendars';
+import {Button} from '@/components/button.component';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface Home {
   isLoading: RequestsLoading;
@@ -24,6 +35,8 @@ interface Home {
   analytics: AnimalAnalytics;
   graphics: any[];
   error: RequestsErrors;
+  startDate: string;
+  endDate: string;
 }
 
 export const Home: React.FC<Home> = ({
@@ -33,11 +46,13 @@ export const Home: React.FC<Home> = ({
   analytics,
   graphics,
   error,
+  startDate,
+  endDate,
 }) => {
   function renderGraphicsComponent() {
     return graphics.length > 0 ? (
       <View>
-        <LineGraphics labels={[]} datasets={[]} />
+        <LineGraphics labels={["a", "Negativos"]} datasets={graphics} />
       </View>
     ) : (
       <View style={styles.graphics}>
@@ -113,12 +128,95 @@ export const Home: React.FC<Home> = ({
         </View>
         <View style={styles.secondSpace} />
         <View style={styles.graphicsContainer}>
-          <View style={styles.justifiedRow}>
+          <View style={[styles.justifiedRow, {alignItems: 'center'}]}>
             <Text style={styles.textSecondary}>Gráfico geral</Text>
+            <TouchableOpacity
+              style={{
+                width: responsiveHorizontalScale(165),
+                height: responsiveVerticalScale(30),
+                backgroundColor: '#fff',
+                elevation: 12,
+                borderRadius: 5,
+                paddingHorizontal: responsiveHorizontalScale(9),
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  color: colors.LIGHT_GRAY,
+                  fontWeight: '600',
+                }}>{`${startDate} à ${endDate}`}</Text>
+              <CalendarAsset />
+            </TouchableOpacity>
           </View>
           {renderGraphics()}
         </View>
       </View>
+      {/* <View style={{position: 'absolute'}}>
+        <Calendar theme={{
+          weekVerticalMargin: responsiveHorizontalScale(16.67),
+          'stylesheet': {
+            'day': {
+              'basic': {
+                width: responsiveHorizontalScale(15),
+                height: responsiveVerticalScale(15),
+                alignItems: 'center',
+                base: {
+                  width: responsiveHorizontalScale(15),
+                  height: responsiveVerticalScale(15),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  margin: 0,
+                },
+              },
+              'period': {
+                wrapper: {
+                  alignItems: 'center',
+                  alignSelf: 'stretch',
+                  marginLeft: -1,
+                },
+                base: {
+                  width: responsiveHorizontalScale(15),
+                  height: responsiveVerticalScale(15),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              },
+            },
+            'calendar': {
+              'header': {
+                dayHeader: {
+                  fontSize: 12,
+                  paddingBottom: 3,
+                },
+              },
+              'main': {
+                container: {
+                  padding: 0,
+                  margin: 0,
+                },
+                week: {
+                  marginVertical: 0,
+                },
+              },
+            },
+          }
+        }} style={{paddingVertical: 0}} />
+      </View> */}
+      {/* <View style={{width: responsiveHorizontalScale(252), height: responsiveVerticalScale(355), borderRadius: 10, backgroundColor: '#ff0000', gap: responsiveVerticalScale(20), alignItems: 'center', justifyContent: 'center', position: 'absolute', right: responsiveHorizontalScale(32), bottom: 0}}>
+        <View style={{width: responsiveHorizontalScale(205), height: responsiveVerticalScale(258), backgroundColor: '#fff000', justifyContent: 'space-between'}}>
+          <View style={{width: '100%', height: responsiveVerticalScale(25), backgroundColor: '#000'}} />
+          <View style={{width: '100%', height: responsiveVerticalScale(210), overflow: 'hidden'}}>
+            <ScrollView>
+            <Calendar style={{width: '100%', height: '100%'}} />
+            </ScrollView>
+          </View>
+        </View>
+        <Button width={205} height={36} isSmall>Aplicar</Button>
+      </View> */}
     </SafeAreaView>
   );
 };

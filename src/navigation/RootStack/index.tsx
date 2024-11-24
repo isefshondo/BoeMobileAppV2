@@ -10,6 +10,7 @@ import {RegisterCowScreen} from '@/screens/RegisterCowScreen';
 import {HomeController} from '@/screens/home/controller/home.controller';
 import {AnimalListingController} from '@/screens/animal-listing/controller/animal-listing.controller';
 import { BottomTab } from '@/components/bottom-tab.component';
+import { AnimalDetailsController } from '@/screens/animal-details/controller/animal-details.controller';
 
 export type BottomTabsParams = {
   InitialRoute: undefined;
@@ -67,7 +68,7 @@ export function RootScreensStack(): React.JSX.Element {
       initialRouteName="Home"
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Home" component={DrawerTabsScreenStack} />
-      <RootStack.Screen name="CowDetails" component={CowAnalysisScreen} />
+      <RootStack.Screen name="CowDetails" component={AnimalDetailsController} />
       <RootStack.Screen
         name="ProcessAnalysisCamera"
         component={ProcessAnalysisCameraScreen}

@@ -44,6 +44,7 @@ export const AnimalListing: React.FC<AnimalListing> = ({
           disease={item.illness}
           diseasePercentage={item.chancePercentage}
           image={item.animalProfilePicture}
+          navigateToAnimalProfile={navigateToAnimalProfile}
         />
         <View style={styles.sixthSpace} />
       </View>

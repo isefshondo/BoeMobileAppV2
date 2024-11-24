@@ -59,7 +59,7 @@ export const RegisterCowScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/animal', {
+      const res = await fetch('http://192.168.3.118:3000/api/animal', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,

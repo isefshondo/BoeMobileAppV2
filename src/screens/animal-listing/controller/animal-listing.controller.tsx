@@ -43,7 +43,7 @@ export function AnimalListingController() {
 
   async function fetchAnimals() {
     try {
-      const res = await axios.get('http://192.168.3.118:3000/api/animal', {
+      const res = await axios.get('http://192.168.3.118:4000/api/animal', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
