@@ -11,6 +11,7 @@ import {
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import {DefaultInput} from '@/components/DefaultInput';
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -19,6 +20,7 @@ import {DefaultButton} from '@/components/DefaultButton';
 import {SignInInputs} from '../controller/sign-in.controller';
 import Info from '../../../assets/info.svg';
 import {StatusBar} from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 
 interface SignIn {
   signInInputs: SignInInputs;
@@ -26,6 +28,7 @@ interface SignIn {
   handleRegisterLinkPress: () => void;
   handleLogInButtonPress: () => Promise<void>;
   isAuthenticationError: boolean;
+  shouldBreakTitle: boolean;
 }
 
 export const SignIn: React.FC<SignIn> = ({
@@ -34,7 +37,9 @@ export const SignIn: React.FC<SignIn> = ({
   handleRegisterLinkPress,
   handleLogInButtonPress,
   isAuthenticationError,
+  shouldBreakTitle,
 }) => {
+  const {t} = useTranslation();
   const signInFormToLink = !isAuthenticationError
     ? styles.secondSpace
     : styles.fifthSpace;
@@ -61,14 +66,14 @@ export const SignIn: React.FC<SignIn> = ({
         <View style={styles.header}>
           <BoeSymbol width={25} height={33} />
         </View>
-        <View>
-          <Text style={styles.textPrimary}>Bem-vindo</Text>
-          <Text style={styles.textSecondary}>de volta</Text>
+        <View style={{flexDirection: !shouldBreakTitle ? 'row' : 'column'}}>
+          <Text style={styles.textPrimary}>{t('sign_in.title.first_line.bold')} </Text>
+          <Text style={styles.textSecondary}>{t('sign_in.title.first_line.regular')}</Text>
         </View>
         <View>
           <View>
             <DefaultInput
-              inputLabel="E-mail"
+              inputLabel={t('sign_in.inputs.email')}
               inputCurrentValue={signInInputs.email}
               onInputChange={email =>
                 setSignInInputs(previousState => ({...previousState, email}))
@@ -77,7 +82,7 @@ export const SignIn: React.FC<SignIn> = ({
             <View style={styles.firstSpace} />
             <View>
               <DefaultInput
-                inputLabel="Senha"
+                inputLabel={t('sign_in.inputs.password')}
                 inputCurrentValue={signInInputs.password}
                 onInputChange={password =>
                   setSignInInputs(previousState => ({
@@ -90,7 +95,7 @@ export const SignIn: React.FC<SignIn> = ({
               {renderErrorMessage()}
               <TouchableOpacity>
                 <Text style={[styles.navigation, styles.navigationLink]}>
-                  Esqueci minha senha
+                  {t('sign_in.actions.forgot_password')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -98,16 +103,16 @@ export const SignIn: React.FC<SignIn> = ({
           <View style={styles.thirdSpace} />
           <View>
             <DefaultButton
-              buttonText="Log in"
+              buttonText={t('sign_in.button')}
               onButtonPress={() => handleLogInButtonPress()}
             />
             <View style={styles.fourthSpace} />
             <Text style={styles.navigationDescription}>
-              Não possui uma conta ainda?
+              {t('sign_in.suggestion')}
             </Text>
             <TouchableOpacity onPress={handleRegisterLinkPress}>
               <Text style={[styles.navigation, styles.navigationLink]}>
-                Registre-se
+                {t('sign_in.actions.register')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -129,11 +134,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   textPrimary: {
-    fontSize: 42,
+    fontSize: responsiveFontSize(42),
     fontWeight: 'bold',
   },
   textSecondary: {
-    fontSize: 42,
+    fontSize: responsiveFontSize(42),
     fontWeight: 'normal',
   },
   header: {

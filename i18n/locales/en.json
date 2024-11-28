@@ -1,0 +1,78 @@
+{
+  "sign_in": {
+    "title": {
+      "first_line": {
+        "regular": "back",
+        "bold": "Welcome"
+      },
+      "second_line": {
+        "regular": "",
+        "bold": ""
+      }
+    },
+    "inputs": {
+      "email": "E-mail",
+      "password": "Password"
+    },
+    "actions": {
+      "forgot_password": "Forgot password",
+      "register": "Register"
+    },
+    "button": "Log in",
+    "suggestion": "Don't have an account yet?"
+  },
+  "sign_up": {
+    "title": "Create account",
+    "description": "Enter your details and create a new account",
+    "suggestion": "Already have an account?",
+    "actions": {
+      "log_in": "Log in"
+    },
+    "inputs": {
+      "name": "Name",
+      "email": "E-mail",
+      "password": "Password",
+      "confirm_password": "Confirm password"
+    },
+    "button": "Register"
+  },
+  "home": {
+    "greeting": "Hello",
+    "statistical_card": {
+      "first_label": "Registered Animals",
+      "second_label": "Positive cases"
+    },
+    "graphics": {
+      "title": "General graph",
+      "cycle_connective": "-",
+      "exception": "No analysis has been done yet",
+      "error": "Something went wrong when trying to load the data"
+    }
+  },
+  "animal_listing": {
+    "title": {
+      "first_line": {
+        "regular": "Image",
+        "bold": "analysis"
+      },
+      "second_line": {
+        "regular": "",
+        "bold": "record"
+      }
+    },
+    "filters": "Filters"
+  },
+  "animal_registration": {
+    "title": "Animal registration",
+    "description": "Register the animal's data and an identification image to start the analysis",
+    "inputs": {
+      "characteristics": {
+        "placeholder": {
+          "identifier": "Identification number",
+          "name": "Animal name (optional)"
+        }
+      }
+    },
+    "button": "Start analysis"
+  }
+}

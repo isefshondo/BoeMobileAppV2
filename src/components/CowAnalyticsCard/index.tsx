@@ -6,14 +6,10 @@ import UpGreenIcon from '../../assets/up_green.svg';
 import DownRedIcon from '../../assets/down_red.svg';
 import {responsiveHorizontalScale} from '@/utils/metrics/index.utils';
 
-const displayCardsLabel = {
-  CURRENT_REGISTERED_COWS: 'Registrados',
-  CURRENT_POSITIVE_CASES: 'Casos Positivos',
-};
-
 export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
   type,
   value,
+  label,
   increasedCasesValue,
   decreasedCasesValue,
 }) => {
@@ -52,7 +48,7 @@ export const CowAnalyticsCard: React.FC<CowAnalyticsCardProps> = ({
           </View>
         )}
       </View>
-      <Text style={styles.textLabel}>{displayCardsLabel[type]}</Text>
+      <Text style={styles.textLabel}>{label}</Text>
     </View>
   );
 };

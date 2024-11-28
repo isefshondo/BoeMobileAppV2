@@ -43,14 +43,14 @@ export function AnimalListingController() {
 
   async function fetchAnimals() {
     try {
-      const res = await axios.get('http://192.168.3.118:3000/api/animal', {
+      const res = await axios.get('http://192.168.3.118:4000/api/animal', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
       const data = await res.data;
       const animalListing = data.map(({animal, lastAnalysis}) => ({
-        id: animal.id,
+        id: animal._id,
         name: animal.name,
         identifier: animal.number_identification,
         treatmentStatus: lastAnalysis?.treatment_status,

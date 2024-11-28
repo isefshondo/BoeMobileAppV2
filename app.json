@@ -7,7 +7,15 @@
     "userInterfaceStyle": "light",
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "ts", "tsx", "json", "wasm", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
     },
     "plugins": [
       "expo-secure-store",
@@ -17,7 +25,8 @@
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos",
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }
