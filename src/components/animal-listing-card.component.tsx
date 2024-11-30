@@ -45,7 +45,9 @@ export const AnimalListingCard: React.FC<AnimalListingCardProps> = ({
     ? getBottomBorderColor()
     : '#F2F2F5';
   return (
-    <TouchableOpacity style={[styles.container, {borderBottomColor}]} onPress={() => navigateToAnimalProfile(id)}>
+    <TouchableOpacity
+      style={[styles.container, {borderBottomColor}]}
+      onPress={() => navigateToAnimalProfile(id)}>
       <Avatar width={72} height={71} image={image} isSquaredDisplay />
       <View style={styles.details}>
         <View style={styles.identifiers}>

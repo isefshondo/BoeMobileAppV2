@@ -7,7 +7,7 @@ import {RootStackParams} from '@/navigation/RootStack';
 import * as StorageInstance from '../../../utils/storage/index.utils';
 import {AuthContext} from '@/context/auth';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 export type SignInInputs = {
   email: string | null;
@@ -42,7 +42,7 @@ export function SignInController() {
     setShouldBreakTitle(false);
   }, [i18n]);
 
-  useFocusEffect(() => (getShouldBreakTitle()))
+  useFocusEffect(() => getShouldBreakTitle());
 
   async function fetchSignIn() {
     try {

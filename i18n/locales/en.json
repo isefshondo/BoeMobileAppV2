@@ -71,8 +71,19 @@
           "identifier": "Identification number",
           "name": "Animal name (optional)"
         }
-      }
+      },
+      "error": "Identifier number field should not be empty"
     },
     "button": "Start analysis"
+  },
+  "navbar": {
+    "items": {
+      "edit_profile": "Edit profile",
+      "settings": "Settings",
+      "help": "Help"
+    },
+    "button": {
+      "exit": "Exit"
+    }
   }
 }

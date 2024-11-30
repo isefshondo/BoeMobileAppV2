@@ -17,7 +17,7 @@ import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import Filter from '../../../assets/filters_icon.svg';
 import {AnimalListingCard} from '@/components/animal-listing-card.component';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface AnimalListing {
   isLoading: boolean;
@@ -74,17 +74,25 @@ export const AnimalListing: React.FC<AnimalListing> = ({
             <View style={styles.container}>
               <View>
                 <View style={styles.row}>
-                  <Text style={styles.titleRegular}>{t('animal_listing.title.first_line.regular')} </Text>
-                  <Text style={styles.titleSemibold}>{t('animal_listing.title.first_line.bold')}</Text>
+                  <Text style={styles.titleRegular}>
+                    {t('animal_listing.title.first_line.regular')}{' '}
+                  </Text>
+                  <Text style={styles.titleSemibold}>
+                    {t('animal_listing.title.first_line.bold')}
+                  </Text>
                 </View>
-                <Text style={styles.titleSemibold}>{t('animal_listing.title.second_line.bold')}</Text>
+                <Text style={styles.titleSemibold}>
+                  {t('animal_listing.title.second_line.bold')}
+                </Text>
               </View>
               <View style={styles.thirdSpace} />
               <SearchBar setSearchInputValue={handleSearchBarChange} />
             </View>
             <View style={styles.fourthSpace} />
             <View style={styles.filter}>
-              <Text style={styles.secondaryTitleSemibold}>{t('animal_listing.filters')}</Text>
+              <Text style={styles.secondaryTitleSemibold}>
+                {t('animal_listing.filters')}
+              </Text>
               <Filter width={28.02} height={24.02} />
             </View>
             <View style={styles.fifthSpace} />

@@ -20,7 +20,7 @@ import {DefaultButton} from '@/components/DefaultButton';
 import {SignInInputs} from '../controller/sign-in.controller';
 import Info from '../../../assets/info.svg';
 import {StatusBar} from 'expo-status-bar';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface SignIn {
   signInInputs: SignInInputs;
@@ -67,8 +67,12 @@ export const SignIn: React.FC<SignIn> = ({
           <BoeSymbol width={25} height={33} />
         </View>
         <View style={{flexDirection: !shouldBreakTitle ? 'row' : 'column'}}>
-          <Text style={styles.textPrimary}>{t('sign_in.title.first_line.bold')} </Text>
-          <Text style={styles.textSecondary}>{t('sign_in.title.first_line.regular')}</Text>
+          <Text style={styles.textPrimary}>
+            {t('sign_in.title.first_line.bold')}{' '}
+          </Text>
+          <Text style={styles.textSecondary}>
+            {t('sign_in.title.first_line.regular')}
+          </Text>
         </View>
         <View>
           <View>

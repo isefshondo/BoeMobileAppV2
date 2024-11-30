@@ -49,7 +49,7 @@ export function HomeController() {
   });
   const currentDay = new Date();
   const initialGraphicsDate = new Date();
-  initialGraphicsDate.setDate(currentDay.getDate() - 5)
+  initialGraphicsDate.setDate(currentDay.getDate() - 5);
   const [startDate, setStartDate] = React.useState(initialGraphicsDate);
   const [endDate, setEndDate] = React.useState(currentDay);
 
@@ -69,9 +69,17 @@ export function HomeController() {
   async function fetchAnalytics() {
     try {
       const res = await axios.get('http://192.168.3.118:4000/api/analytics', {
-        headers: {Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json'},
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
       });
-      const {registered_animals, current_positive_cases_percentage, current_positive_cases, current_negative_cases} = res.data;
+      const {
+        registered_animals,
+        current_positive_cases_percentage,
+        current_positive_cases,
+        current_negative_cases,
+      } = res.data;
       setAnalytics({
         allRegisteredAnimal: registered_animals,
         currentPositiveCases: current_positive_cases_percentage,
@@ -87,16 +95,23 @@ export function HomeController() {
 
   async function fetchGraphics() {
     try {
-      const res = await axios.post('http://192.168.3.118:4000/api/analytics/graphics', {
-        earliest_date: '2024-11-05T03:00:00Z',
-        most_recent_date: new Date(),
-      }, {
-        headers: {Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json' },
-      });
+      const res = await axios.post(
+        'http://192.168.3.118:4000/api/analytics/graphics',
+        {
+          earliest_date: '2024-11-05T03:00:00Z',
+          most_recent_date: new Date(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       const data = res.data;
       setGraphics(data.datasets);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setError(previousState => ({...previousState, hasGraphicsFailed: true}));
     } finally {
       setIsLoading(previousState => ({...previousState, graphics: false}));
@@ -114,7 +129,7 @@ export function HomeController() {
       };
       fetchAllData();
     }, [jwt]),
-  );  
+  );
 
   return (
     <Home

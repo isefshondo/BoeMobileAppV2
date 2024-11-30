@@ -56,8 +56,7 @@ export const Button: React.FC<Button> = ({
         },
         styles.container,
       ]}
-      onPress={() => handlePress()}  
-    >
+      onPress={() => handlePress()}>
       {leftAssets && renderLeftAssets()}
       <Text style={[styles.text, {fontSize}]}>{children}</Text>
       {renderRightAssets()}

@@ -1,7 +1,10 @@
 import React from 'react';
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,6 +19,10 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '@/navigation/RootStack';
+import {responsiveVerticalScale} from '@/utils/metrics/index.utils';
+import {useTranslation} from 'react-i18next';
+import {Avatar} from '@/components/avatar.component';
+import {Button} from '@/components/button.component';
 
 interface IAnimalData {
   numberIdentification: string | null;
@@ -52,36 +59,32 @@ export const RegisterCowScreen: React.FC = () => {
     setAnimalData(prevState => ({...prevState, [inputName]: value}));
   }
 
-  async function handleStartAnalysisButton() {
-    if (!animalData.numberIdentification || !animalData.name || !image) {
+  async function registerAnimal() {
+    if (!animalData.numberIdentification) {
       setShouldShowError(true);
       return;
     }
 
-    try {
-      const res = await fetch('http://192.168.3.105:3000/api/animal', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({...animalData, image}),
-      });
+    const res = await fetch('http://192.168.3.105:3000/api/animal', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({...animalData, image}),
+    });
 
-      if (!res.ok) {
-        throw new Error(
-          `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-        );
-      }
-
-      const data = await res.json();
-
-      navigation.navigate('ProcessAnalysisCamera', {
-        id: data.cowId,
-      });
-    } catch (error) {
-      console.error(error);
+    if (!res.ok) {
+      throw new Error(
+        `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
+      );
     }
+
+    const data = await res.json();
+
+    navigation.navigate('ProcessAnalysisCamera', {
+      id: data.cowId,
+    });
   }
 
   async function handleUploadImage() {
@@ -105,65 +108,75 @@ export const RegisterCowScreen: React.FC = () => {
     }
   }
 
+  const {t} = useTranslation();
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <BackButton
-          style={styles.goBackButton}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-      <View style={styles.screenDescriptionContainer}>
-        <Text style={styles.screenTitle}>Cadastro do animal</Text>
-        <Text style={styles.screenDescription}>
-          Cadastre os dados do animal e uma imagem de identificação para iniciar
-          a análise
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <View style={styles.formInputsContainer}>
-          <TouchableOpacity
-            style={styles.profilePictureContainer}
-            onPress={handleUploadImage}>
-            <View style={styles.profilePictureHolder}>
-              {image && (
-                <Image
-                  source={{uri: `data:image/${imageMime};base64,${image}`}}
-                  style={styles.profilePictureHolder}
-                />
-              )}
-            </View>
-            <UploadIcon style={styles.uploadIcon} />
-          </TouchableOpacity>
-          <View style={styles.inputsContainer}>
-            <TextInput
-              style={styles.inputText}
-              placeholder="Nº de identificação"
-              onChangeText={value =>
-                handleInputChange('numberIdentification', value)
-              }
-            />
-            <View>
-              <TextInput
-                style={[styles.nameInputContainer, styles.inputText]}
-                placeholder="Nome do animal"
-                onChangeText={value => handleInputChange('name', value)}
-              />
-              {shouldShowError && (
-                <Text>Nenhum dos campos podem ser vazios</Text>
-              )}
-            </View>
-          </View>
+    <KeyboardAvoidingView
+      style={{flex: 1, backgroundColor: '#fff'}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: responsiveVerticalScale(85),
+          paddingBottom: responsiveVerticalScale(158),
+        }}>
+        <View style={styles.header}>
+          <BackButton
+            style={styles.goBackButton}
+            onPress={() => navigation.goBack()}
+          />
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleStartAnalysisButton}>
-          <View style={styles.buttonLabelContainer}>
-            <Text style={styles.buttonText}>Iniciar análise</Text>
-            <CameraIcon style={styles.buttonIcon} />
+        <View style={styles.screenDescriptionContainer}>
+          <Text style={styles.screenTitle}>
+            {t('animal_registration.title')}
+          </Text>
+          <Text style={styles.screenDescription}>
+            {t('animal_registration.description')}
+          </Text>
+        </View>
+        <View style={styles.formContainer}>
+          <View style={styles.formInputsContainer}>
+            <Avatar
+              width={96}
+              height={96}
+              badgeTop={73}
+              badge={<UploadIcon style={styles.profilePictureHolder} />}
+              handleSetImage={handleUploadImage}
+            />
+            <View style={styles.inputsContainer}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={t(
+                  'animal_registration.inputs.characteristics.placeholder.identifier',
+                )}
+                onChangeText={value =>
+                  handleInputChange('numberIdentification', value)
+                }
+              />
+              <View>
+                <TextInput
+                  style={[styles.nameInputContainer, styles.inputText]}
+                  placeholder={t(
+                    'animal_registration.inputs.characteristics.placeholder.name',
+                  )}
+                  onChangeText={value => handleInputChange('name', value)}
+                />
+                {shouldShowError && (
+                  <Text>{t('animal_registration.inputs.error')}</Text>
+                )}
+              </View>
+            </View>
           </View>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <Button
+            width={320}
+            height={76}
+            handlePress={registerAnimal}
+            rightAssets={<CameraIcon style={styles.buttonIcon} />}>
+            {t('animal_registration.button')}
+          </Button>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };

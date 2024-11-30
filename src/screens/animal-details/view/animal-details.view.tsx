@@ -1,14 +1,27 @@
-import React from "react";
-import { AnimalDetailsRes } from "../controller/animal-details.controller";
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { responsiveHorizontalScale, responsiveVerticalScale } from "@/utils/metrics/index.utils";
-import { Avatar } from "@/components/avatar.component";
-import { DiseasesLabels } from "@/components/diseases-labels.component";
-import { Status } from "@/components/status.component";
-import { HistoryCard } from "@/components/history-card.component";
-import { colors } from "@/themes/colors/index.themes";
-import { Button } from "@/components/button.component";
+import React from 'react';
+import {AnimalDetailsRes} from '../controller/animal-details.controller';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
+import {Avatar} from '@/components/avatar.component';
+import {DiseasesLabels} from '@/components/diseases-labels.component';
+import {Status} from '@/components/status.component';
+import {HistoryCard} from '@/components/history-card.component';
+import {colors} from '@/themes/colors/index.themes';
+import {Button} from '@/components/button.component';
 import GoBack from '../../../assets/back_left_icon.svg';
+import {Skeleton} from '@/components/skeleton.component';
 
 interface AnimalDetails {
   isLoading: boolean;
@@ -19,19 +32,70 @@ interface AnimalDetails {
   handleGoBackPress: () => void;
 }
 
-export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails, isExpandedCard, handleHistoryCardPres, handleNewAnalysisPress, handleGoBackPress}) => {
-  const definedAnalysis = animalDetails.mostRecentAnalysis?.status ?? 'Sem tratamento';
-  if (isLoading) return <Text>Carregando</Text>
+export const AnimalDetails: React.FC<AnimalDetails> = ({
+  isLoading,
+  animalDetails,
+  isExpandedCard,
+  handleHistoryCardPres,
+  handleNewAnalysisPress,
+  handleGoBackPress,
+}) => {
+  const definedAnalysis =
+    animalDetails.mostRecentAnalysis?.status ?? 'Sem tratamento';
+  function renderAvatar() {
+    return isLoading ? (
+      <Skeleton width={100} height={100} borderRadius={50} />
+    ) : (
+      <Avatar
+        image={animalDetails.image}
+        width={95}
+        height={95}
+        isBorderedDisplay
+      />
+    );
+  }
+  function renderAnimalInformation() {
+    return isLoading ? (
+      <View style={{gap: responsiveVerticalScale(25)}}>
+        <Skeleton width={92} height={21} borderRadius={10} />
+        <Skeleton width={217} height={21} borderRadius={10} />
+      </View>
+    ) : (
+      <View
+        style={{
+          height: responsiveVerticalScale(80),
+          justifyContent: 'space-between',
+        }}>
+        <Text style={{fontSize: 22, fontWeight: '600'}}>
+          {animalDetails.identifier}
+        </Text>
+        <TextInput
+          value={animalDetails.name}
+          style={{width: '100%', fontSize: 23, fontWeight: '300'}}
+        />
+      </View>
+    );
+  }
+  function renderResults() {
+    return isLoading ? (
+      <Skeleton width={257} height={21} borderRadius={10} />
+    ) : (
+      <Status label={definedAnalysis} isBoxedStatusDisplay />
+    );
+  }
   return (
     <>
       <KeyboardAvoidingView
-        style={{flex: 1, backgroundColor: '#fff'}}
+        style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View style={{height: responsiveVerticalScale(49)}} />
           <TouchableOpacity
-            style={{width: '100%', paddingLeft: responsiveHorizontalScale(34)}} onPress={() => handleGoBackPress()}>
+            style={{width: '100%', paddingLeft: responsiveHorizontalScale(34)}}
+            onPress={() => handleGoBackPress()}>
             <GoBack width={33} height={33} />
           </TouchableOpacity>
+          <View style={{height: responsiveVerticalScale(58)}} />
           <View
             style={{
               width: '100%',
@@ -46,20 +110,12 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <View style={{flexGrow: 1}}>
-                <Avatar image={animalDetails.image} width={95} height={95} isBorderedDisplay />
-              </View>
+              <View style={{flexGrow: 1}}>{renderAvatar()}</View>
               <View
                 style={{
                   flexGrow: 3,
-                  height: responsiveVerticalScale(80),
-                  justifyContent: 'space-between',
                 }}>
-                <Text style={{fontSize: 22, fontWeight: '600'}}>{animalDetails.identifier}</Text>
-                <TextInput
-                  value={animalDetails.name}
-                  style={{width: '100%', fontSize: 23, fontWeight: '300'}}
-                />
+                {renderAnimalInformation()}
               </View>
             </View>
             <View
@@ -70,7 +126,13 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails
               }}>
               <View>
                 <Text style={{fontSize: 18, fontWeight: '300'}}>Resultado</Text>
-                <DiseasesLabels diseases={animalDetails.mostRecentAnalysis?.disease} />
+                {isLoading ? (
+                  <Skeleton width={129} height={33} borderRadius={10} />
+                ) : (
+                  <DiseasesLabels
+                    diseases={animalDetails.mostRecentAnalysis?.disease}
+                  />
+                )}
               </View>
               <View
                 style={{
@@ -81,10 +143,11 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails
                 <Text style={{fontSize: 17, fontWeight: '600'}}>
                   Status de tratamento
                 </Text>
-                <Status label={definedAnalysis} isBoxedStatusDisplay />
+                {renderResults()}
               </View>
             </View>
           </View>
+          <View style={{height: responsiveVerticalScale(59)}} />
           <View
             style={{
               width: '100%',
@@ -94,9 +157,24 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails
             }}>
             <Text style={{fontSize: 21, fontWeight: '600'}}>Histórico</Text>
             <View>
-              {animalDetails.animalAnalysisHistory.map(item => {
-                return <HistoryCard diseasePercentage={item?.percentage} analysisDate={item?.creationDate} analyzedImage={item?.image} isExpandedCard={isExpandedCard} setIsExpandedCard={handleHistoryCardPres} />;
-              })}
+              {isLoading ? (
+                <>
+                  <Skeleton width={354} height={104} borderRadius={10} />
+                  <Skeleton width={354} height={104} borderRadius={10} />
+                </>
+              ) : (
+                animalDetails.animalAnalysisHistory.map(item => {
+                  return (
+                    <HistoryCard
+                      diseasePercentage={item?.percentage}
+                      analysisDate={item?.creationDate}
+                      analyzedImage={item?.image}
+                      isExpandedCard={isExpandedCard}
+                      setIsExpandedCard={handleHistoryCardPres}
+                    />
+                  );
+                })
+              )}
             </View>
             <TouchableOpacity>
               <Text
@@ -145,11 +223,14 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({isLoading, animalDetails
             </View>
           }
           handlePress={handleNewAnalysisPress}
-          isRoundedButton 
-        >
+          isRoundedButton>
           nova análise
         </Button>
       </View>
     </>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {flex: 1, backgroundColor: '#fff'},
+});

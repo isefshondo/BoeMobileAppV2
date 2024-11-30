@@ -1,11 +1,14 @@
-import { RootStackParams } from "@/navigation/RootStack";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useCallback } from "react";
+import {RootStackParams} from '@/navigation/RootStack';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import React, {useCallback} from 'react';
 import * as StorageInstance from '../../../utils/storage/index.utils';
-import axios from "axios";
-import { arrayToBase64 } from "@/utils/array-to-base64/index.utils";
-import { AnimalDetails } from "../view/animal-details.view";
+import axios from 'axios';
+import {arrayToBase64} from '@/utils/array-to-base64/index.utils';
+import {AnimalDetails} from '../view/animal-details.view';
 
 type AnimalDetailsProps = NativeStackScreenProps<RootStackParams, 'CowDetails'>;
 export interface AnimalDetailsRes {
@@ -16,8 +19,11 @@ export interface AnimalDetailsRes {
   animalAnalysisHistory: any[];
 }
 
-export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({route}) => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
+export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({
+  route,
+}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const animalId = route.params?.id;
   const [isLoading, setIsLoading] = React.useState(true);
   const [animalDetails, setAnimalsDetails] = React.useState<AnimalDetailsRes>({
@@ -47,7 +53,7 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({route}) =
   useFocusEffect(
     useCallback(() => {
       getJwtFromStorage();
-    }, [])
+    }, []),
   );
 
   const handleHistoryCardPress = React.useCallback(() => {
@@ -56,11 +62,14 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({route}) =
 
   async function getAnimalDetails() {
     try {
-      const res = await axios.get(`http://192.168.3.118:4000/api/animal/${animalId}`, {
-        headers: {
-          Authorization: `Bearer ${jwt}`
+      const res = await axios.get(
+        `http://192.168.3.118:4000/api/animal/${animalId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
         },
-      });
+      );
       const {animal, analysisHistoric} = await res.data;
       const animalAnalysisHistory = analysisHistoric?.map(item => ({
         disease: item?.disease_class,
@@ -69,22 +78,36 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({route}) =
         creationDate: item?.created_at,
         image: arrayToBase64(item?.analysis_img?.data),
       }));
-      const mostRecentAnalysis = analysisHistoric.sort((a, b) => new Date(b.created_at) -  new Date(a.created_at))[0];
+      const mostRecentAnalysis = analysisHistoric.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at),
+      )[0];
       setAnimalsDetails({
         mostRecentAnalysis,
         animalAnalysisHistory,
         image: arrayToBase64(animal.image.data),
         identifier: animal.number_identification,
         name: animal.name,
-      })
-    } catch (error) {} finally {
+      });
+    } catch (error) {
+    } finally {
       setIsLoading(false);
     }
   }
 
-  useFocusEffect(useCallback(() => {
-    getAnimalDetails();
-  }, [jwt]));
+  useFocusEffect(
+    useCallback(() => {
+      getAnimalDetails();
+    }, [jwt]),
+  );
 
-  return <AnimalDetails isLoading={isLoading} isExpandedCard={isExpandedCard} animalDetails={animalDetails} handleHistoryCardPres={handleHistoryCardPress} handleNewAnalysisPress={handleNewAnalysisPress} handleGoBackPress={handleGoBackPress} />
+  return (
+    <AnimalDetails
+      isLoading={isLoading}
+      isExpandedCard={isExpandedCard}
+      animalDetails={animalDetails}
+      handleHistoryCardPres={handleHistoryCardPress}
+      handleNewAnalysisPress={handleNewAnalysisPress}
+      handleGoBackPress={handleGoBackPress}
+    />
+  );
 };

@@ -80,8 +80,11 @@ export function AnimalListingController() {
     if (!searchBarValue.length) {
       setFilteredAnimals(animals);
     } else {
-      const filterAnimalBySearchValue = animals.filter((animal) => {
-        return animal.name.includes(searchBarValue) || animal.identifier.includes(searchBarValue);
+      const filterAnimalBySearchValue = animals.filter(animal => {
+        return (
+          animal.name.includes(searchBarValue) ||
+          animal.identifier.includes(searchBarValue)
+        );
       });
       setFilteredAnimals(filterAnimalBySearchValue);
     }

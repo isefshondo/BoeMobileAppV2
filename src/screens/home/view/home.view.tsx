@@ -2,7 +2,13 @@ import React from 'react';
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import AnimalIcon from '../../../assets/loading_cow.svg';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
 import {
   responsiveFontSize,
@@ -18,8 +24,8 @@ import {
 } from '../controller/home.controller';
 import {LineGraphics} from '@/components/line-graphics.component';
 import {Skeleton} from '@/components/skeleton.component';
-import { useTranslation } from 'react-i18next';
-import { formatDate } from '@/utils/format-date/format-date.util';
+import {useTranslation} from 'react-i18next';
+import {formatDate} from '@/utils/format-date/format-date.util';
 import CalendarAsset from '../../../assets/calendar.svg';
 
 interface Home {
@@ -64,7 +70,7 @@ export const Home: React.FC<Home> = ({
       <View style={styles.graphicsErrorContainer}>
         <View style={styles.graphicsErrorComponents}>
           <Text style={styles.graphicsErrorText}>
-          {t('home.graphics.error')}
+            {t('home.graphics.error')}
           </Text>
         </View>
       </View>
@@ -130,7 +136,10 @@ export const Home: React.FC<Home> = ({
           <View style={[styles.justifiedRow, {alignItems: 'center'}]}>
             <Text style={styles.textSecondary}>{t('home.graphics.title')}</Text>
             <TouchableOpacity style={styles.graphicsSelectDateButton}>
-              <Text style={styles.graphicsSelectDateText}>{`${formatDate(startGraphicDate)} ${t('home.graphics.cycle_connective')} ${formatDate(endGraphicDate)}`}</Text>
+              <Text
+                style={
+                  styles.graphicsSelectDateText
+                }>{`${formatDate(startGraphicDate)} ${t('home.graphics.cycle_connective')} ${formatDate(endGraphicDate)}`}</Text>
               <CalendarAsset />
             </TouchableOpacity>
           </View>

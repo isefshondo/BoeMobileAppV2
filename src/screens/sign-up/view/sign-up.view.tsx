@@ -21,7 +21,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar} from '@/components/avatar.component';
 import Camera from '../../../assets/camera.svg';
 import {ErrorMessage, SignUpInputs} from '../controller/sign-up.controller';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface SignUp {
   handleSignInLinkPress: () => void;
@@ -72,14 +72,14 @@ export const SignUp: React.FC<SignUp> = ({
           </View>
           <View style={styles.mainContent}>
             <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>
-                {t('sign_up.description')}
-              </Text>
+              <Text style={styles.description}>{t('sign_up.description')}</Text>
               <Text style={styles.navigationDescription}>
                 {t('sign_up.suggestion')}
               </Text>
               <TouchableOpacity onPress={handleSignInLinkPress}>
-                <Text style={styles.navigationLink}>{t('sign_up.actions.log_in')}</Text>
+                <Text style={styles.navigationLink}>
+                  {t('sign_up.actions.log_in')}
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.registerForm}>
