@@ -22,6 +22,8 @@ import {colors} from '@/themes/colors/index.themes';
 import {Button} from '@/components/button.component';
 import GoBack from '../../../assets/back_left_icon.svg';
 import {Skeleton} from '@/components/skeleton.component';
+import Plus from '../../../assets/plus.svg';
+import { Information } from '@/components/information.component';
 
 interface AnimalDetails {
   isLoading: boolean;
@@ -83,12 +85,33 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
       <Status label={definedAnalysis} isBoxedStatusDisplay />
     );
   }
+
+  function renderHistory() {
+    if (isLoading) return <View style={{width: '100%', gap: responsiveVerticalScale(36)}}>
+      <Skeleton width={354} height={104} borderRadius={10} />
+      <Skeleton width={354} height={104} borderRadius={10} />
+    </View>;
+    return !animalDetails.animalAnalysisHistory.length ? <Information title='Nenhuma análise foi feita ainda' description='Para ter acesso ao histórico deste animal, inicie uma análise no mesmo' label='Nova análise' /> : <View style={{gap: responsiveVerticalScale(36)}}>
+      {animalDetails.animalAnalysisHistory.map(item => {
+        return (
+          <HistoryCard
+                      diseasePercentage={item?.percentage}
+                      analysisDate={item?.creationDate}
+                      analyzedImage={item?.image}
+                      isExpandedCard={isExpandedCard}
+                      setIsExpandedCard={handleHistoryCardPres}
+                    />
+        );
+      })}
+    </View> 
+  }
+
   return (
     <>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={{height: responsiveVerticalScale(49)}} />
           <TouchableOpacity
             style={{width: '100%', paddingLeft: responsiveHorizontalScale(34)}}
@@ -149,42 +172,14 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
           </View>
           <View style={{height: responsiveVerticalScale(59)}} />
           <View
-            style={{
-              width: '100%',
-              gap: responsiveVerticalScale(37),
-              paddingLeft: responsiveHorizontalScale(32),
-              paddingRight: responsiveHorizontalScale(44),
-            }}>
+            style={newStyles.historySection}>
             <Text style={{fontSize: 21, fontWeight: '600'}}>Histórico</Text>
             <View>
-              {isLoading ? (
-                <>
-                  <Skeleton width={354} height={104} borderRadius={10} />
-                  <Skeleton width={354} height={104} borderRadius={10} />
-                </>
-              ) : (
-                animalDetails.animalAnalysisHistory.map(item => {
-                  return (
-                    <HistoryCard
-                      diseasePercentage={item?.percentage}
-                      analysisDate={item?.creationDate}
-                      analyzedImage={item?.image}
-                      isExpandedCard={isExpandedCard}
-                      setIsExpandedCard={handleHistoryCardPres}
-                    />
-                  );
-                })
-              )}
+              {renderHistory()}
             </View>
             <TouchableOpacity>
               <Text
-                style={{
-                  fontSize: 13,
-                  fontWeight: '600',
-                  textDecorationLine: 'underline',
-                  color: colors.LIGHT_BLUE,
-                  textAlign: 'right',
-                }}>
+                style={newStyles.link}>
                 Ver todas as análises
               </Text>
             </TouchableOpacity>
@@ -192,36 +187,11 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
         </ScrollView>
       </KeyboardAvoidingView>
       <View
-        style={{
-          width: '100%',
-          height: responsiveVerticalScale(119),
-          backgroundColor: '#fff',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          position: 'absolute',
-          bottom: 0,
-          alignItems: 'center',
-          justifyContent: 'center',
-          ...Platform.select({
-            ios: {
-              shadowColor: 'rgba(0, 98, 119, .16)',
-              shadowRadius: 30,
-              shadowOpacity: 0.3,
-              shadowOffset: {width: 0, height: 10},
-            },
-            android: {
-              elevation: 15,
-            },
-          }),
-        }}>
+        style={newStyles.button}>
         <Button
           width={354}
           height={72}
-          leftAssets={
-            <View>
-              <Text>+</Text>
-            </View>
-          }
+          leftAssets={<Plus />}
           handlePress={handleNewAnalysisPress}
           isRoundedButton>
           nova análise
@@ -233,4 +203,43 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
+  scrollView: {flexGrow: 1}
 });
+
+const newStyles = StyleSheet.create({
+  historySection: {
+    width: '100%',
+    gap: responsiveVerticalScale(37),
+    paddingLeft: responsiveHorizontalScale(32),
+    paddingRight: responsiveHorizontalScale(44),
+  },
+  link: {
+    fontSize: 13,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    color: colors.LIGHT_BLUE,
+    textAlign: 'right',
+  },
+  button: {
+    width: '100%',
+    height: responsiveVerticalScale(119),
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 98, 119, .16)',
+        shadowRadius: 30,
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 10},
+      },
+      android: {
+        elevation: 15,
+      },
+    }),
+  },
+})

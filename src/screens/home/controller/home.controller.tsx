@@ -98,8 +98,8 @@ export function HomeController() {
       const res = await axios.post(
         'http://192.168.3.118:4000/api/analytics/graphics',
         {
-          earliest_date: '2024-11-05T03:00:00Z',
-          most_recent_date: new Date(),
+          earliest_date: startDate,
+          most_recent_date: endDate,
         },
         {
           headers: {

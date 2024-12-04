@@ -85,5 +85,18 @@
     "button": {
       "exit": "Exit"
     }
+  },
+  "animal_details": {
+    "labels": {
+      "results": "Resultados",
+      "treatment_status": "Status de tratamento",
+      "history": "Histórico"
+    }
+  },
+  "camera": {
+    "buttons": {
+      "register": "Register",
+      "gallery": "Gallery"
+    }
   }
 }

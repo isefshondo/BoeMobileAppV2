@@ -25,7 +25,7 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const animalId = route.params?.id;
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [animalDetails, setAnimalsDetails] = React.useState<AnimalDetailsRes>({
     image: '',
     identifier: '',
@@ -49,12 +49,6 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({
     const userJwt = loggedInData ? JSON.parse(loggedInData).jwt : '';
     setJwt(userJwt);
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      getJwtFromStorage();
-    }, []),
-  );
 
   const handleHistoryCardPress = React.useCallback(() => {
     setIsExpandedCard(!isExpandedCard);
@@ -96,7 +90,18 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      getAnimalDetails();
+      const fetchAllData = async () => {
+        try {
+          setIsLoading(true);
+          await getJwtFromStorage();
+          if (jwt) {
+            await getAnimalDetails();
+          }
+        } catch (error) {} finally {
+          setIsLoading(false);
+        }
+      }
+      fetchAllData();
     }, [jwt]),
   );
 
