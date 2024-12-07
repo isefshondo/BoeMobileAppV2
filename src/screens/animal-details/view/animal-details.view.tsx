@@ -23,7 +23,7 @@ import {Button} from '@/components/button.component';
 import GoBack from '../../../assets/back_left_icon.svg';
 import {Skeleton} from '@/components/skeleton.component';
 import Plus from '../../../assets/plus.svg';
-import { Information } from '@/components/information.component';
+// import { Information } from '@/components/information.component';
 
 interface AnimalDetails {
   isLoading: boolean;
@@ -87,23 +87,11 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
   }
 
   function renderHistory() {
-    if (isLoading) return <View style={{width: '100%', gap: responsiveVerticalScale(36)}}>
+    if (isLoading) {return <View style={{width: '100%', gap: responsiveVerticalScale(36)}}>
       <Skeleton width={354} height={104} borderRadius={10} />
       <Skeleton width={354} height={104} borderRadius={10} />
-    </View>;
-    return !animalDetails.animalAnalysisHistory.length ? <Information title='Nenhuma análise foi feita ainda' description='Para ter acesso ao histórico deste animal, inicie uma análise no mesmo' label='Nova análise' /> : <View style={{gap: responsiveVerticalScale(36)}}>
-      {animalDetails.animalAnalysisHistory.map(item => {
-        return (
-          <HistoryCard
-                      diseasePercentage={item?.percentage}
-                      analysisDate={item?.creationDate}
-                      analyzedImage={item?.image}
-                      isExpandedCard={isExpandedCard}
-                      setIsExpandedCard={handleHistoryCardPres}
-                    />
-        );
-      })}
-    </View> 
+    </View>}
+    return <View /> 
   }
 
   return (
