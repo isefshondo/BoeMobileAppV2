@@ -5,7 +5,6 @@ import {
 import React from 'react';
 import {Dimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
-import {opacity} from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 export interface LineGraphics {
   labels: any[];
@@ -19,7 +18,16 @@ export const LineGraphics: React.FC<LineGraphics> = ({labels, datasets}) => {
     <LineChart
       data={{
         labels,
-        datasets,
+        datasets: [
+          {
+            data: datasets[0].data,
+            color: () => `rgb(3, 171, 50)`,
+          },
+          {
+            data: datasets[1].data,
+            color: () => `rgb(255, 6, 6)`,
+          }
+        ],
       }}
       width={responsiveHorizontalScale(graphicsWidth)}
       height={responsiveVerticalScale(259)}

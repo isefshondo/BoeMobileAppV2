@@ -23,6 +23,7 @@ import {responsiveVerticalScale} from '@/utils/metrics/index.utils';
 import {useTranslation} from 'react-i18next';
 import {Avatar} from '@/components/avatar.component';
 import {Button} from '@/components/button.component';
+import axios from 'axios';
 
 interface IAnimalData {
   numberIdentification: string | null;
@@ -33,15 +34,13 @@ type NavigationProps = NativeStackNavigationProp<RootStackParams>;
 
 export const RegisterCowScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProps>();
-
+  const {t} = useTranslation();
   const [jwt, setJwt] = React.useState<string>('');
   const [animalData, setAnimalData] = React.useState<IAnimalData>({
     numberIdentification: null,
     name: null,
   });
-  const [shouldShowError, setShouldShowError] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string>('');
-  const [imageMime, setImageMime] = React.useState<string>('');
+  const [image, setImage] = React.useState<string | null>(null);
 
   async function getJWTFromStorage() {
     const loggedInData = await StorageInstance.getFromStorage('loggedInData');
@@ -49,66 +48,44 @@ export const RegisterCowScreen: React.FC = () => {
     setJwt(userJWT);
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      getJWTFromStorage();
-    }, []),
-  );
-
   function handleInputChange(inputName: keyof IAnimalData, value: string) {
     setAnimalData(prevState => ({...prevState, [inputName]: value}));
   }
 
-  async function registerAnimal() {
-    if (!animalData.numberIdentification) {
-      setShouldShowError(true);
-      return;
+  async function handleImagePicker() {
+    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') return;
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].base64)
     }
+  }
 
-    const res = await fetch('http://192.168.3.118:4000/api/animal', {
-      method: 'POST',
-      headers: {
+  async function setAnimalInformation() {
+    try {
+      const res = await axios.post('http://192.168.3.118:4000/api/animal', {...animalData, image}, {headers: {
         Authorization: `Bearer ${jwt}`,
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({...animalData, image}),
-    });
-
-    if (!res.ok) {
-      throw new Error(
-        `HTTP ERROR! Status: ${res.status}; Message: ${res.statusText}`,
-      );
-    }
-
-    const data = await res.json();
-
-    navigation.navigate('ProcessAnalysisCamera', {
-      id: data.cowId,
-    });
-  }
-
-  async function handleUploadImage() {
-    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      console.error('Permission to access camera roll was denied');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [3, 4],
-      base64: true,
-    });
-
-    if (!result.canceled) {
-      const asset = result.assets[0];
-      setImage(asset.base64);
-      setImageMime(asset.type);
+      }});
+      const data = await res.data;
+      navigation.navigate('ProcessAnalysisCamera', {
+        id: data.cowId,
+      })
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  const {t} = useTranslation();
+  useFocusEffect(React.useCallback(() => {
+    getJWTFromStorage();
+  }, []));
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1, backgroundColor: '#fff'}}
@@ -142,7 +119,8 @@ export const RegisterCowScreen: React.FC = () => {
               height={96}
               badgeTop={73}
               badge={<UploadIcon style={styles.profilePictureHolder} />}
-              handleSetImage={handleUploadImage}
+              handleSetImage={handleImagePicker}
+              image={image}
             />
             <View style={styles.inputsContainer}>
               <TextInput
@@ -162,16 +140,13 @@ export const RegisterCowScreen: React.FC = () => {
                   )}
                   onChangeText={value => handleInputChange('name', value)}
                 />
-                {shouldShowError && (
-                  <Text>{t('animal_registration.inputs.error')}</Text>
-                )}
               </View>
             </View>
           </View>
           <Button
             width={320}
             height={76}
-            handlePress={registerAnimal}
+            handlePress={setAnimalInformation}
             rightAssets={<CameraIcon style={styles.buttonIcon} />}>
             {t('animal_registration.button')}
           </Button>

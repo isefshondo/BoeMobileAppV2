@@ -33,7 +33,7 @@ interface Home {
   name: string;
   handleMenuPress: () => void;
   analytics: AnimalAnalytics;
-  graphics: Graphics[];
+  graphics: Graphics;
   error: RequestsErrors;
   startGraphicDate: Date;
   endGraphicDate: Date;
@@ -51,9 +51,9 @@ export const Home: React.FC<Home> = ({
 }) => {
   const {t} = useTranslation();
   function renderGraphicsComponent() {
-    return graphics[0].data.length > 0 || graphics[1].data.length > 0 ? (
+    return graphics.datasets[0].data.length > 0 || graphics.datasets[1].data.length > 0 ? (
       <View>
-        <LineGraphics labels={['Positivos', 'Negativos']} datasets={graphics} />
+        <LineGraphics labels={graphics.labels} datasets={graphics.datasets} />
       </View>
     ) : (
       <View style={styles.graphics}>

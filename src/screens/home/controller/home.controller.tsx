@@ -22,10 +22,14 @@ export type AnimalAnalytics = {
   sickAnimals: number | null;
   curedAnimals: number | null;
 };
-export type Graphics = {
-  data: any[];
+type GraphicsData = {
+  data: number[];
   color: () => string;
   labels: string;
+};
+export type Graphics = {
+  labels: string[];
+  datasets: GraphicsData[];
 };
 
 export function HomeController() {
@@ -42,14 +46,17 @@ export function HomeController() {
     sickAnimals: null,
     curedAnimals: null,
   });
-  const [graphics, setGraphics] = React.useState<Graphics[]>([]);
+  const [graphics, setGraphics] = React.useState<Graphics>({
+    labels: [],
+    datasets: [],
+  });
   const [error, setError] = React.useState<RequestsErrors>({
     hasAnalyticsFailed: false,
     hasGraphicsFailed: false,
   });
   const currentDay = new Date();
   const initialGraphicsDate = new Date();
-  initialGraphicsDate.setDate(currentDay.getDate() - 5);
+  initialGraphicsDate.setDate(currentDay.getDate() - 30);
   const [startDate, setStartDate] = React.useState(initialGraphicsDate);
   const [endDate, setEndDate] = React.useState(currentDay);
 
@@ -109,7 +116,17 @@ export function HomeController() {
         },
       );
       const data = res.data;
-      setGraphics(data.datasets);
+      const formattedGraphicsData = data.datasets.map((item) => {
+        return {
+          data: item.data,
+          color: () => `${item.color}`,
+          labels: item.labels
+        };
+      });
+      setGraphics({
+        labels: data.labels,
+        datasets: formattedGraphicsData,
+      });
     } catch (error) {
       console.log(error);
       setError(previousState => ({...previousState, hasGraphicsFailed: true}));
