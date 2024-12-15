@@ -2,28 +2,41 @@ import React from 'react';
 import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import AnimalIcon from '../../../assets/loading_cow.svg';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {CowAnalyticsCard} from '@/components/CowAnalyticsCard';
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
 import {colors} from '@/themes/colors/index.themes';
 import {
   AnimalAnalytics,
+  Graphics,
   RequestsErrors,
   RequestsLoading,
 } from '../controller/home.controller';
 import {LineGraphics} from '@/components/line-graphics.component';
 import {Skeleton} from '@/components/skeleton.component';
+import {useTranslation} from 'react-i18next';
+import {formatDate} from '@/utils/format-date/format-date.util';
+import CalendarAsset from '../../../assets/calendar.svg';
 
 interface Home {
   isLoading: RequestsLoading;
   name: string;
   handleMenuPress: () => void;
   analytics: AnimalAnalytics;
-  graphics: any[];
+  graphics: Graphics;
   error: RequestsErrors;
+  startGraphicDate: Date;
+  endGraphicDate: Date;
 }
 
 export const Home: React.FC<Home> = ({
@@ -33,17 +46,20 @@ export const Home: React.FC<Home> = ({
   analytics,
   graphics,
   error,
+  startGraphicDate,
+  endGraphicDate,
 }) => {
+  const {t} = useTranslation();
   function renderGraphicsComponent() {
-    return graphics.length > 0 ? (
+    return graphics.datasets[0].data.length > 0 || graphics.datasets[1].data.length > 0 ? (
       <View>
-        <LineGraphics labels={[]} datasets={[]} />
+        <LineGraphics labels={graphics.labels} datasets={graphics.datasets} />
       </View>
     ) : (
       <View style={styles.graphics}>
         <AnimalIcon width={41} height={34.81} />
         <View style={styles.thirdSpace} />
-        <Text style={styles.textLabel}>Nenhum registro foi feito ainda</Text>
+        <Text style={styles.textLabel}>{t('home.graphics.exception')}</Text>
       </View>
     );
   }
@@ -54,7 +70,7 @@ export const Home: React.FC<Home> = ({
       <View style={styles.graphicsErrorContainer}>
         <View style={styles.graphicsErrorComponents}>
           <Text style={styles.graphicsErrorText}>
-            Algo deu errado ao tentar carregar os dados
+            {t('home.graphics.error')}
           </Text>
         </View>
       </View>
@@ -65,6 +81,7 @@ export const Home: React.FC<Home> = ({
   function renderCard(
     type: any,
     value: number,
+    label: string,
     increasedCasesValue?: number,
     decreasedCasesValue?: number,
   ) {
@@ -79,6 +96,7 @@ export const Home: React.FC<Home> = ({
       <CowAnalyticsCard
         type={type}
         value={value}
+        label={label}
         increasedCasesValue={increasedCasesValue}
         decreasedCasesValue={decreasedCasesValue}
       />
@@ -94,7 +112,7 @@ export const Home: React.FC<Home> = ({
       <View style={styles.main}>
         <View>
           <View style={styles.row}>
-            <Text style={styles.textPrimaryBold}>Olá, </Text>
+            <Text style={styles.textPrimaryBold}>{t('home.greeting')}, </Text>
             <Text style={styles.textPrimaryLight}>{name}</Text>
           </View>
           <View style={styles.firstSpace} />
@@ -102,10 +120,12 @@ export const Home: React.FC<Home> = ({
             {renderCard(
               'CURRENT_REGISTERED_COWS',
               analytics.allRegisteredAnimal,
+              t('home.statistical_card.first_label'),
             )}
             {renderCard(
               'CURRENT_POSITIVE_CASES',
               analytics.currentPositiveCases,
+              t('home.statistical_card.second_label'),
               analytics.sickAnimals,
               analytics.curedAnimals,
             )}
@@ -113,8 +133,15 @@ export const Home: React.FC<Home> = ({
         </View>
         <View style={styles.secondSpace} />
         <View style={styles.graphicsContainer}>
-          <View style={styles.justifiedRow}>
-            <Text style={styles.textSecondary}>Gráfico geral</Text>
+          <View style={[styles.justifiedRow, {alignItems: 'center'}]}>
+            <Text style={styles.textSecondary}>{t('home.graphics.title')}</Text>
+            <TouchableOpacity style={styles.graphicsSelectDateButton}>
+              <Text
+                style={
+                  styles.graphicsSelectDateText
+                }>{`${formatDate(startGraphicDate)} ${t('home.graphics.cycle_connective')} ${formatDate(endGraphicDate)}`}</Text>
+              <CalendarAsset />
+            </TouchableOpacity>
           </View>
           {renderGraphics()}
         </View>
@@ -221,5 +248,21 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.GRAY,
     textAlign: 'center',
+  },
+  graphicsSelectDateButton: {
+    width: responsiveHorizontalScale(165),
+    height: responsiveVerticalScale(30),
+    backgroundColor: '#fff',
+    elevation: 12,
+    borderRadius: 5,
+    paddingHorizontal: responsiveHorizontalScale(9),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  graphicsSelectDateText: {
+    fontSize: responsiveFontSize(12),
+    color: colors.LIGHT_GRAY,
+    fontWeight: '600',
   },
 });

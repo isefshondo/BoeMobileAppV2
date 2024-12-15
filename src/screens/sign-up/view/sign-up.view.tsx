@@ -21,6 +21,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar} from '@/components/avatar.component';
 import Camera from '../../../assets/camera.svg';
 import {ErrorMessage, SignUpInputs} from '../controller/sign-up.controller';
+import {useTranslation} from 'react-i18next';
 
 interface SignUp {
   handleSignInLinkPress: () => void;
@@ -41,6 +42,7 @@ export const SignUp: React.FC<SignUp> = ({
   errorMessage,
   imageMimeType,
 }) => {
+  const {t} = useTranslation();
   function renderCameraBadge() {
     return (
       <View style={styles.badgeContainer}>
@@ -66,18 +68,18 @@ export const SignUp: React.FC<SignUp> = ({
           <View style={styles.header}>
             <GoBack width={33} height={33} onPress={handleSignInLinkPress} />
             <View style={styles.firstSpace} />
-            <Text style={styles.title}>Criar conta</Text>
+            <Text style={styles.title}>{t('sign_up.title')}</Text>
           </View>
           <View style={styles.mainContent}>
             <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>
-                Insira seus dados e crie uma nova conta
-              </Text>
+              <Text style={styles.description}>{t('sign_up.description')}</Text>
               <Text style={styles.navigationDescription}>
-                Já possui uma conta?
+                {t('sign_up.suggestion')}
               </Text>
               <TouchableOpacity onPress={handleSignInLinkPress}>
-                <Text style={styles.navigationLink}>Log in</Text>
+                <Text style={styles.navigationLink}>
+                  {t('sign_up.actions.log_in')}
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.registerForm}>
@@ -93,7 +95,7 @@ export const SignUp: React.FC<SignUp> = ({
               </View>
               <View style={styles.formInputs}>
                 <DefaultInput
-                  inputLabel="Nome"
+                  inputLabel={t('sign_up.inputs.name')}
                   inputIcon="name"
                   inputCurrentValue={signUpInputs.name}
                   onInputChange={name =>
@@ -102,7 +104,7 @@ export const SignUp: React.FC<SignUp> = ({
                   inputErrorMessage={errorMessage.name}
                 />
                 <DefaultInput
-                  inputLabel="Email"
+                  inputLabel={t('sign_up.inputs.email')}
                   inputIcon="email"
                   inputCurrentValue={signUpInputs.email}
                   onInputChange={email =>
@@ -114,7 +116,7 @@ export const SignUp: React.FC<SignUp> = ({
                   inputErrorMessage={errorMessage.email}
                 />
                 <DefaultInput
-                  inputLabel="Senha"
+                  inputLabel={t('sign_up.inputs.password')}
                   inputIcon="password"
                   inputCurrentValue={signUpInputs.password}
                   onInputChange={password =>
@@ -126,7 +128,7 @@ export const SignUp: React.FC<SignUp> = ({
                   inputErrorMessage={errorMessage.password}
                 />
                 <DefaultInput
-                  inputLabel="Confirmar senha"
+                  inputLabel={t('sign_up.inputs.confirm_password')}
                   inputCurrentValue={signUpInputs.confirmPassword}
                   onInputChange={confirmPassword =>
                     setSignUpInputs(previousState => ({
@@ -141,7 +143,7 @@ export const SignUp: React.FC<SignUp> = ({
           </View>
           <View style={styles.buttonContainer}>
             <DefaultButton
-              buttonText="Registrar-se"
+              buttonText={t('sign_up.button')}
               onButtonPress={handleSignUpButtonPress}
             />
           </View>

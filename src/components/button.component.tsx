@@ -10,6 +10,7 @@ interface Button {
   width: number;
   height: number;
   children: string;
+  handlePress: () => void;
   isSmall?: boolean;
   isRoundedButton?: boolean;
   leftAssets?: JSX.Element;
@@ -20,6 +21,7 @@ export const Button: React.FC<Button> = ({
   width,
   height,
   children,
+  handlePress,
   isSmall,
   isRoundedButton,
   leftAssets,
@@ -53,7 +55,8 @@ export const Button: React.FC<Button> = ({
           borderRadius,
         },
         styles.container,
-      ]}>
+      ]}
+      onPress={() => handlePress()}>
       {leftAssets && renderLeftAssets()}
       <Text style={[styles.text, {fontSize}]}>{children}</Text>
       {renderRightAssets()}

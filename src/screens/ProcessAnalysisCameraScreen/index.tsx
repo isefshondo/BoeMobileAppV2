@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {Alert, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {ProcessAnalysisResultsScreen} from '../ProcessAnalysisResultsScreen';
+import { useTranslation } from 'react-i18next';
 
 interface IAnalysisResults {
   illnessName: string | null;
@@ -25,6 +26,7 @@ type NavigationProps = NativeStackScreenProps<
 export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
   route,
 }) => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const cameraRef = React.useRef(null);
@@ -68,7 +70,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
     data.append('animal_id', storeCowId);
 
     try {
-      const res = await fetch('http://192.168.3.105:3000/api/analysis', {
+      const res = await fetch('http://192.168.3.118:4000/api/analysis', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -86,7 +88,7 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
 
       setAnalysisResults({
         illnessName: resData.newAnalysis.disease_class,
-        illnessChancePercentage: Math.round(resData.newAnalysis.accuracy) * 100,
+        illnessChancePercentage: Math.round(resData.newAnalysis.accuracy),
       });
 
       setShowCamera(false);
@@ -154,10 +156,10 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
           <View style={styles.actionsContainer}>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity onPress={() => handleTakePhotoButton()}>
-                <Text style={styles.buttonsTexts}>Registrar</Text>
+                <Text style={styles.buttonsTexts}>{t('camera.buttons.register')}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handlePickImageButton()}>
-                <Text style={styles.buttonsTexts}>Galeria</Text>
+                <Text style={styles.buttonsTexts}>{t('camera.buttons.gallery')}</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity

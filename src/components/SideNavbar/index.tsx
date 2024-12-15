@@ -10,6 +10,7 @@ import SupportIcon from '../../assets/help_circle_icon.svg';
 import {Spacer} from '../Spacer';
 import {AuthContext} from '@/context/auth';
 import * as StorageInstance from '../../utils/storage/index.utils';
+import { useTranslation } from 'react-i18next';
 
 interface RoutesItemsProps {
   icon: 'edit' | 'settings' | 'support';
@@ -42,7 +43,7 @@ const RoutesItems: React.FC<RoutesItemsProps> = ({
 
 export const SideNavbar: React.FC = () => {
   const navigation = useNavigation();
-
+  const {t} = useTranslation();
   const {signOut} = React.useContext(AuthContext);
 
   async function handleSignOutButton() {
@@ -62,19 +63,19 @@ export const SideNavbar: React.FC = () => {
         <View style={styles.routesItemsContainer}>
           <RoutesItems
             icon="edit"
-            label="Editar Perfil"
+            label={t('navbar.items.edit_profile')}
             navigation={navigation}
             route="EditProfile"
           />
           <RoutesItems
             icon="settings"
-            label="Configurações"
+            label={t('navbar.items.settings')}
             navigation={navigation}
             route=""
           />
           <RoutesItems
             icon="support"
-            label="Suporte"
+            label={t('navbar.items.help')}
             navigation={navigation}
             route=""
           />
@@ -84,7 +85,7 @@ export const SideNavbar: React.FC = () => {
           onPress={handleSignOutButton}>
           <View style={styles.signOutVisualRepContainer}>
             <SignOutIcon style={styles.icons} />
-            <Text style={styles.signOutLabel}>Sair</Text>
+            <Text style={styles.signOutLabel}>{t('navbar.button.exit')}</Text>
           </View>
         </TouchableOpacity>
       </View>

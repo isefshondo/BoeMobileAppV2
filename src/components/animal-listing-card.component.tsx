@@ -14,6 +14,7 @@ interface AnimalListingCardProps {
   id: string;
   identifier: string;
   name: string;
+  navigateToAnimalProfile: (id: string) => void;
   image?: string;
   treatmentStatus?: StatusTypes;
   disease?: Diseases;
@@ -24,6 +25,7 @@ export const AnimalListingCard: React.FC<AnimalListingCardProps> = ({
   id,
   identifier,
   name,
+  navigateToAnimalProfile,
   image,
   treatmentStatus,
   disease,
@@ -43,7 +45,9 @@ export const AnimalListingCard: React.FC<AnimalListingCardProps> = ({
     ? getBottomBorderColor()
     : '#F2F2F5';
   return (
-    <TouchableOpacity style={[styles.container, {borderBottomColor}]}>
+    <TouchableOpacity
+      style={[styles.container, {borderBottomColor}]}
+      onPress={() => navigateToAnimalProfile(id)}>
       <Avatar width={72} height={71} image={image} isSquaredDisplay />
       <View style={styles.details}>
         <View style={styles.identifiers}>

@@ -1,9 +1,12 @@
-import { colors } from "@/themes/colors/index.themes";
-import { responsiveHorizontalScale, responsiveVerticalScale } from "@/utils/metrics/index.utils";
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {colors} from '@/themes/colors/index.themes';
+import {
+  responsiveHorizontalScale,
+  responsiveVerticalScale,
+} from '@/utils/metrics/index.utils';
+import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {LinearGradient} from 'expo-linear-gradient';
+import React from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Home from '../assets/home_icon.svg';
 import Animal from '../assets/cow_icon.svg';
 import Plus from '../assets/plus_icon.svg';
@@ -23,7 +26,7 @@ export const BottomTab: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   }
 
   function renderHighlightedIcon() {
-    return <View style={styles.highlightedIcon} />
+    return <View style={styles.highlightedIcon} />;
   }
   function renderSideButton(icon: React.JSX.Element, route: string) {
     const shouldButtonBeHighlighted = currentRoute === route;
@@ -37,21 +40,29 @@ export const BottomTab: React.FC<BottomTabBarProps> = ({state, navigation}) => {
     );
   }
   function renderCentralButton() {
-    return <View style={styles.centralButton}>
-      <TouchableOpacity style={styles.roundedButton} onPress={() => handleBottomTabItemPress('RegisterCowScreen')}>
-        <Plus />
-      </TouchableOpacity>
-    </View>
+    return (
+      <View style={styles.centralButton}>
+        <TouchableOpacity
+          style={styles.roundedButton}
+          onPress={() => handleBottomTabItemPress('RegisterCowScreen')}>
+          <Plus />
+        </TouchableOpacity>
+      </View>
+    );
   }
 
-  return <LinearGradient style={styles.container} colors={['#fff', 'rgba(0, 98, 119, .16)']}>
-    <View style={styles.buttons}>
-      {renderSideButton(<Home />, 'InitialRoute')}
-      {renderCentralButton()}
-      {renderSideButton(<Animal />, 'CowDataListing')}
-    </View>
-    <Shape style={styles.image} />
-  </LinearGradient>
+  return (
+    <LinearGradient
+      style={styles.container}
+      colors={['#fff', 'rgba(0, 98, 119, .16)']}>
+      <View style={styles.buttons}>
+        {renderSideButton(<Home />, 'InitialRoute')}
+        {renderCentralButton()}
+        {renderSideButton(<Animal />, 'CowDataListing')}
+      </View>
+      <Shape style={styles.image} />
+    </LinearGradient>
+  );
 };
 
 const styles = StyleSheet.create({

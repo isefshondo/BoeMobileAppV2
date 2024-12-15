@@ -1,6 +1,7 @@
 import React from 'react';
 import {SearchBar} from '@/components/SearchBar';
 import {
+  responsiveFontSize,
   responsiveHorizontalScale,
   responsiveVerticalScale,
 } from '@/utils/metrics/index.utils';
@@ -16,6 +17,7 @@ import Menu from '../../../assets/menu.svg';
 import BoeSymbol from '../../../assets/boe_symbol.svg';
 import Filter from '../../../assets/filters_icon.svg';
 import {AnimalListingCard} from '@/components/animal-listing-card.component';
+import {useTranslation} from 'react-i18next';
 
 interface AnimalListing {
   isLoading: boolean;
@@ -34,6 +36,7 @@ export const AnimalListing: React.FC<AnimalListing> = ({
   handleSearchBarChange,
   navigateToAnimalProfile,
 }) => {
+  const {t} = useTranslation();
   function renderCard({item}) {
     return (
       <View style={styles.cardsContainer} key={item.id}>
@@ -44,15 +47,13 @@ export const AnimalListing: React.FC<AnimalListing> = ({
           disease={item.illness}
           diseasePercentage={item.chancePercentage}
           image={item.animalProfilePicture}
+          navigateToAnimalProfile={navigateToAnimalProfile}
         />
         <View style={styles.sixthSpace} />
       </View>
     );
   }
 
-  if (isLoading) {
-    return <Text>Futuro Skeleton</Text>;
-  }
   return (
     <KeyboardAvoidingView
       style={styles.main}
@@ -73,17 +74,25 @@ export const AnimalListing: React.FC<AnimalListing> = ({
             <View style={styles.container}>
               <View>
                 <View style={styles.row}>
-                  <Text style={styles.titleRegular}>Registro de </Text>
-                  <Text style={styles.titleSemibold}>análises</Text>
+                  <Text style={styles.titleRegular}>
+                    {t('animal_listing.title.first_line.regular')}{' '}
+                  </Text>
+                  <Text style={styles.titleSemibold}>
+                    {t('animal_listing.title.first_line.bold')}
+                  </Text>
                 </View>
-                <Text style={styles.titleSemibold}>de imagem</Text>
+                <Text style={styles.titleSemibold}>
+                  {t('animal_listing.title.second_line.bold')}
+                </Text>
               </View>
               <View style={styles.thirdSpace} />
               <SearchBar setSearchInputValue={handleSearchBarChange} />
             </View>
             <View style={styles.fourthSpace} />
             <View style={styles.filter}>
-              <Text style={styles.secondaryTitleSemibold}>Filtros</Text>
+              <Text style={styles.secondaryTitleSemibold}>
+                {t('animal_listing.filters')}
+              </Text>
               <Filter width={28.02} height={24.02} />
             </View>
             <View style={styles.fifthSpace} />
@@ -121,9 +130,9 @@ export const styles = StyleSheet.create({
     paddingRight: responsiveHorizontalScale(33),
   },
   row: {flexDirection: 'row'},
-  titleRegular: {fontSize: 32},
+  titleRegular: {fontSize: responsiveFontSize(32)},
   titleSemibold: {
-    fontSize: 32,
+    fontSize: responsiveFontSize(32),
     fontWeight: '600',
   },
   thirdSpace: {

@@ -6,6 +6,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import * as StorageInstance from '../../../utils/storage/index.utils';
+import axios from 'axios';
 
 export type RequestsErrors = {
   hasAnalyticsFailed: boolean;
@@ -20,6 +21,15 @@ export type AnimalAnalytics = {
   currentPositiveCases: number | null;
   sickAnimals: number | null;
   curedAnimals: number | null;
+};
+type GraphicsData = {
+  data: number[];
+  color: () => string;
+  labels: string;
+};
+export type Graphics = {
+  labels: string[];
+  datasets: GraphicsData[];
 };
 
 export function HomeController() {
@@ -36,11 +46,19 @@ export function HomeController() {
     sickAnimals: null,
     curedAnimals: null,
   });
-  const [graphics, setGraphics] = React.useState<any[]>([]);
+  const [graphics, setGraphics] = React.useState<Graphics>({
+    labels: [],
+    datasets: [],
+  });
   const [error, setError] = React.useState<RequestsErrors>({
     hasAnalyticsFailed: false,
     hasGraphicsFailed: false,
   });
+  const currentDay = new Date();
+  const initialGraphicsDate = new Date();
+  initialGraphicsDate.setDate(currentDay.getDate() - 30);
+  const [startDate, setStartDate] = React.useState(initialGraphicsDate);
+  const [endDate, setEndDate] = React.useState(currentDay);
 
   function handleMenuPress() {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -55,24 +73,25 @@ export function HomeController() {
     setJwt(userJwt);
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      getDataFromStorage();
-    }, []),
-  );
-
   async function fetchAnalytics() {
     try {
-      const res = await fetch('http://192.168.3.118:3000/api/analytics', {
-        method: 'GET',
-        headers: {Authorization: `Bearer ${jwt}`},
+      const res = await axios.get('http://192.168.3.118:4000/api/analytics', {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
       });
-      const data = await res.json();
+      const {
+        registered_animals,
+        current_positive_cases_percentage,
+        current_positive_cases,
+        current_negative_cases,
+      } = res.data;
       setAnalytics({
-        allRegisteredAnimal: data.registered_animals,
-        currentPositiveCases: data.current_positive_cases_percentage,
-        sickAnimals: data.current_positive_cases,
-        curedAnimals: data.current_negative_cases,
+        allRegisteredAnimal: registered_animals,
+        currentPositiveCases: current_positive_cases_percentage,
+        sickAnimals: current_positive_cases,
+        curedAnimals: current_negative_cases,
       });
     } catch (error) {
       setError(previousState => ({...previousState, hasAnalyticsFailed: true}));
@@ -83,13 +102,33 @@ export function HomeController() {
 
   async function fetchGraphics() {
     try {
-      const res = await fetch('', {
-        method: 'GET',
-        headers: {Authorization: `Bearer ${jwt}`},
+      const res = await axios.post(
+        'http://192.168.3.118:4000/api/analytics/graphics',
+        {
+          earliest_date: startDate,
+          most_recent_date: endDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const data = res.data;
+      const formattedGraphicsData = data.datasets.map((item) => {
+        return {
+          data: item.data,
+          color: () => `${item.color}`,
+          labels: item.labels
+        };
       });
-      const data = await res.json();
-      setGraphics([]);
+      setGraphics({
+        labels: data.labels,
+        datasets: formattedGraphicsData,
+      });
     } catch (error) {
+      console.log(error);
       setError(previousState => ({...previousState, hasGraphicsFailed: true}));
     } finally {
       setIsLoading(previousState => ({...previousState, graphics: false}));
@@ -98,8 +137,14 @@ export function HomeController() {
 
   useFocusEffect(
     useCallback(() => {
-      fetchAnalytics();
-      fetchGraphics();
+      const fetchAllData = async () => {
+        await getDataFromStorage();
+        if (jwt) {
+          await fetchAnalytics();
+          await fetchGraphics();
+        }
+      };
+      fetchAllData();
     }, [jwt]),
   );
 
@@ -114,6 +159,8 @@ export function HomeController() {
         hasAnalyticsFailed: error.hasAnalyticsFailed,
         hasGraphicsFailed: error.hasGraphicsFailed,
       }}
+      startGraphicDate={startDate}
+      endGraphicDate={endDate}
     />
   );
 }

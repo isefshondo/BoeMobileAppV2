@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {AuthScreenStack} from './src/navigation/AuthStack';
 import {RootScreensStack} from './src/navigation/RootStack';
 import {AuthContext, AuthProvider} from './src/context/auth';
+import './i18n';
 
 function renderRoutesByLoginStatus(isLoggedIn: boolean): React.JSX.Element {
   if (!isLoggedIn) {
