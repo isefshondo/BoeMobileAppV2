@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {styles} from './styles';
@@ -57,34 +54,41 @@ export const RegisterCowScreen: React.FC = () => {
     if (status !== 'granted') return;
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+      aspect: [3, 3],
       base64: true,
-      quality: 1,
     });
     if (!result.canceled) {
-      setImage(result.assets[0].base64)
+      setImage(result.assets[0].base64);
     }
   }
 
   async function setAnimalInformation() {
     try {
-      const res = await axios.post('http://192.168.3.118:4000/api/animal', {...animalData, image}, {headers: {
-        Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      }});
+      const res = await axios.post(
+        'http://192.168.3.105:4000/api/animal',
+        {...animalData, image},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       const data = await res.data;
       navigation.navigate('ProcessAnalysisCamera', {
         id: data.cowId,
-      })
+      });
     } catch (error) {
       console.error(error);
     }
   }
 
-  useFocusEffect(React.useCallback(() => {
-    getJWTFromStorage();
-  }, []));
+  useFocusEffect(
+    React.useCallback(() => {
+      getJWTFromStorage();
+    }, []),
+  );
 
   return (
     <KeyboardAvoidingView

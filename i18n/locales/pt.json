@@ -1,0 +1,102 @@
+{
+  "sign_in": {
+    "title": {
+      "first_line": {
+        "regular": "",
+        "bold": "Bem-vindo"
+      },
+      "second_line": {
+        "regular": "de volta",
+        "bold": ""
+      }
+    },
+    "inputs": {
+      "email": "E-mail",
+      "password": "Senha"
+    },
+    "actions": {
+      "forgot_password": "Esqueci minha senha",
+      "register": "Registre-se"
+    },
+    "button": "Log in",
+    "suggestion": "Não possui uma conta ainda?"
+  },
+  "sign_up": {
+    "title": "Criar conta",
+    "description": "Insira seus dados e crie uma nova conta",
+    "suggestion": "Já possui uma conta?",
+    "actions": {
+      "log_in": "Log in"
+    },
+    "inputs": {
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirm_password": "Confirmar senha"
+    },
+    "button": "Registrar-se"
+  },
+  "home": {
+    "greeting": "Olá",
+    "statistical_card": {
+      "first_label": "Animais registrados",
+      "second_label": "Casos positivos"
+    },
+    "graphics": {
+      "title": "Gráfico geral",
+      "cycle_connective": "à",
+      "exception": "Nenhuma análise foi feita ainda",
+      "error": "Algo deu errado ao tentar carregar os dados"
+    }
+  },
+  "animal_listing": {
+    "title": {
+      "first_line": {
+        "regular": "Registro de",
+        "bold": "análises"
+      },
+      "second_line": {
+        "regular": "",
+        "bold": "de imagem"
+      }
+    },
+    "filters": "Filtros"
+  },
+  "animal_registration": {
+    "title": "Cadastro do animal",
+    "description": "Cadastre os dados do animal e uma imagem de identificação para iniciar a análise",
+    "inputs": {
+      "characteristics": {
+        "placeholder": {
+          "identifier": "Número de identificação",
+          "name": "Nome do animal (opcional)"
+        }
+      },
+      "error": "Campo do número de identificação não pode estar vazio"
+    },
+    "button": "Iniciar análise"
+  },
+  "navbar": {
+    "items": {
+      "edit_profile": "Edit profile",
+      "settings": "Settings",
+      "help": "Help"
+    },
+    "button": {
+      "exit": "Exit"
+    }
+  },
+  "animal_details": {
+    "labels": {
+      "results": "Resultado",
+      "treatment_status": "Status de tratamento",
+      "history": "Histórico"
+    }
+  },
+  "camera": {
+    "buttons": {
+      "register": "Registrar",
+      "gallery": "Galeria"
+    }
+  }
+}

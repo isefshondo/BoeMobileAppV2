@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {SignUp} from '../view/sign-up.view';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParams} from '@/navigation/AuthStack';
-import {RootStackParams} from '@/navigation/RootStack';
 import * as ImagePicker from 'expo-image-picker';
 import * as StorageInstance from '../../../utils/storage/index.utils';
+import {AuthContext} from '@/context/auth';
 
 export type SignUpInputs = {
   name: string | null;
@@ -38,13 +38,14 @@ export function SignUpController() {
     confirmPassword: '',
   });
   const [imageMimeType, setImageMimeType] = React.useState<string | null>(null);
+  const {signIn} = useContext(AuthContext);
   function navigateToSignIn() {
     navigation.navigate('SignIn');
   }
   async function fetchSignUp() {
     try {
       const {name, email, password, image} = signUpInputs;
-      const res = await fetch('http://192.168.3.118:3000/api/user/signup', {
+      const res = await fetch('http://192.168.3.105:3000/api/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,8 +57,9 @@ export function SignUpController() {
           image,
         }),
       });
-      if (res.ok) {
-      }
+      const {jwt, data} = await res.json();
+      StorageInstance.setInStorage('loggedInData', JSON.stringify({jwt, data}));
+      signIn({jwt, data, isLoggedIn: true});
     } catch (error) {}
   }
   async function handleSetImage() {
@@ -66,7 +68,7 @@ export function SignUpController() {
       return;
     }
     const res = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [3, 4],
       base64: true,
