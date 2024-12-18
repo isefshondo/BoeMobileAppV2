@@ -71,7 +71,7 @@ export const SignIn: React.FC<SignIn> = ({
             {t('sign_in.title.first_line.bold')}{' '}
           </Text>
           <Text style={styles.textSecondary}>
-            {t('sign_in.title.first_line.regular')}
+            {t('sign_in.title.second_line.regular')}
           </Text>
         </View>
         <View>
