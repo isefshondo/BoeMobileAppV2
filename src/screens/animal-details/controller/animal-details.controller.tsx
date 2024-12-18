@@ -97,10 +97,11 @@ export const AnimalDetailsController: React.FC<AnimalDetailsProps> = ({
           if (jwt) {
             await getAnimalDetails();
           }
-        } catch (error) {} finally {
+        } catch (error) {
+        } finally {
           setIsLoading(false);
         }
-      }
+      };
       fetchAllData();
     }, [jwt]),
   );

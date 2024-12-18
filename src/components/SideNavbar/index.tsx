@@ -10,7 +10,7 @@ import SupportIcon from '../../assets/help_circle_icon.svg';
 import {Spacer} from '../Spacer';
 import {AuthContext} from '@/context/auth';
 import * as StorageInstance from '../../utils/storage/index.utils';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface RoutesItemsProps {
   icon: 'edit' | 'settings' | 'support';

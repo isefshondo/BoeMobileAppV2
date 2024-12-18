@@ -51,7 +51,8 @@ export const Home: React.FC<Home> = ({
 }) => {
   const {t} = useTranslation();
   function renderGraphicsComponent() {
-    return graphics.datasets[0].data.length > 0 || graphics.datasets[1].data.length > 0 ? (
+    return graphics.datasets[0].data.length > 0 ||
+      graphics.datasets[1].data.length > 0 ? (
       <View>
         <LineGraphics labels={graphics.labels} datasets={graphics.datasets} />
       </View>

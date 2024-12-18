@@ -87,11 +87,15 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
   }
 
   function renderHistory() {
-    if (isLoading) {return <View style={{width: '100%', gap: responsiveVerticalScale(36)}}>
-      <Skeleton width={354} height={104} borderRadius={10} />
-      <Skeleton width={354} height={104} borderRadius={10} />
-    </View>}
-    return <View /> 
+    if (isLoading) {
+      return (
+        <View style={{width: '100%', gap: responsiveVerticalScale(36)}}>
+          <Skeleton width={354} height={104} borderRadius={10} />
+          <Skeleton width={354} height={104} borderRadius={10} />
+        </View>
+      );
+    }
+    return <View />;
   }
 
   return (
@@ -159,23 +163,16 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
             </View>
           </View>
           <View style={{height: responsiveVerticalScale(59)}} />
-          <View
-            style={newStyles.historySection}>
+          <View style={newStyles.historySection}>
             <Text style={{fontSize: 21, fontWeight: '600'}}>Histórico</Text>
-            <View>
-              {renderHistory()}
-            </View>
+            <View>{renderHistory()}</View>
             <TouchableOpacity>
-              <Text
-                style={newStyles.link}>
-                Ver todas as análises
-              </Text>
+              <Text style={newStyles.link}>Ver todas as análises</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <View
-        style={newStyles.button}>
+      <View style={newStyles.button}>
         <Button
           width={354}
           height={72}
@@ -191,7 +188,7 @@ export const AnimalDetails: React.FC<AnimalDetails> = ({
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
-  scrollView: {flexGrow: 1}
+  scrollView: {flexGrow: 1},
 });
 
 const newStyles = StyleSheet.create({
@@ -230,4 +227,4 @@ const newStyles = StyleSheet.create({
       },
     }),
   },
-})
+});

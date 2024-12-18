@@ -63,28 +63,36 @@ export const RegisterCowScreen: React.FC = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      setImage(result.assets[0].base64)
+      setImage(result.assets[0].base64);
     }
   }
 
   async function setAnimalInformation() {
     try {
-      const res = await axios.post('http://192.168.3.118:4000/api/animal', {...animalData, image}, {headers: {
-        Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      }});
+      const res = await axios.post(
+        'http://192.168.3.118:4000/api/animal',
+        {...animalData, image},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       const data = await res.data;
       navigation.navigate('ProcessAnalysisCamera', {
         id: data.cowId,
-      })
+      });
     } catch (error) {
       console.error(error);
     }
   }
 
-  useFocusEffect(React.useCallback(() => {
-    getJWTFromStorage();
-  }, []));
+  useFocusEffect(
+    React.useCallback(() => {
+      getJWTFromStorage();
+    }, []),
+  );
 
   return (
     <KeyboardAvoidingView

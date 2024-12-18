@@ -26,7 +26,7 @@ export const LineGraphics: React.FC<LineGraphics> = ({labels, datasets}) => {
           {
             data: datasets[1].data,
             color: () => `rgb(255, 6, 6)`,
-          }
+          },
         ],
       }}
       width={responsiveHorizontalScale(graphicsWidth)}

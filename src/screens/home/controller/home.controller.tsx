@@ -116,11 +116,11 @@ export function HomeController() {
         },
       );
       const data = res.data;
-      const formattedGraphicsData = data.datasets.map((item) => {
+      const formattedGraphicsData = data.datasets.map(item => {
         return {
           data: item.data,
           color: () => `${item.color}`,
-          labels: item.labels
+          labels: item.labels,
         };
       });
       setGraphics({

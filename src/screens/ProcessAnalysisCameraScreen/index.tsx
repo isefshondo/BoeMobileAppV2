@@ -11,7 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {Alert, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {ProcessAnalysisResultsScreen} from '../ProcessAnalysisResultsScreen';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 interface IAnalysisResults {
   illnessName: string | null;
@@ -156,10 +156,14 @@ export const ProcessAnalysisCameraScreen: React.FC<NavigationProps> = ({
           <View style={styles.actionsContainer}>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity onPress={() => handleTakePhotoButton()}>
-                <Text style={styles.buttonsTexts}>{t('camera.buttons.register')}</Text>
+                <Text style={styles.buttonsTexts}>
+                  {t('camera.buttons.register')}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handlePickImageButton()}>
-                <Text style={styles.buttonsTexts}>{t('camera.buttons.gallery')}</Text>
+                <Text style={styles.buttonsTexts}>
+                  {t('camera.buttons.gallery')}
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
